@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Main-Class: 
+MIDlet-Name: GDOnJava
+MIDlet-Version: 0.13
+MIDlet-Vendor: idk
+MIDlet-1: GDOnJava, /icon.png, GDOnJava
+MicroEdition-Configuration: CLDC-1.1
+MicroEdition-Profiles: MIDP-2.0
