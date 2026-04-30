@@ -1,15 +1,10 @@
-@echo off
-
 echo generate class
-javac -source 1.3 -target 1.3 -bootclasspath C:\WTK2.5.2_01\lib\midpapi20.jar;C:\WTK2.5.2_01\lib\cldcapi11.jar GDOnJava.java
+"C\j2sdk1.4.2_19\bin\javac.exe" -source 1.3 -target 1.3 -bootclasspath C:\WTK2.5.2_01\lib\midpapi20.jar;C:\WTK2.5.2_01\lib\cldcapi11.jar GDOnJava.java
 
-echo
 echo verify class
-"C:\Java_ME_platform_SDK_3.4\bin\preverify.exe" -classpath C:\WTK2.5.2_01\lib\midpapi20.jar;C:\WTK2.5.2_01\lib\cldcapi11.jar output
+"C:\Java_ME_platform_SDK_3.4\bin\preverify.exe" -classpath C:\WTK2.5.2_01\lib\midpapi20.jar;C:\WTK2.5.2_01\lib\cldcapi11.jar -d . .
 
-echo
 echo packaging jar
-jar cvfm GDOnJava.jar MANIFEST.MF *.class assets
+"C:\j2sdk1.4.2_19\bin\jar.exe" cvfm GDOnJava.jar MANIFEST.MF *.class assets
 
 echo compiled successfully
-pause
