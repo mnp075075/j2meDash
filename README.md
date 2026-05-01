@@ -22,14 +22,14 @@ From there, click the `.exe` file to install all three of the SDK
 - Step 1. Clone the repository (if you haven't already)
 - Step 2. Navigate to the project's directory in your terminal (Command Prompt), in this case it's `GDonJava/src/`
 - Step 3. Compile `GDOnJava.java`
-  - 3.1: You can compile using the pre-existing file named `compile.bat`, run this in the Command Prompt and the compiled `GDOnJava.jar` will appear in the current directory (`src/`) (Ensure that you are using Java 2 SDK SE v1.4.2_19 and Java ME SDK v3.4)
+  - 3.1: You can compile using the pre-existing file named `compile.bat`, run this in the Command Prompt and the compiled `GDOnJava.jar` will appear in the current directory (`src/`) (Ensure that you are using Java 2 SDK SE v1.4.2_19, Java ME SDK v3.4 and WTK 2.5.2_01)
   - 3.2: Alternatively you can also type each command individually:
     - 3.2.1: Compile `*.class` file
-    > `"C\j2sdk1.4.2_19\bin\javac.exe" -source 1.3 -target 1.3 -bootclasspath C:\WTK2.5.2_01\lib\midpapi20.jar;C:\WTK2.5.2_01\lib\cldcapi11.jar GDOnJava.java`
+    > `"C\[your Java 2 SDK directory]\bin\javac.exe" -source 1.3 -target 1.3 -bootclasspath C:\[your WTK directory]\lib\midpapi20.jar;C:\[your WTK directory]\lib\cldcapi11.jar GDOnJava.java`
     - 3.2.2: Preverify `*.class` file
-    > `"C:\Java_ME_platform_SDK_3.4\bin\preverify.exe" -classpath C:\WTK2.5.2_01\lib\midpapi20.jar;C:\WTK2.5.2_01\lib\cldcapi11.jar -d . .`
+    > `"C:\[your Java ME SDK directory]\bin\preverify.exe" -classpath C:\[your WTK directory]\lib\midpapi20.jar;C:\[your WTK directory]\lib\cldcapi11.jar -d . .`
     - 3.2.3: Package all into a `*.jar` file`
-    >  `"C:\j2sdk1.4.2_19\bin\jar.exe" cvfm GDOnJava.jar MANIFEST.MF *.class assets`
+    >  `"C:\[your Java 2 SDK directory]\bin\jar.exe" cvfm GDOnJava.jar MANIFEST.MF *.class assets`
     
 ## Running
 After you successfully compiled the code, you can run it using an emulator like FreeJ2ME or FreeJ2ME-plus, etc
