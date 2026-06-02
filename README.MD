@@ -1,4 +1,4 @@
-![j2meDash](https://raw.githubusercontent.com/mnp075075/j2meDash/refs/heads/main/j2meDash_banner.png?token=GHSAT0AAAAAAD34BO56NGM7VXPVKL2TD7DE2Q5U37A)
+![j2meDash](https://github.com/mnp075075/j2meDash/blob/main/j2meDash_banner.png?raw=true)
 
 # j2meDash #
 j2meDash is Geometry Dash ported in Java ME (or J2ME) for Java-supported phones
