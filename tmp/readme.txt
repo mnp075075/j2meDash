@@ -1,1 +1,0 @@
-i put these wav file here since it takes up too many storage space and just make the jar file larger in an unnecessary way, plus phones like nokia asha 311 don't have much storage space to handle over 2mb of jar game, so it's safe to say that I will not include the 2 above files, for now it will be inside the tmp folder
