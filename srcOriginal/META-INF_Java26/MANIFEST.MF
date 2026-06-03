@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Main-Class: 
+MIDlet-Name: GDOnJavaForJava26
+MIDlet-Version: 0.13
+MIDlet-Vendor: RobTop Games
+MIDlet-1: Geometry Dash (Java 26), /icon.png, GDOnJavaForJava26
+MicroEdition-Configuration: CLDC-1.1
+MicroEdition-Profiles: MIDP-2.0

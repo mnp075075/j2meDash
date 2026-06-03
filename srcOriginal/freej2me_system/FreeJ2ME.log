@@ -1,0 +1,7 @@
+[ERROR] org.recompile.mobile.MIDletLoader: Failed to parse jar:\J2MEProjects\GDonJavaBuild10\src\GDOnJava.jar (The system cannot find the path specified)
+[ERROR] org.recompile.mobile.MIDletLoader: Couldn't find resource 'META-INF/MANIFEST.MF' in jar: file:/J2MEProjects/GDonJavaBuild10/src/GDOnJava.jar
+[ERROR] org.recompile.mobile.MIDletLoader: Couldn't find resource 'META-INF/MANIFEST.FM' in jar: file:/J2MEProjects/GDonJavaBuild10/src/GDOnJava.jar
+[WARNING] org.recompile.mobile.MIDletLoader: JAR Manifest file not found or lacks MIDlet entry! Checking if it's a DoJa File
+[WARNING] org.recompile.mobile.MIDletLoader: Could not parse .jam file:null
+[ERROR] org.recompile.mobile.MIDletLoader: Can't Read Manifest! null
+[INFO] org.recompile.mobile.MobilePlatform: different encoding: ISO_8859_1 while it should be Shift_JIS. Restarting freeJ2ME to apply new encoding
