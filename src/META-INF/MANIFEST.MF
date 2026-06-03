@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Main-Class: 
+MIDlet-Name: j2meDash
+MIDlet-Version: 0.13
+MIDlet-Vendor: Not RobTop Games
+MIDlet-1: j2meDash, /icon.png, j2meDash
+MicroEdition-Configuration: CLDC-1.1
+MicroEdition-Profiles: MIDP-2.0
