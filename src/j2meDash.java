@@ -13,7 +13,6 @@ import javax.microedition.lcdui.game.*; // a gaming version of Canvas that is Ga
 import javax.microedition.media.*; // the way to play sound
 import javax.microedition.media.control.*; // the way to control sound effectively
 import java.io.*; // basically input and output, self-explanatory
-// import com.nokia.mid.ui.*;
 
 /*
 

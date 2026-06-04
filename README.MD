@@ -36,7 +36,12 @@ From there, click the `.exe` file to install all three of the SDK
 - Step 1: Clone the repository (if you haven't already) using `git clone https://github.com/mnp075075/j2meDash`
 - Step 2: Navigate to the project's directory in your terminal (Command Prompt), in this case it's `j2meDash/src/` using `cd`
 - Step 3: Compile `j2meDash.java`
-  - 3.1: You can compile the source code automatically by running `compileJava4.bat` or `compileJava8.bat`, which will generate a file named `j2meDashJava4.jar` or `j2meDashJava8.jar` depending which version you wanted to compile with (Java 1.4/Java 4 or Java 8)
+  - 3.1: You can compile the source code automatically by running `compile.bat`:
+    - You'll be prompted to input a number corresponding to the version of Java you wanted to compile with
+    - `1` for Java 1.4, generating `j2meDash4.jar`
+    - `2` for Java 8, generating `j2meDash8.jar`
+    - `3` for both versions of Java above
+    - `4` for Java 1.4 with addition of Nokia APIs, this requires you to have the `Nokia_API\` folder (which can be downloaded from this repo) in `E:` volume (by creating a new partition) so that the dir would be `E:\Nokia_API\`, generating `j2meDash4+NOKIA.jar`
   - 3.2: Alternatively you can also type each command individually:
     - 3.2.0: Create a new folder named `classes\` inside the  `src\`  directory by doing it manually or type `mkdir classes` in the Command Prompt (with its dir set to the `src\>`)
     - **FOR JAVA 1.4 or JAVA 4**
