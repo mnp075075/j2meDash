@@ -80,4 +80,4 @@ After you successfully compiled the code, there'll be a new file named `j2meDash
 `2`: to trigger pause screen (in the play screen)
 
 ## Cleaning up:
-You can delete the project's directory or executable by deleting them in File Explorer or through Command Prompt using `del` and `rmdir`
+You can delete the project's directory manually in File Explorer or open the Command Prompt at the project's directory and run `clean.bat`
