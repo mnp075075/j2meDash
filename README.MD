@@ -6,6 +6,7 @@ j2meDash is Geometry Dash ported in Java ME (or J2ME) for Java-supported phones
 ## WARNING
 - This project is still experimental and is in its pre-alpha phase.
 - I have only built support for Nokia Asha 311 phone model (resolution 240x400). As for other models, I will add them later in the `main` branch.
+- **DO NOT USE OPTION `4` WHEN RUNNING `compile.bat`. The `Nokia_API\` folder is NOT provided in this repository, therefore will cause compilation errors with `build.bat`**
 
 ## Prerequisites
 - **Java 1.4 SDK** or **Java 8 SDK** (recommend JDK 1.4.2_19 or JDK 8u202)
@@ -41,7 +42,7 @@ From there, click the `.exe` file to install all three of the SDK
     - `1` for Java 1.4, generating `j2meDash4.jar`
     - `2` for Java 8, generating `j2meDash8.jar`
     - `3` for both versions of Java above
-    - `4` for Java 1.4 with addition of Nokia APIs, this requires you to have the `Nokia_API\` folder (which can be downloaded from this repo) in `E:` volume (by creating a new partition) so that the dir would be `E:\Nokia_API\`, generating `j2meDash4+NOKIA.jar`
+    - ~~`4` for Java 1.4 with addition of Nokia APIs, this requires you to have the `Nokia_API\` folder (which can be downloaded from this repo) in `E:` volume (by creating a new partition) so that the dir would be `E:\Nokia_API\`, generating `j2meDash4+NOKIA.jar`~~ (DO NOT CHOOSE THIS OPTION, READ THE <u>[**WARNING SECTION**](#warning)</u> ABOVE)
   - 3.2: Alternatively you can also type each command individually:
     - 3.2.0: Create a new folder named `classes\` inside the  `src\`  directory by doing it manually or type `mkdir classes` in the Command Prompt (with its dir set to the `src\>`)
     - **FOR JAVA 1.4 or JAVA 4**
