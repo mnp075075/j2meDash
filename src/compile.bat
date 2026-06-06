@@ -87,6 +87,7 @@ if "%input%"=="1" (
 	
 ) else if "%input%"=="4" (
 
+goto warning
 	echo Generating class
 
 	if not exist "classes\" (
@@ -105,3 +106,6 @@ if "%input%"=="1" (
 	echo Compiled successfully
 	
 )
+
+:warning
+echo Option 4 is currently disabled because I have removed the Nokia_API\ directory from this repository, please choose options 1-3 instead
