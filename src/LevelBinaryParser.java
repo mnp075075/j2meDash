@@ -1,4 +1,6 @@
 import java.io.*;
+import java.io.InputStream.*;
+import java.io.ByteArrayInputStream.*;
 
 /*
 
@@ -19,7 +21,7 @@ public class LevelBinaryParser {
 	// you can help improve this one if you want
 
 	private volatile boolean isRunning = true;
-	public static String name = "levels/example.bin";
+	public static String name;
 
 	private j2meDash mainApp;
 	
@@ -37,14 +39,10 @@ public class LevelBinaryParser {
 		
 		this.mainApp = mainApp;
 		
+	}
+	
+	public void parseByte(String name) {;
 		InputStream is = getClass().getResourceAsStream(name);
-		
-		if (is == null) {
-			System.out.println("name is null");
-		} else {
-			// System.out.println("not null too");
-		}
-		
 		ByteArrayOutputStream Baos = new ByteArrayOutputStream();
 		// DataOutputStream Dos = new DataOutputStream(Baos);
 		// int bytes;

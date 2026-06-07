@@ -353,11 +353,12 @@ public class j2meDash extends MIDlet implements CommandListener {
 	// START APP
 	public void startApp() {
 		
-		dataRegistry = new DataRegistry(this);
-		levelBinaryParser = new LevelBinaryParser(this);
+		// dataRegistry = new DataRegistry(this);
+		// levelBinaryParser = new LevelBinaryParser(this);
 		
 		showWarningScreen();
-		// playScreen.flagChooser();
+		// playScreen = new PlayScreen(this);
+		// playScreen.levelDirectoryLoader();
 
 	}
 

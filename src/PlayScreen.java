@@ -80,11 +80,15 @@ public class PlayScreen extends GameCanvas implements Runnable, CommandListener 
 	Command Speed = new Command("Speed", Command.OK, 1);
 	
 	Command OK = new Command("ok", Command.OK, 1);
+	Command EXIT = new Command("exit", Command.EXIT, 1);
 	
 	Alert saved;
 	Alert errorGas;
 	Alert errorM;
 	Alert errorS;
+	
+	Alert successfully;
+	Alert failed;
 	
 	Ticker tForNoReason;
 	// Ticker tip = new Ticker("Press 1 to access FlagChooser - Press 2 to access PauseScreen");
@@ -487,22 +491,12 @@ public class PlayScreen extends GameCanvas implements Runnable, CommandListener 
 
 	public void levelDirectoryLoader() {
 
-		// Form mainForm;
-		TextBox dirLoader;
-		// Display display = display.getDisplay(this);
-
-		/* Graphics g = getGraphics();
-
-		g.setColor(0x000000);
-		g.fillRect(0,0,240,400);
-
-		g.setColor(0xFFFFFF);
-		g.drawString("Load dir from:", 120, 200, Graphics.HCENTER | Graphics.VCENTER); */
-		
-		// mainForm = new Form("something for example");
-		dirLoader = new TextBox("load from dir:", null, 50, TextField.ANY);
+		TextBox dirLoader = new TextBox("Load the level data from your directory", null, 50, TextField.ANY);
+		successfully = new Alert("Level data found","Successfully found the level data at: " + dirLoader.getString(),null,AlertType.INFO);
+		failed = new Alert("Level data missing","Cannot find the level data at: " + dirLoader.getString(),null,AlertType.INFO);
 
 		dirLoader.addCommand(OK);
+		dirLoader.addCommand(EXIT);
 
 		// mainForm.append(dirLoader);
 		Display.getDisplay(mainApp).setCurrent(dirLoader);
@@ -541,7 +535,7 @@ public class PlayScreen extends GameCanvas implements Runnable, CommandListener 
 								 "0x11: normalGravity+normalMode(int 17)\n";
 								 
 		String errorMessageM = "The value you have typed is invalid\n" +
-							   "For Mode, valud values are:\n" +
+							   "For Mode, valid values are:\n" +
 							   "0x00: cube (int 0)\n 0x01: ship (int 1)\n" +
 							   "0x02: ball (int 2)\n 0x03: ufo (int 3)\n" +
 							   "0x04: wave (int 4)\n 0x05: robot (int 5)\n" +
@@ -1093,7 +1087,16 @@ public class PlayScreen extends GameCanvas implements Runnable, CommandListener 
 			
 		} else if (c == OK) {
 			
-			LevelBinaryParser.name = dirLoader.getString();
+			try {
+				levelBinaryParser.parseByte(dirLoader.getString());
+				Display.getDisplay(mainApp).setCurrent(successfully, dirLoader);
+			} catch (Exception e) {
+				Display.getDisplay(mainApp).setCurrent(failed, dirLoader);
+			}
+			
+		} else if (c == EXIT) {
+			
+			Display.getDisplay(mainApp).setCurrent(this);
 			
 		}
 		
@@ -1105,15 +1108,11 @@ public class PlayScreen extends GameCanvas implements Runnable, CommandListener 
 		
 		if (keyCode == KEY_NUM1) {
 			System.out.println("pressed 1");
-			isRunning = false;
-			hideNotify();
 			flagChooser();
 		}
 		
 		if (keyCode == KEY_NUM2) {
 			System.out.println("pressed 2");
-			isRunning = false;
-			hideNotify();
 			mainApp.showPauseScreen();
 		}
 		

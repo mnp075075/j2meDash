@@ -83,13 +83,10 @@ if "%input%"=="1" (
 
 	echo Compiled successfully
 	
-	echo ### SUCCESSFULLY COMPILED BOTH VERSION ###
+	echo ### SUCCESSFULLY COMPILED BOTH VERSION ##
 	
 ) else if "%input%"=="4" (
 
-	goto warning
+	echo Option 4 is currently disabled because I have removed the Nokia_API\ directory from this repository, please choose options 1-3 instead
 	
 )
-
-:warning
-echo Option 4 is currently disabled because I have removed the Nokia_API\ directory from this repository, please choose options 1-3 instead
