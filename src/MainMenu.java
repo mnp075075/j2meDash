@@ -149,7 +149,7 @@ public class MainMenu extends GameCanvas /* implements Runnable */ {
 		
 		} else if (x >= 100 && x <= 140 && y >= 260 && y <= 290) {
 			
-			mainApp.showPlayScreen();
+			mainApp.showPlayScreen(null);
 			
 		} else if (x >= 100 && x <= 140 && y >= 220 && y <= 250) {
 			

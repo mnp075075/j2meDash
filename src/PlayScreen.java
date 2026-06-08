@@ -1,5 +1,8 @@
 import javax.microedition.lcdui.*;
 import javax.microedition.lcdui.game.*;
+import javax.microedition.io.file.*;
+import javax.microedition.io.Connector;
+import java.io.*;
 
 /*
 
@@ -491,14 +494,17 @@ public class PlayScreen extends GameCanvas implements Runnable, CommandListener 
 
 	public void levelDirectoryLoader() {
 
-		TextBox dirLoader = new TextBox("Load the level data from your directory", null, 50, TextField.ANY);
-		successfully = new Alert("Level data found","Successfully found the level data at: " + dirLoader.getString(),null,AlertType.INFO);
-		failed = new Alert("Level data missing","Cannot find the level data at: " + dirLoader.getString(),null,AlertType.INFO);
+		dirLoader = new TextBox("Load the level data from your directory. You may use \"file:///\" to type your file name.", null, 256, TextField.ANY);
+		
+		String path = dirLoader.getString();
+		
+		successfully = new Alert("Level data found","Successfully found the level data at: " + path,null,AlertType.INFO);
+		failed = new Alert("Level data missing","Cannot find the level data at: " + path,null,AlertType.INFO);
 
 		dirLoader.addCommand(OK);
 		dirLoader.addCommand(EXIT);
 
-		// mainForm.append(dirLoader);
+		dirLoader.setCommandListener(this);
 		Display.getDisplay(mainApp).setCurrent(dirLoader);
 		
 	}
@@ -993,7 +999,7 @@ public class PlayScreen extends GameCanvas implements Runnable, CommandListener 
 			
 		} else if (c == Exit) {
 			
-			mainApp.showPlayScreen();
+			mainApp.showPlayScreen("playScreen");
 			showNotify(); // just to make sure
 		
 		} else if (c == Save) {
@@ -1087,11 +1093,26 @@ public class PlayScreen extends GameCanvas implements Runnable, CommandListener 
 			
 		} else if (c == OK) {
 			
+			FileConnection fconn = null;
+			
+			System.out.println(dirLoader.getString());
+			
 			try {
-				levelBinaryParser.parseByte(dirLoader.getString());
-				Display.getDisplay(mainApp).setCurrent(successfully, dirLoader);
+				
+				String path = dirLoader.getString();
+				
+				fconn = (FileConnection) Connector.open(path, Connector.READ);
+				
+				if (fconn.exists() == true) {
+					levelBinaryParser.parseByte(dirLoader.getString());
+					Display.getDisplay(mainApp).setCurrent(successfully, dirLoader);
+				} else {
+					Display.getDisplay(mainApp).setCurrent(failed, dirLoader);
+				}
 			} catch (Exception e) {
 				Display.getDisplay(mainApp).setCurrent(failed, dirLoader);
+			} finally {
+				try { if (fconn != null) fconn.close(); } catch(Exception e) {}
 			}
 			
 		} else if (c == EXIT) {

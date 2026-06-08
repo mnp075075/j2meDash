@@ -166,11 +166,11 @@ public class j2meDash extends MIDlet implements CommandListener {
 		
 		try {
 			
-    		bgMusic = Manager.createPlayer(getClass().getResourceAsStream("assets/sample-3s.wav"), "audio/x-wav");
+    		bgMusic = Manager.createPlayer(getClass().getResourceAsStream(null), "audio/x-wav");
     		bgMusic.realize();
     		bgMusic.prefetch();
 			
-			normalMusic = Manager.createPlayer(getClass().getResourceAsStream("assets/sample-15s.wav"), "audio/x-wav");
+			normalMusic = Manager.createPlayer(getClass().getResourceAsStream(null), "audio/x-wav");
 			normalMusic.realize();
 			normalMusic.prefetch();
 			
@@ -306,13 +306,22 @@ public class j2meDash extends MIDlet implements CommandListener {
 		this.targetSTATE = STATE_ExitForm;
 	}
 	
-	public void showPlayScreen() {
-		showTransitionScreen();
-		if (playScreen == null) {
-			playScreen = new PlayScreen(this);
-		}
+	public void showPlayScreen(String d) {
 		
-		this.targetSTATE = STATE_PlayScreen;
+		if (d != "playScreen" || d == null || d.equals("playScreen") == false) {
+			showTransitionScreen();
+			if (playScreen == null) {
+				playScreen = new PlayScreen(this);
+			}
+			
+			this.targetSTATE = STATE_PlayScreen;
+		} else if (d == "playScreen" || d.equals("playScreen")) {
+			if (playScreen == null) {
+				playScreen = new PlayScreen(this);
+			}
+			
+			this.targetSTATE = STATE_PlayScreen;
+		}
 	}
 	
 	public void showNewPlayScreen() {
@@ -356,9 +365,8 @@ public class j2meDash extends MIDlet implements CommandListener {
 		// dataRegistry = new DataRegistry(this);
 		// levelBinaryParser = new LevelBinaryParser(this);
 		
-		showWarningScreen();
-		// playScreen = new PlayScreen(this);
-		// playScreen.levelDirectoryLoader();
+		playScreen = new PlayScreen(this);
+		playScreen.levelDirectoryLoader();
 
 	}
 

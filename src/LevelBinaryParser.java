@@ -42,7 +42,17 @@ public class LevelBinaryParser {
 	}
 	
 	public void parseByte(String name) {;
-		InputStream is = getClass().getResourceAsStream(name);
+		
+		InputStream is = null;
+		
+		try {
+			is = getClass().getResourceAsStream(name);
+			System.err.println("FILENAME DOES EXIST");
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("FILENAME DOES NOT EXIST");
+		}
+		
 		ByteArrayOutputStream Baos = new ByteArrayOutputStream();
 		// DataOutputStream Dos = new DataOutputStream(Baos);
 		// int bytes;

@@ -21,16 +21,19 @@ if "%input%"=="1" (
 		mkdir classes
 	)
 
-	"C:\j2sdk1.4.2_19\bin\javac.exe" -encoding UTF-8 -source 1.3 -target 1.3 -bootclasspath C:\WTK2.5.2_01\lib\midpapi20.jar;C:\WTK2.5.2_01\lib\cldcapi11.jar -d classes *.java
+	"C:\j2sdk1.4.2_19\bin\javac.exe" -encoding UTF-8 -source 1.3 -target 1.3 -bootclasspath C:\WTK2.5.2_01\lib\midpapi20.jar;C:\WTK2.5.2_01\lib\cldcapi11.jar;C:\Java_ME_platform_SDK_3.4\lib\jsr75_1.0.jar -d classes *.java
 
 	echo Verifying class
 
-	"C:\Java_ME_platform_SDK_3.4\bin\preverify.exe" -classpath classes;C:\WTK2.5.2_01\lib\midpapi20.jar;C:\WTK2.5.2_01\lib\cldcapi11.jar -d classes classes\.
+	"C:\Java_ME_platform_SDK_3.4\bin\preverify.exe" -classpath classes;C:\WTK2.5.2_01\lib\midpapi20.jar;C:\WTK2.5.2_01\lib\cldcapi11.jar;C:\Java_ME_platform_SDK_3.4\lib\jsr75_1.0.jar -d classes classes\.
 
 	echo Packaging .jar
 	"C:\j2sdk1.4.2_19\bin\jar.exe" cfm j2meDash4.jar META-INF\MANIFEST.MF assets levels -C classes .
 
 	echo Compiled successfully
+	
+	doskey /listsize=0
+	doskey /listsize=50
 
 ) else if "%input%"=="2" (
 
@@ -46,6 +49,9 @@ if "%input%"=="1" (
 	"C:\Program Files\Java\jdk1.8.0_202\bin\jar.exe" cfm j2meDash8.jar META-INF\MANIFEST.MF assets levels -C classes/ .
 
 	echo Compiled successfully
+	
+	doskey /listsize=0
+	doskey /listsize=50
 
 ) else if "%input%"=="3" (
 
@@ -57,11 +63,11 @@ if "%input%"=="1" (
 		mkdir classes
 	)
 
-	"C:\j2sdk1.4.2_19\bin\javac.exe" -encoding UTF-8 -source 1.3 -target 1.3 -bootclasspath C:\WTK2.5.2_01\lib\midpapi20.jar;C:\WTK2.5.2_01\lib\cldcapi11.jar -d classes *.java
+	"C:\j2sdk1.4.2_19\bin\javac.exe" -encoding UTF-8 -source 1.3 -target 1.3 -bootclasspath C:\WTK2.5.2_01\lib\midpapi20.jar;C:\WTK2.5.2_01\lib\cldcapi11.jar;C:\Java_ME_platform_SDK_3.4\lib\jsr75_1.0.jar -d classes *.java
 
 	echo Verifying class
 
-	"C:\Java_ME_platform_SDK_3.4\bin\preverify.exe" -classpath classes;C:\WTK2.5.2_01\lib\midpapi20.jar;C:\WTK2.5.2_01\lib\cldcapi11.jar -d classes classes\.
+	"C:\Java_ME_platform_SDK_3.4\bin\preverify.exe" -classpath classes;C:\WTK2.5.2_01\lib\midpapi20.jar;C:\WTK2.5.2_01\lib\cldcapi11.jar;C:\Java_ME_platform_SDK_3.4\lib\jsr75_1.0.jar -d classes classes\.
 
 	echo Packaging .jar
 	"C:\j2sdk1.4.2_19\bin\jar.exe" cfm j2meDash4.jar META-INF\MANIFEST.MF assets levels -C classes .
@@ -85,8 +91,14 @@ if "%input%"=="1" (
 	
 	echo ### SUCCESSFULLY COMPILED BOTH VERSION ##
 	
+	doskey /listsize=0
+	doskey /listsize=50
+	
 ) else if "%input%"=="4" (
 
 	echo Option 4 is currently disabled because I have removed the Nokia_API\ directory from this repository, please choose options 1-3 instead
+	
+	doskey /listsize=0
+	doskey /listsize=50
 	
 )

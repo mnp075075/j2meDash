@@ -43,7 +43,7 @@ public class GameOverScreenSpecificallyForRestarting extends GameCanvas {
 		
 		serviceRepaints();
 		
-		mainApp.showPlayScreen();
+		mainApp.showPlayScreen(null);
 		
 	}
 	
