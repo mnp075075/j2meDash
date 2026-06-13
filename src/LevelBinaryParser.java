@@ -133,7 +133,8 @@ public class LevelBinaryParser {
 			}
 
 		} catch (Exception e) {
-			// System.out.println("SOMETHING IS DEFINITELY WRONG");
+			e.printStackTrace();
+			System.out.println("SOMETHING IS DEFINITELY WRONG");
 			// note
 		}
 	}
