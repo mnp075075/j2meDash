@@ -13,3 +13,5 @@ jar cfm GDOnJava.jar MANIFEST.MF *.class assets
 jar tf GDOnJava.jar
 
 directory using: C:\J2MEProjects\GDonJava\src
+
+// THESE CODES ARE DEPRECATED, DO NOT USE THEM
