@@ -28,6 +28,8 @@ with format as: id x1 x2 x3 y1 y2 y3 par (parameter):
 etc... as long the format is data[24+n*8] = object n
 so again it read from left to right => data[33] = object 1's x1; data[34] = object 1's x2 and data[35] = object 1's x3 values
 
-how would you combine all these values together, probably: byte x = 0x00x1x2x3 = (00 << 24) + (x1 << 16) + (x2 << 8) + x3, same for byte y = 0x00y1y2y3 = (00 << 24) + (y1 << 16) + (y2 << 8) + y3
+how would you combine all these values together, probably: byte x = 0x00x1x2x3 = (00 << 24) + (x1 << 16) + (x2 << 8) + x3, same for byte y = 0x00y1y2y3 = (00 << 24) + (y1 << 16) + (y2 << 8) + y3 (alright according to gemini it said the better one is (00 << 24) | (x1 << 16) | (x2 << 8) | x3 which alright i guess)
 
 anyways after that we need to print it onto the screen by grabbing its value and place it inside these g.drawRegion(); or some like that
+
+HERE IT IS: g.drawRegion(imageName[1], srcX[(levelBinaryParser.idArray[i])], srcY[(levelBinaryParser.idArray[i])], widthAndHeight[(levelBinaryParser.idArray[i])][0], widthAndHeight[(levelBinaryParser.idArray[i])][1], transformID[(levelBinaryParser.idArray[i])], levelBinaryParser.xArray[i], levelBinaryParser.yArray[i], anchorHORIZONTAL[(levelBinaryParser.idArray[i])] | anchorVERTICAL[(levelBinaryParser.idArray[i])]);

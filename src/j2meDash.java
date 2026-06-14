@@ -56,6 +56,7 @@ public class j2meDash extends MIDlet implements CommandListener {
 	GameOverScreen gameOverScreen;
 	GameOverScreenSpecificallyForRestarting gameOverScreenSpecificallyForRestarting;
 	TransitionScreen transitionScreen;
+	TestDisplayLevelLoader testDisplayLevelLoader;
 	
 	// DEFINING EVERYTHING
 	public static boolean SoundEnabled; // deprecated, used to control sound
@@ -359,14 +360,29 @@ public class j2meDash extends MIDlet implements CommandListener {
 		this.targetSTATE = STATE_GameOverScreenSpecificallyForRestarting;
 	}
 	
+	public void showTestDisplayLevelLoader() {
+		// for testing only
+		if (testDisplayLevelLoader == null) {
+			testDisplayLevelLoader = new TestDisplayLevelLoader(this);
+		}
+		
+		Display.getDisplay(this).setCurrent(testDisplayLevelLoader);
+	}
+	
 	// START APP
 	public void startApp() {
 		
 		// dataRegistry = new DataRegistry(this);
-		levelBinaryParser = new LevelBinaryParser(this);
+		// levelBinaryParser = new LevelBinaryParser(this);
 		
-		showWarningScreen();
-		levelBinaryParser.parseByte("levels/example.bin");
+		// showWarningScreen();
+		// levelBinaryParser.parseByte("levels/example.bin");
+		
+		// for testing
+		testDisplayLevelLoader = new TestDisplayLevelLoader(this);
+		
+		testDisplayLevelLoader.callParseLBP("levels/example.bin");
+		showTestDisplayLevelLoader();
 
 	}
 

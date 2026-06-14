@@ -15,6 +15,8 @@ import java.io.ByteArrayInputStream.*;
 
 public class LevelBinaryParser {
 	
+	private j2meDash mainApp;
+	
 	// this is another parser for levels and its binary format
 	// this one is important since playScreen will load level from it (at least not now)
 	// i don't know if it's optimized yet or not but whatever
@@ -22,8 +24,6 @@ public class LevelBinaryParser {
 
 	private volatile boolean isRunning = true;
 	public static String name;
-
-	private j2meDash mainApp;
 	
 	// binary level parser value (useless on its own, they're used for the loops)
 	public static int id;
@@ -39,6 +39,8 @@ public class LevelBinaryParser {
 	public static int[] xArray = new int[1048576];
 	public static int[] yArray = new int[1048576];
 	public static int[] parArray = new int[1048576];
+	
+	public static int objectNumber;
 	
 	private int startingInt = 0;
 	
@@ -134,15 +136,19 @@ public class LevelBinaryParser {
 										   " y3: " + Integer.toHexString(y3) + 
 										   " par: " + Integer.toHexString(par) +
 										   "\n" + "xArray: " + xArray[startingInt] + " yArray: " + yArray[startingInt]);
+						
+						objectNumber = ((i/8)-4)+1;
 						// System.out.println("data" + data);
 					} else if (id == 0 && x1 == 0 && x2 == 0 && x3 == 0 && y1 == 0 && y2 == 0 && y3 == 0 && par == 0) {
 						System.out.println("End of: " + name);
-						return;
+						break;
 					}
 					
 					startingInt++;
 
 				}
+				
+				System.out.println("total objects: " + objectNumber);
 			}
 
 		} catch (Exception e) {
