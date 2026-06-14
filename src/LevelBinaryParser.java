@@ -35,6 +35,13 @@ public class LevelBinaryParser {
 	public static int y3;
 	public static int par;
 	
+	public static int[] idArray = new int[1048576];
+	public static int[] xArray = new int[1048576];
+	public static int[] yArray = new int[1048576];
+	public static int[] parArray = new int[1048576];
+	
+	private int startingInt = 0;
+	
 	public LevelBinaryParser(j2meDash mainApp) {
 		
 		this.mainApp = mainApp;
@@ -96,7 +103,7 @@ public class LevelBinaryParser {
 			} else {
 				System.out.println("Valid File");
 				// System.out.println("byte read: " + total);
-				for (int i = 32; i > total; i += 4) {
+				for (int i = 32; i > total; i += 8) {
 
 					// String hexBytes = Integer.toHexString(bytes);
 
@@ -108,26 +115,32 @@ public class LevelBinaryParser {
 					y2 = mainApp.data[i+5] & 0xFF;
 					y3 = mainApp.data[i+6] & 0xFF;
 					par = mainApp.data[i+7] & 0xFF;
+					
+					idArray[startingInt] = id;
+					xArray[startingInt] = (00 << 24) | (x1 << 16) | (x2 << 8) | x3;
+					yArray[startingInt] = (00 << 24) | (y1 << 16) | (y2 << 8) | y3;
+					parArray[startingInt] = par;
 				
 					// System.out.println(hexBytes + " ");
 				
-					if (id != 0 && x1 != 0 && x2 != 0 && x3 != 00 && y1 != 0 && y2 != 0 && y3 != 0 && par != 0) {
-						System.out.println("obj: " + ((i/4)-8) + 
+					if (id != 0 || x1 != 0 || x2 != 0 || x3 != 00 || y1 != 0 || y2 != 0 || y3 != 0 || par != 0) {
+						System.out.println("obj: " + ((i/8)-4) + 
 										   " id: " + Integer.toHexString(id) + 
-										   " x1: " + x1 + 
-										   " x2: " + x2 + 
-										   " x3: " + x3 + 
-										   " y1: " + y1 + 
-										   " y2: " + y2 + 
-										   " y3: " + y3 + 
-										   " par: " + par);
+										   " x1: " + Integer.toHexString(x1) + 
+										   " x2: " + Integer.toHexString(x2) + 
+										   " x3: " + Integer.toHexString(x3) + 
+										   " y1: " + Integer.toHexString(y1) + 
+										   " y2: " + Integer.toHexString(y2) + 
+										   " y3: " + Integer.toHexString(y3) + 
+										   " par: " + Integer.toHexString(par) +
+										   "\n" + "xArray: " + xArray[startingInt] + " yArray: " + yArray[startingInt]);
 						// System.out.println("data" + data);
 					} else if (id == 0 && x1 == 0 && x2 == 0 && x3 == 0 && y1 == 0 && y2 == 0 && y3 == 0 && par == 0) {
 						System.out.println("End of: " + name);
 						return;
 					}
 					
-					
+					startingInt++;
 
 				}
 			}
