@@ -40,6 +40,9 @@ public class LevelBinaryParser {
 	public static int[] yArray = new int[1048576];
 	public static int[] parArray = new int[1048576];
 	
+	public static int[] safeObjectID = {};
+	public static int[] dangerousObjectID = {};
+	
 	public static int objectNumber;
 	
 	private int startingInt = 0;

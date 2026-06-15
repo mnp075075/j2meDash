@@ -37,6 +37,8 @@ public class PlayScreen extends GameCanvas implements Runnable, CommandListener 
 	public byte modeFlags;
 	public byte speedFlags;
 	
+	public boolean haveTouched;
+	
 	Image background;
 	Image foreground;
 
@@ -463,6 +465,7 @@ public class PlayScreen extends GameCanvas implements Runnable, CommandListener 
 			cubeY < (kForSpikeY - 11) + spikeH &&
 			cubeY + cubeH > (kForSpikeY - 11)) { // the old hitbox check
 				
+				haveTouched = true;
 				iForCube = 21;
 				jForForeground = 240;
 				kForSpikeX = 240;
@@ -473,8 +476,8 @@ public class PlayScreen extends GameCanvas implements Runnable, CommandListener 
 				jumpTick = 0;
 				
 				isRunning = false;
-				System.out.print("\033[H\033[2J");
-				System.out.flush();
+				// System.out.print("\033[H\033[2J");
+				// System.out.flush();
 				
 				mainApp.showGameOverScreen();
 				
@@ -486,10 +489,6 @@ public class PlayScreen extends GameCanvas implements Runnable, CommandListener 
 	
 	public void paint(Graphics g) {
 		// nothing
-	}
-
-	public void hitboxCollision() {
-		// this would be used to handle hitbox collision
 	}
 
 	public void levelDirectoryLoader() {

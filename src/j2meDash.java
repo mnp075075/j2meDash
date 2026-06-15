@@ -381,7 +381,7 @@ public class j2meDash extends MIDlet implements CommandListener {
 		// for testing
 		testDisplayLevelLoader = new TestDisplayLevelLoader(this);
 		
-		testDisplayLevelLoader.callParseLBP("levels/example.bin");
+		// testDisplayLevelLoader.callParseLBP("levels/example.bin");
 		showTestDisplayLevelLoader();
 
 	}
