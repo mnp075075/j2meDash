@@ -71,7 +71,10 @@ public class TestDisplayLevelLoader extends GameCanvas implements Runnable {
 		// i haven't finished the srcX[] and srcY[] at the moment
 		Graphics g = getGraphics();
 		
-		for (int i = 0; i < levelBinaryParser.objectNumber; i++) {
+		int additionalPrintingTime = levelBinaryParser.objectNumber % 8;
+		int groupedPrintingTime = levelBinaryParser.objectNumber - additionalPrintingTime;
+		
+		for (int i = 0; i < groupedPrintingTime; i += 8) {
 			
 			// temporarily failcheck
 			if (mainApp.data[32+(8*i)] >= srcX.length && mainApp.data[32+8*i] >= srcY.length) {
@@ -80,17 +83,78 @@ public class TestDisplayLevelLoader extends GameCanvas implements Runnable {
 			}
 			
 			int id = mainApp.data[32+(8*i)];
-			int currentID = levelBinaryParser.idArray[i];
+			int firstCurrentID = levelBinaryParser.idArray[i];
+			int secondCurrentID = levelBinaryParser.idArray[i+1];
+			int thirdCurrentID = levelBinaryParser.idArray[i+2];
+			int fourthCurrentID = levelBinaryParser.idArray[i+3];
+			int fifthCurrentID = levelBinaryParser.idArray[i+4];
+			int sixthCurrentID = levelBinaryParser.idArray[i+5];
+			int seventhCurrentID = levelBinaryParser.idArray[i+6];
+			int eighthCurrentID = levelBinaryParser.idArray[i+7];
 			
 			if (id > srcID[0] && id <= srcID[srcID.length-1]) {
-				g.drawRegion(sheet, srcX[currentID], srcY[currentID], widthAndHeight[currentID][0], widthAndHeight[currentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i], levelBinaryParser.yArray[i], Graphics.RIGHT | Graphics.BOTTOM);
-				flushGraphics();
-				System.out.println("PRINTED OBJECT " + i + " WITH ID: " + currentID + " in Original position" + "\nWith the following details: srcX: " + srcX[currentID] + " srcY: " + srcY[currentID] + " w: " + widthAndHeight[currentID][0] + " h: " + widthAndHeight[currentID][1] + " destX: " + levelBinaryParser.xArray[i] + " destY: " + levelBinaryParser.yArray[i]);
-			} else if (id <= srcID[0] || id > srcID[srcID.length]) {
-				System.err.println("INVALID OBJECT ID AT: " + currentID + ". CHECK YOUR LEVEL FILES - original function");
+				g.drawRegion(sheet, srcX[firstCurrentID], srcY[firstCurrentID], widthAndHeight[firstCurrentID][0], widthAndHeight[firstCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i], levelBinaryParser.yArray[i], Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawRegion(sheet, srcX[secondCurrentID], srcY[secondCurrentID], widthAndHeight[secondCurrentID][0], widthAndHeight[secondCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+1], levelBinaryParser.yArray[i+1], Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawRegion(sheet, srcX[thirdCurrentID], srcY[thirdCurrentID], widthAndHeight[thirdCurrentID][0], widthAndHeight[thirdCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+2], levelBinaryParser.yArray[i+2], Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawRegion(sheet, srcX[fourthCurrentID], srcY[fourthCurrentID], widthAndHeight[fourthCurrentID][0], widthAndHeight[fourthCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+3], levelBinaryParser.yArray[i+3], Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawRegion(sheet, srcX[fifthCurrentID], srcY[fifthCurrentID], widthAndHeight[fifthCurrentID][0], widthAndHeight[fifthCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+4], levelBinaryParser.yArray[i+4], Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawRegion(sheet, srcX[sixthCurrentID], srcY[sixthCurrentID], widthAndHeight[sixthCurrentID][0], widthAndHeight[sixthCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+5], levelBinaryParser.yArray[i+5], Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawRegion(sheet, srcX[seventhCurrentID], srcY[seventhCurrentID], widthAndHeight[seventhCurrentID][0], widthAndHeight[seventhCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+6], levelBinaryParser.yArray[i+6], Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawRegion(sheet, srcX[eighthCurrentID], srcY[eighthCurrentID], widthAndHeight[eighthCurrentID][0], widthAndHeight[eighthCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+7], levelBinaryParser.yArray[i+7], Graphics.RIGHT | Graphics.BOTTOM);
 			}
 			
 		}
+			
+		switch (additionalPrintingTime % 4) {
+			case 0:
+				for (int i = groupedPrintingTime; i < levelBinaryParser.objectNumber; i += 4) {
+					
+					int id = mainApp.data[32+(8*i)];
+					int firstCurrentID = levelBinaryParser.idArray[i];
+					int secondCurrentID = levelBinaryParser.idArray[i+1];
+					int thirdCurrentID = levelBinaryParser.idArray[i+2];
+					int fourthCurrentID = levelBinaryParser.idArray[i+3];
+					
+					if (id > srcID[0] && id <= srcID[srcID.length-1]) {
+						g.drawRegion(sheet, srcX[firstCurrentID], srcY[firstCurrentID], widthAndHeight[firstCurrentID][0], widthAndHeight[firstCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i], levelBinaryParser.yArray[i], Graphics.RIGHT | Graphics.BOTTOM);
+						g.drawRegion(sheet, srcX[secondCurrentID], srcY[secondCurrentID], widthAndHeight[secondCurrentID][0], widthAndHeight[secondCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+1], levelBinaryParser.yArray[i+1], Graphics.RIGHT | Graphics.BOTTOM);
+						g.drawRegion(sheet, srcX[thirdCurrentID], srcY[thirdCurrentID], widthAndHeight[thirdCurrentID][0], widthAndHeight[thirdCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+2], levelBinaryParser.yArray[i+2], Graphics.RIGHT | Graphics.BOTTOM);
+						g.drawRegion(sheet, srcX[fourthCurrentID], srcY[fourthCurrentID], widthAndHeight[fourthCurrentID][0], widthAndHeight[fourthCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+3], levelBinaryParser.yArray[i+3], Graphics.RIGHT | Graphics.BOTTOM);
+					}
+				}
+				break;
+			case 2:
+				for (int i = groupedPrintingTime; i < levelBinaryParser.objectNumber; i += 2) {
+					
+					int id = mainApp.data[32+(8*i)];
+					int firstCurrentID = levelBinaryParser.idArray[i];
+					int secondCurrentID = levelBinaryParser.idArray[i+1];
+					
+					if (id > srcID[0] && id <= srcID[srcID.length-1]) {
+						g.drawRegion(sheet, srcX[firstCurrentID], srcY[firstCurrentID], widthAndHeight[firstCurrentID][0], widthAndHeight[firstCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i], levelBinaryParser.yArray[i], Graphics.RIGHT | Graphics.BOTTOM);
+						g.drawRegion(sheet, srcX[secondCurrentID], srcY[secondCurrentID], widthAndHeight[secondCurrentID][0], widthAndHeight[secondCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+1], levelBinaryParser.yArray[i+1], Graphics.RIGHT | Graphics.BOTTOM);
+					}
+				}
+				break;
+			case 1:
+			case 3:
+				for (int i = groupedPrintingTime; i < levelBinaryParser.objectNumber; i += 1) {
+					
+					int id = mainApp.data[32+(8*i)];
+					int firstCurrentID = levelBinaryParser.idArray[i];
+					
+					if (id > srcID[0] && id <= srcID[srcID.length-1]) {
+						g.drawRegion(sheet, srcX[firstCurrentID], srcY[firstCurrentID], widthAndHeight[firstCurrentID][0], widthAndHeight[firstCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i], levelBinaryParser.yArray[i], Graphics.RIGHT | Graphics.BOTTOM);
+					}
+				}
+				break;
+			default:
+				// nothing
+				break;
+		}
+		
+		flushGraphics();
+		
 	}
 	
 	public void printObjectMoving(int offset) {
@@ -98,7 +162,10 @@ public class TestDisplayLevelLoader extends GameCanvas implements Runnable {
 		// i haven't finished the srcX[] and srcY[] at the moment
 		Graphics g = getGraphics();
 		
-		for (int i = 0; i < levelBinaryParser.objectNumber; i++) {
+		int additionalPrintingTime = levelBinaryParser.objectNumber % 8;
+		int groupedPrintingTime = levelBinaryParser.objectNumber - additionalPrintingTime;
+		
+		for (int i = 0; i < groupedPrintingTime; i += 8) {
 			
 			// temporarily failcheck
 			if (mainApp.data[32+(8*i)] >= srcX.length && mainApp.data[32+8*i] >= srcY.length) {
@@ -107,17 +174,77 @@ public class TestDisplayLevelLoader extends GameCanvas implements Runnable {
 			}
 			
 			int id = mainApp.data[32+(8*i)];
-			int currentID = levelBinaryParser.idArray[i];
+			int firstCurrentID = levelBinaryParser.idArray[i];
+			int secondCurrentID = levelBinaryParser.idArray[i+1];
+			int thirdCurrentID = levelBinaryParser.idArray[i+2];
+			int fourthCurrentID = levelBinaryParser.idArray[i+3];
+			int fifthCurrentID = levelBinaryParser.idArray[i+4];
+			int sixthCurrentID = levelBinaryParser.idArray[i+5];
+			int seventhCurrentID = levelBinaryParser.idArray[i+6];
+			int eighthCurrentID = levelBinaryParser.idArray[i+7];
 			
 			if (id > srcID[0] && id <= srcID[srcID.length-1]) {
-				g.drawRegion(sheet, srcX[currentID], srcY[currentID], widthAndHeight[currentID][0], widthAndHeight[currentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i] -= offset, levelBinaryParser.yArray[i], Graphics.RIGHT | Graphics.BOTTOM);
-				flushGraphics();
-				System.out.println("PRINTED OBJECT " + i + " WITH ID: " + currentID + " in Moving position at offset: " + offset + "\nWith the following details: srcX: " + srcX[currentID] + " srcY: " + srcY[currentID] + " w: " + widthAndHeight[currentID][0] + " h: " + widthAndHeight[currentID][1] + " destX: " + (levelBinaryParser.xArray[i] -= offset) + " destY: " + levelBinaryParser.yArray[i]);
-			} else if (id <= srcID[0] || id > srcID[srcID.length]) {
-				System.err.println("INVALID OBJECT ID AT: " + currentID + ". CHECK YOUR LEVEL FILES - moving function");
+				g.drawRegion(sheet, srcX[firstCurrentID], srcY[firstCurrentID], widthAndHeight[firstCurrentID][0], widthAndHeight[firstCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i] -= offset, levelBinaryParser.yArray[i], Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawRegion(sheet, srcX[secondCurrentID], srcY[secondCurrentID], widthAndHeight[secondCurrentID][0], widthAndHeight[secondCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+1] -= offset, levelBinaryParser.yArray[i+1], Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawRegion(sheet, srcX[thirdCurrentID], srcY[thirdCurrentID], widthAndHeight[thirdCurrentID][0], widthAndHeight[thirdCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+2] -= offset, levelBinaryParser.yArray[i+2], Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawRegion(sheet, srcX[fourthCurrentID], srcY[fourthCurrentID], widthAndHeight[fourthCurrentID][0], widthAndHeight[fourthCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+3] -= offset, levelBinaryParser.yArray[i+3], Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawRegion(sheet, srcX[fifthCurrentID], srcY[fifthCurrentID], widthAndHeight[fifthCurrentID][0], widthAndHeight[fifthCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+4] -= offset, levelBinaryParser.yArray[i+4], Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawRegion(sheet, srcX[sixthCurrentID], srcY[sixthCurrentID], widthAndHeight[sixthCurrentID][0], widthAndHeight[sixthCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+5] -= offset, levelBinaryParser.yArray[i+5], Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawRegion(sheet, srcX[seventhCurrentID], srcY[seventhCurrentID], widthAndHeight[seventhCurrentID][0], widthAndHeight[seventhCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+6] -= offset, levelBinaryParser.yArray[i+6], Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawRegion(sheet, srcX[eighthCurrentID], srcY[eighthCurrentID], widthAndHeight[eighthCurrentID][0], widthAndHeight[eighthCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+7] -= offset, levelBinaryParser.yArray[i+7], Graphics.RIGHT | Graphics.BOTTOM);
 			}
 			
 		}
+			
+		switch (additionalPrintingTime % 4) {
+			case 0:
+				for (int i = groupedPrintingTime; i < levelBinaryParser.objectNumber; i += 4) {
+					
+					int id = mainApp.data[32+(8*i)];
+					int firstCurrentID = levelBinaryParser.idArray[i];
+					int secondCurrentID = levelBinaryParser.idArray[i+1];
+					int thirdCurrentID = levelBinaryParser.idArray[i+2];
+					int fourthCurrentID = levelBinaryParser.idArray[i+3];
+					
+					if (id > srcID[0] && id <= srcID[srcID.length-1]) {
+						g.drawRegion(sheet, srcX[firstCurrentID], srcY[firstCurrentID], widthAndHeight[firstCurrentID][0], widthAndHeight[firstCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i] -= offset, levelBinaryParser.yArray[i], Graphics.RIGHT | Graphics.BOTTOM);
+						g.drawRegion(sheet, srcX[secondCurrentID], srcY[secondCurrentID], widthAndHeight[secondCurrentID][0], widthAndHeight[secondCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+1] -= offset, levelBinaryParser.yArray[i+1], Graphics.RIGHT | Graphics.BOTTOM);
+						g.drawRegion(sheet, srcX[thirdCurrentID], srcY[thirdCurrentID], widthAndHeight[thirdCurrentID][0], widthAndHeight[thirdCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+2] -= offset, levelBinaryParser.yArray[i+2], Graphics.RIGHT | Graphics.BOTTOM);
+						g.drawRegion(sheet, srcX[fourthCurrentID], srcY[fourthCurrentID], widthAndHeight[fourthCurrentID][0], widthAndHeight[fourthCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+3] -= offset, levelBinaryParser.yArray[i+3], Graphics.RIGHT | Graphics.BOTTOM);
+					}
+				}
+				break;
+			case 2:
+				for (int i = groupedPrintingTime; i < levelBinaryParser.objectNumber; i += 2) {
+					
+					int id = mainApp.data[32+(8*i)];
+					int firstCurrentID = levelBinaryParser.idArray[i];
+					int secondCurrentID = levelBinaryParser.idArray[i+1];
+					
+					if (id > srcID[0] && id <= srcID[srcID.length-1]) {
+						g.drawRegion(sheet, srcX[firstCurrentID], srcY[firstCurrentID], widthAndHeight[firstCurrentID][0], widthAndHeight[firstCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i] -= offset, levelBinaryParser.yArray[i], Graphics.RIGHT | Graphics.BOTTOM);
+						g.drawRegion(sheet, srcX[secondCurrentID], srcY[secondCurrentID], widthAndHeight[secondCurrentID][0], widthAndHeight[secondCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+1] -= offset, levelBinaryParser.yArray[i+1], Graphics.RIGHT | Graphics.BOTTOM);
+					}
+				}
+				break;
+			case 1:
+			case 3:
+				for (int i = groupedPrintingTime; i < levelBinaryParser.objectNumber; i += 1) {
+					
+					int id = mainApp.data[32+(8*i)];
+					int firstCurrentID = levelBinaryParser.idArray[i];
+					
+					if (id > srcID[0] && id <= srcID[srcID.length-1]) {
+						g.drawRegion(sheet, srcX[firstCurrentID], srcY[firstCurrentID], widthAndHeight[firstCurrentID][0], widthAndHeight[firstCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i] -= offset, levelBinaryParser.yArray[i], Graphics.RIGHT | Graphics.BOTTOM);
+					}
+				}
+				break;
+			default:
+				// nothing
+				break;
+		}
+		
+		flushGraphics();
 	}
 	
 	public void run() {
@@ -145,10 +272,34 @@ public class TestDisplayLevelLoader extends GameCanvas implements Runnable {
 			g.fillRect(0,0,240,400);
 			printObjectMoving(5);
 			
-			try {
-				Thread.sleep(1000);
-			} catch (Exception e) {
-				e.printStackTrace();
+			switch(mainApp.speedCount) {
+				case 1:
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException error1) { }
+				break;
+				case 2:
+				try {
+					Thread.sleep(3);
+				} catch (InterruptedException error3) { }
+				break;
+				case 3:
+				try {
+					Thread.sleep(2);
+				} catch (InterruptedException error4) { }
+				break;
+				case 4:
+				try {
+					Thread.sleep(1);
+				} catch (InterruptedException error5) { }
+				break;
+				default: // case 0
+				try {
+					Thread.sleep(5);
+				} catch (InterruptedException error) {
+					// nothing
+				}
+				break;
 			}
 		}
 		
