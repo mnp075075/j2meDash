@@ -24,6 +24,17 @@ public class TestDisplayLevelLoader extends GameCanvas implements Runnable {
 								{21,21,21,21}	};												// 40
 								
 	private Image spreadsheet;
+	private Image ship;
+	
+	private volatile boolean isPressing = false;
+	private volatile boolean isHolding = false;
+	private volatile boolean tapped = false;
+	private volatile boolean falling = false;
+	private int counter = 0;
+	private int holded = 0;
+	private int pressed = 0;
+	
+	private long startTime = 0;
 	
 	public int[] srcID = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40};
 	
@@ -37,6 +48,7 @@ public class TestDisplayLevelLoader extends GameCanvas implements Runnable {
 		
 		try {
 			sheet = Image.createImage("assets/sheet.png");
+			ship = Image.createImage("assets/ship.png");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -153,7 +165,7 @@ public class TestDisplayLevelLoader extends GameCanvas implements Runnable {
 				break;
 		}
 		
-		flushGraphics();
+		// flushGraphics(); (manually flushGraphics)
 		
 	}
 	
@@ -244,16 +256,19 @@ public class TestDisplayLevelLoader extends GameCanvas implements Runnable {
 				break;
 		}
 		
-		flushGraphics();
+		// flushGraphics(); (manually flushGraphics)
 	}
 	
 	public void run() {
+		
+		int a = 287;
+		int b = 0;
 		
 		Graphics g = getGraphics();
 		
 		g.setColor(0xabcdef);
 		g.fillRect(0,0,240,400);
-		flushGraphics();
+		// shipMode();
 		
 		callParseLBP("levels/example.bin");
 		
@@ -264,34 +279,70 @@ public class TestDisplayLevelLoader extends GameCanvas implements Runnable {
 		
 		printObjectOriginally();
 		
+		flushGraphics();
+		
 		if (g == null) System.out.println("how");
 		
 		try { Thread.sleep(2000); } catch (Exception e) { }
 		
 		while (isRunning) {
 			g.fillRect(0,0,240,400);
-			printObjectMoving(5);
+			printObjectMoving(5); // ALWAYS 5 NO MATTER WHAT
+			
+			/* if (isHolding == true && !isPressing) {
+				if (counter < 25) {
+					g.drawImage(ship, 81, a -= 2, Graphics.RIGHT | Graphics.BOTTOM);
+					holded++;
+				} else if (counter >= 25) {
+					g.drawImage(ship, 81, a -= 3, Graphics.RIGHT | Graphics.BOTTOM);
+					holded++;
+				}
+			} else if (!isHolding && isPressing == true) {
+				if (pressed < 10 && pressed >= 0) {
+					g.drawImage(ship, 81, a -= 2, Graphics.RIGHT | Graphics.BOTTOM);
+					System.out.println(a);
+					pressed++;
+				} else if (pressed == 10 && (a) < 287) {
+					g.drawImage(ship, 81, a += 2, Graphics.RIGHT | Graphics.BOTTOM);
+					pressed = -1;
+					falling = true;
+				} else if (pressed == -1 && (a) == 287 && falling == true) {
+					tapped = false;
+					isHolding = false;
+					isPressing = false;
+				}
+			} else if (!tapped || !isHolding || !isPressing) {
+				
+				shipMode();
+				
+			} will fix ship mode later */ 
+			
+			flushGraphics();
 			
 			switch(mainApp.speedCount) {
 				case 1:
 				try {
 					Thread.sleep(10);
 				} catch (InterruptedException error1) { }
+				counter += 10;
 				break;
 				case 2:
 				try {
 					Thread.sleep(3);
 				} catch (InterruptedException error3) { }
+				counter += 3;
 				break;
 				case 3:
 				try {
 					Thread.sleep(2);
 				} catch (InterruptedException error4) { }
+				counter += 2;
 				break;
 				case 4:
 				try {
 					Thread.sleep(1);
 				} catch (InterruptedException error5) { }
+				counter += 1;
 				break;
 				default: // case 0
 				try {
@@ -299,6 +350,7 @@ public class TestDisplayLevelLoader extends GameCanvas implements Runnable {
 				} catch (InterruptedException error) {
 					// nothing
 				}
+				counter += 5;
 				break;
 			}
 		}
@@ -340,4 +392,39 @@ public class TestDisplayLevelLoader extends GameCanvas implements Runnable {
 		}
 	}
 	
+	public void shipMode() {
+		
+		Graphics g = getGraphics();
+		
+		g.drawImage(ship, 81, 287, Graphics.RIGHT | Graphics.BOTTOM);
+		
+		// flushGraphics(); (manually flushGraphics)
+		
+	}
+	
+	protected void pointerPressed(int x, int y) {
+		
+		startTime = System.currentTimeMillis();
+		tapped = true;
+		
+		System.out.println("tapped = " + tapped);
+			
+	}
+	
+	protected void pointerReleased(int x, int y) {
+		
+		long duration = System.currentTimeMillis() - startTime;
+		
+		if (duration >= 250 && tapped == true) {
+			isHolding = true;
+			isPressing = false;
+			
+			System.out.println("is holding");
+		} else if (duration < 250 && tapped == true) {
+			isPressing = true;
+			isHolding = false;
+			
+			System.out.println("is tapping");
+		}
+	}
 }
