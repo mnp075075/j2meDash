@@ -1,7 +1,7 @@
 ![](j2meDash_ASCII.png)
 
 # j2meDash #
-j2meDash is Geometry Dash ported in Java ME (or J2ME) for Java-supported phones
+j2meDash is a demake version of Geometry Dash ported to Java ME (or J2ME) for Java-supported phones
 
 ## WARNING
 - This project is still experimental and is in its pre-alpha phase.
