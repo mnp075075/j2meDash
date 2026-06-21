@@ -1,7 +1,7 @@
 import javax.microedition.lcdui.*;
 import javax.microedition.lcdui.game.*;
 
-public class TestDisplayLevelLoader extends GameCanvas implements Runnable {
+public class GameEngine extends GameCanvas implements Runnable {
 	
 	private j2meDash mainApp;
 	private LevelBinaryParser levelBinaryParser;
@@ -28,6 +28,9 @@ public class TestDisplayLevelLoader extends GameCanvas implements Runnable {
 	// global components for all gamemodes
 	private boolean isReleased = false;
 	private boolean isPressed = false;
+	private boolean oneShotPressed = false;
+	private boolean canPress = true;
+	private boolean normalGravity = true;
 	private int y = 287;
 	
 	// components for the ship gamemode
@@ -83,11 +86,22 @@ public class TestDisplayLevelLoader extends GameCanvas implements Runnable {
 	
 	// components for the ball gamemode
 	private Image ball;
-	private int[] parabola = {1,2,4,8};
+	private Image mini_ball;
 	private int pressedCounter = 0;
-	private boolean isNormalGravity = true;
-	private boolean pressed = false;
-	private boolean canFlip = true;
+	private boolean passed = false;
+	
+	// components for the spider gamemode
+	private Image spider;
+	private Image spider_inverted;
+	private Image mini_spider;
+	private Image mini_spider_inverted;
+	
+	// components for the ufo gamemode
+	private Image ufo;
+	private Image ufo_inverted;
+	private Image mini_ufo;
+	private Image mini_ufo_inverted;
+	private int timer = 0;
 	
 	// temporary components
 	
@@ -96,7 +110,7 @@ public class TestDisplayLevelLoader extends GameCanvas implements Runnable {
 	public int[] srcX = {0,93};
 	public int[] srcY = {0,207};
 	
-	public TestDisplayLevelLoader(j2meDash mainApp) {
+	public GameEngine(j2meDash mainApp) {
 		
 		super(true);
 		this.mainApp = mainApp;
@@ -118,6 +132,15 @@ public class TestDisplayLevelLoader extends GameCanvas implements Runnable {
 			
 			// ball
 			ball = Image.createImage("assets/ball.png");
+			
+			// spider
+			spider = Image.createImage("assets/spider.png");
+			spider_inverted = Image.createImage("assets/spider_inverted.png");
+			
+			// ufo
+			ufo = Image.createImage("assets/ufo.png");
+			ufo_inverted = Image.createImage("assets/ufo_inverted.png");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -343,77 +366,19 @@ public class TestDisplayLevelLoader extends GameCanvas implements Runnable {
 		}
 		
 		while (isRunning) {
-			g.fillRect(0,0,240,400);
 			
-			/* System.out.println("isNormalGravity = " + isNormalGravity);
+			g.fillRect(0,0,240,400);
 			
 			// add the assets for ship with gravity inverted and mini ship with gravity inverted and normal
 			
-			if (pressed == true) {
-				if (canFlip == true) {
-					if (isNormalGravity == true) {
-						isNormalGravity = false;
-					} else {
-						isNormalGravity = true;
-					}
-					
-					canFlip = false;
-				}
-				
-				int index = (pressedCounter < 20) ? 0 : (pressedCounter < 40) ? 1 : (pressedCounter < 80) ? 2 : 3;
-				
-				if (isNormalGravity == false) {
-					y -= parabola[index];
-				} else if (isNormalGravity == true) {
-					y += parabola[index];
-				}
-				
-				pressedCounter++;
-				
-			} else {
-				canFlip = true;
-				pressedCounter = 0;
-			}
-			
-			if (y >= 287) {
-				y = 287;
-				g.drawImage(ball, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
-			} else if (y <= 100) {
-				y = 100;
-				g.drawImage(ball, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
-			} else {
-				g.drawImage(ball, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
-			}
+			// TEST SANDBOX //
+			// ufoMode(true, true, false);
+			// -------------------------- //
 			
 			flushGraphics();
 			
-			switch(mainApp.speedCount) {
-				case 1:
-				try {
-					Thread.sleep(10);
-				} catch (InterruptedException error1) { }
-				break;
-				case 2:
-				try {
-					Thread.sleep(3);
-				} catch (InterruptedException error3) { }
-				break;
-				case 3:
-				try {
-					Thread.sleep(2);
-				} catch (InterruptedException error4) { }
-				break;
-				case 4:
-				try {
-					Thread.sleep(1);
-				} catch (InterruptedException error5) { }
-				break;
-				default: // case 0
-				try {
-					Thread.sleep(5);
-				} catch (InterruptedException error) { }
-				break;
-			} */
+			updateState();
+			
 		} 
 		
 	}
@@ -706,35 +671,7 @@ public class TestDisplayLevelLoader extends GameCanvas implements Runnable {
 			// flushGraphics(); do it manually
 			tick++;
 			
-			switch(mainApp.speedCount) {
-				case 1:
-				try {
-					Thread.sleep(10);
-				} catch (InterruptedException error1) { }
-				break;
-				case 2:
-				try {
-					Thread.sleep(3);
-				} catch (InterruptedException error3) { }
-				break;
-				case 3:
-				try {
-					Thread.sleep(2);
-				} catch (InterruptedException error4) { }
-				break;
-				case 4:
-				try {
-					Thread.sleep(1);
-				} catch (InterruptedException error5) { }
-				break;
-				default: // case 0
-				try {
-					Thread.sleep(5);
-				} catch (InterruptedException error) {
-					// nothing
-				}
-				break;
-			}
+			updateState();
 			
 		} else if (isShip == true && isMiniMode == true) {
 			boolean onGround = (y == 287) ? true : false;
@@ -985,35 +922,7 @@ public class TestDisplayLevelLoader extends GameCanvas implements Runnable {
 			
 			tick++;
 			
-			switch(mainApp.speedCount) {
-				case 1:
-				try {
-					Thread.sleep(10);
-				} catch (InterruptedException error1) { }
-				break;
-				case 2:
-				try {
-					Thread.sleep(3);
-				} catch (InterruptedException error3) { }
-				break;
-				case 3:
-				try {
-					Thread.sleep(2);
-				} catch (InterruptedException error4) { }
-				break;
-				case 4:
-				try {
-					Thread.sleep(1);
-				} catch (InterruptedException error5) { }
-				break;
-				default: // case 0
-				try {
-					Thread.sleep(5);
-				} catch (InterruptedException error) {
-					// nothing
-				}
-				break;
-			}
+			updateState();
 		} else {
 			System.out.println("why did you even choose false");
 		}
@@ -1073,33 +982,7 @@ public class TestDisplayLevelLoader extends GameCanvas implements Runnable {
 			
 			// flushGraphics(); manually add
 			
-			switch(mainApp.speedCount) {
-				case 1:
-				try {
-					Thread.sleep(10);
-				} catch (InterruptedException error1) { }
-				break;
-				case 2:
-				try {
-					Thread.sleep(3);
-				} catch (InterruptedException error3) { }
-				break;
-				case 3:
-				try {
-					Thread.sleep(2);
-				} catch (InterruptedException error4) { }
-				break;
-				case 4:
-				try {
-					Thread.sleep(1);
-				} catch (InterruptedException error5) { }
-				break;
-				default: // case 0
-				try {
-					Thread.sleep(5);
-				} catch (InterruptedException error) { }
-				break;
-			}
+			updateState();
 			
 		} else if (isWave == true && isMiniMode == true) {
 			int shift = 10;
@@ -1150,7 +1033,236 @@ public class TestDisplayLevelLoader extends GameCanvas implements Runnable {
 			
 			// flushGraphics(); manually add
 			
-			switch(mainApp.speedCount) {
+			updateState();
+		} else if (isWave == false) {
+			System.out.println("why did you even choose false");
+		}
+	}
+	
+	public void ballMode(boolean isBall, boolean isNormalGravity, boolean isMiniMode) {
+		
+		int[] parabola = {1,2,4,8};
+		Graphics g = getGraphics();
+		
+		// System.out.println("normalGravity = " + normalGravity);
+		if (passed == false) {
+			if (isNormalGravity == true) {y = 287; normalGravity = true;}
+			else {y = 100; normalGravity = false;}
+			passed = true;
+		}
+		
+		if (isBall == true && isMiniMode == false) {
+			if (oneShotPressed == true && canPress == true) {
+				if (y >= 287 || y <= 100) {
+					normalGravity = !normalGravity;
+					canPress = false;
+					pressedCounter = 0;
+				}
+			}
+					
+			int index = (pressedCounter < 5) ? 0 : (pressedCounter < 10) ? 1 : (pressedCounter < 20) ? 2 : 3;
+			
+			if (isNormalGravity == true) {
+				if (normalGravity == false) {y += parabola[index];}
+				else {y -= parabola[index];}
+			} else {
+				if (normalGravity == false) {y -= parabola[index];}
+				else {y += parabola[index];}
+			}
+			
+			if (y >= 287) {
+				y = 287;
+				g.drawImage(ball, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+			} else if (y <= 100) {
+				y = 100;
+				g.drawImage(ball, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+			} else {
+				g.drawImage(ball, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+			}
+			
+			// flushGraphics();
+			
+			pressedCounter++;
+			
+			updateState();
+				
+		} else if (isBall == true && isMiniMode == true) {
+			if (oneShotPressed == true) {
+				if (canPress == true) {
+					if (y >= 287 || y <= 100) {
+						if (normalGravity == true) {
+							normalGravity = false;
+						} else {
+							normalGravity = true;
+						}
+						
+						canPress = false;
+						pressedCounter = 0;
+					}
+				}
+			}
+					
+			int index = (pressedCounter < 3) ? 0 : (pressedCounter < 6) ? 1 : (pressedCounter < 12) ? 2 : 3;
+			
+			if (normalGravity == false) {
+				y -= parabola[index];
+			} else if (normalGravity == true) {
+				y += parabola[index];
+			}
+			
+			if (y >= 287) {
+				y = 287;
+				g.drawImage(ball, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+			} else if (y <= 100) {
+				y = 100;
+				g.drawImage(ball, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+			} else {
+				g.drawImage(ball, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+			}
+			
+			// flushGraphics();
+			
+			pressedCounter++;
+			
+			updateState();
+		} else {
+			// nothing
+		}
+	}
+	
+	public void spiderMode(boolean isSpider, boolean isNormalGravity, boolean isMiniMode) {
+		Graphics g = getGraphics();
+		
+		if (isSpider == true && isMiniMode == false) {
+			
+			if (oneShotPressed == true && canPress == true) {
+				if (y >= 287 || y <= 40) {
+					normalGravity = !normalGravity;
+					canPress = false;
+				}
+			}
+			
+			if (isNormalGravity == true) {
+				if (normalGravity == false) y = 40;
+				else y = 287;
+			} else {
+				if (normalGravity == false) y = 287;
+				else y = 40;
+			}
+			
+			if (y == 40) {
+				g.drawImage(spider_inverted, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+			} else if (y == 287) {
+				g.drawImage(spider, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+			}
+			
+			updateState();
+		} else if (isSpider == true && isMiniMode == false) {
+			
+			if (oneShotPressed == true && canPress == true) {
+				if (y >= 287 || y <= 40) {
+					normalGravity = !normalGravity;
+					canPress = false;
+				}
+			}
+			
+			if (isNormalGravity == true) {
+				if (normalGravity == false) y = 40;
+				else y = 287;
+			} else {
+				if (normalGravity == false) y = 287;
+				else y = 40;
+			}
+			
+			if (y == 40) {
+				g.drawImage(spider_inverted, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+			} else if (y == 287) {
+				g.drawImage(spider, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+			}
+			
+			updateState();
+		} else {
+			
+		}
+	}
+	
+	public void ufoMode(boolean isUFO, boolean isNormalGravity, boolean isMiniMode) {
+		Graphics g = getGraphics();
+		int parabola[] = {1,2,3,4};
+		int parabola2[] = {1,2};
+		
+		if (isUFO == true && isMiniMode == false) {
+			System.out.println("timeCounter = " + timeCounter + ", y = " + y + ", releaseCounter = " + releaseCounter + ", timer = " + timer);
+			if (oneShotPressed == true && canPress == true) {
+				canPress = false;
+				timer = 12;
+				timeCounter = 0;
+			}
+			
+			if (timer > 0) {
+				int index = (timeCounter < 3) ? 3 : (timeCounter < 6) ? 2 : (timeCounter < 12) ? 1 : 0;
+				y -= parabola[index];
+				timer--;
+			} else if (timer <= 0) {
+				if (y < 287) {
+					int index = (releaseCounter < 3) ? 0 : (releaseCounter < 6) ? 1 : (releaseCounter < 12) ? 2 : 3;
+					y += parabola[index];
+					releaseCounter++;
+				}
+			}
+				
+			
+			if (y >= 287) {
+				y = 287;
+				timer = -1;
+				g.drawImage(ufo, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+			} else if (y <= 40) {
+				y = 40;
+				timer = -1;
+				g.drawImage(ufo, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+			} else {
+				g.drawImage(ufo, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+			}
+		} else if (isUFO == true && isMiniMode == true) {
+			if (oneShotPressed == true && canPress == true) {
+				canPress = false;
+				timer = 12;
+				timeCounter = 0;
+			}
+			
+			if (timer > 0) {
+				int index = (timeCounter < 3) ? 0 : 1;
+				y -= parabola2[index];
+				timer--;
+			} else if (timer == 0) {
+				int index = (releaseCounter < 3) ? 1 : 0;
+				y += parabola2[index];
+				releaseCounter++;
+			}
+				
+			
+			if (y >= 287) {
+				y = 287;
+				timer = -1;
+				g.drawImage(ufo, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+			} else if (y <= 40) {
+				y = 40;
+				timer = -1;
+				g.drawImage(ufo, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+			} else {
+				g.drawImage(ufo, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+			}
+		} else {
+			// nothing
+		}
+		
+		timeCounter++;
+		
+		// updateState(); REMEMBER TO ADD UPDATE STATE FOR THIS PARTICULAR GAMEMODE
+	}
+	
+	public void updateState() {
+		switch(mainApp.speedCount) {
 				case 1:
 				try {
 					Thread.sleep(10);
@@ -1177,37 +1289,31 @@ public class TestDisplayLevelLoader extends GameCanvas implements Runnable {
 				} catch (InterruptedException error) { }
 				break;
 			}
-		} else if (isWave == false) {
-			System.out.println("why did you even choose false");
-		}
-	}
-	
-	public void ballMode(boolean isBall, boolean isNormalGravity, boolean isMiniMode) {
-		if (isBall == true) {
-			// logic
-		} else {
-			// nothing
-		}
 	}
 	
 	protected void pointerPressed(int x, int y) {
 		
+		// continuous + one-shot components
 		isPressed = true;
 		isReleased = false;
 		releaseCounter = 0;
 		leftoverEnergy = true;
 		havePassed = false;
 		
-		pressed = true;
+		// specifically one-shot components
+		oneShotPressed = true;
 	}
 	
 	protected void pointerReleased(int x, int y) {
 		
+		// continuous + one-shot components
 		isPressed = false;
 		isReleased = true;
 		leftoverEnergy = true;
 		havePassed = false;
 		
-		pressed = false;
+		// specifically one-shot components
+		oneShotPressed = false;
+		canPress = true;
 	}
 }
