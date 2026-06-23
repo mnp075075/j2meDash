@@ -58,8 +58,29 @@ From there, click the `.exe` file to install all three of the SDK
       - 3.2b.2: Package all into a `*.jar` file
       >  `"C:\path\to\JDK_8\bin\jar.exe" cfm j2meDashForJava8.jar META-INF\MANIFEST.MF assets levels -C classes/ .`
 
-### LINUX USERS:
-**¯\\\_(ツ)\_/¯ I have no idea**
+### LINUX AND ONLINE USERS:
+- **THE FOLLOWING GUIDES WILL HAVE COMPILATION INSTRUCTIONS ON DEBIAN, ARCH, RED HAT, AND ALPINE DISTRO FAMILY as well as Google Colab (which runs Ubuntu)**
+- **INSTALLATION**
+- **FOR UBUNTU AND DEBIAN-BASED DISTRO (and Google Colab)**
+  - ***Note: If you use Google Colab, make sure to type `!` before every commands, except for `cd` which you will type `%cd` instead***
+  - Open the terminal and type `sudo apt-get update` and `sudo apt-get install openjdk-8-jdk` to install JDK 8 **(if you already have Java installed on your device, especially Google Colab, type `!update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac 100`, `!update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java 100`. Then `!update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac` and `!update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java`. If you use ARM64, change `java-8-openjdk-amd64` to `java-8-openjdk-arm64`)**
+- **FOR FEDORA AND RED HAT-BASED DISTRO**
+  - Type `sudo dnf install java-1.8.0-openjdk-devel` to install JDK 8 and set it the default one if you have another Java version by `sudo alternatives --config java` and choose the number that correspond to Java 1.8.0
+- **FOR ARCH LINUX-BASED DISTRO**
+  - Type `sudo pacman -S jdk8-openjdk` and `archlinux-java status` to list every JDK installed, then set Java 8 to default by `sudo archlinux-java set java-8-openjdk`
+- **FOR ALPINE LINUX-BASED DISTRO**
+  - Install JDK8 by typing `apk add openjdk8` to install then type `ln -sf /usr/lib/jvm/java-1.8-openjdk/bin/java /usr/bin/java` and `ln -sf /usr/lib/jvm/java-1.8-openjdk/bin/javac /usr/bin/javac` to make it default Java version
+- **COMPILATION**
+  - Step 1: Clone the repo by typing `git clone https://github.com/mnp075075/j2meDash`
+  - Step 2: Download these files:
+  > [MicroEmulator MIDP 2.0](https://cdn.statically.io/gh/mnp075075/j2meDash@master/lib/midp.jar)
+  > [MicroEmulator CLDC 1.1](https://cdn.statically.io/gh/mnp075075/j2meDash@master/lib/cldc.jar)
+  > [MicroEmulator JSR 75](https://cdn.statically.io/gh/mnp075075/j2meDash@master/lib/jsr-75.jar)
+  - Step 3: Move all these files to the cloned repo directory inside `j2meDash/lib/` by typing `mv midp.jar cldc.jar jsr-75.jar j2meDash/lib/`
+  - Step 4: Go to `j2meDash/src/` folder (make sure the cloned repo is in your current path in the terminal) by `cd j2meDash/src/`
+  - Step 5: Now you're inside `/j2meDash/src/`, next up type the following to generate class files and package them into `*.jar` file **(note that this is NOT preverified by `preverify` command)**
+  > `javac -source 1.4 -target 1.4 -encoding UTF-8 -bootclasspath ../lib/midp.jar:../lib/cldc.jar:../lib/jsr-75.jar -d classes/ *.java`
+  > `jar cfm j2meDash4.jar META-INF/MANIFEST.MF assets/ levels/ -C classes/ .`
 
 ### MAC USERS:
 ***Use [VMWare Fusion](https://www.vmware.com/products/desktop-hypervisor/workstation-and-fusion) or [Parallels Desktop](https://www.parallels.com/products/desktop/) to run Windows 11 or Linux in your VM***
@@ -81,4 +102,9 @@ After you successfully compiled the code, there'll be a new file named `j2meDash
 `2`: to trigger pause screen (in the play screen)
 
 ## Cleaning up:
+**WINDOWS**
 You can delete the project's directory manually in File Explorer or open the Command Prompt at the project's directory and run `clean.bat`
+**LINUX**
+You can do it manually
+**MACOS**
+Same as well
