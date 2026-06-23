@@ -23,6 +23,7 @@ public class GameEngine extends GameCanvas implements Runnable {
 								{21,3,21,3}, {21,5,21,5}, {21,5,21,5}, {21,21,21,21},			// 36,37,38,39
 								{21,21,21,21}	};												// 40
 								
+	private int[][] gamemodeWidthAndHeight = {{21,21,10,10},{21,30,10,15},{},{},{},{}};
 	private Image spreadsheet;
 	
 	// global components for all gamemodes
@@ -353,17 +354,34 @@ public class GameEngine extends GameCanvas implements Runnable {
 	
 	public void run() {
 		
+		int maxValue = 0;
 		Graphics g = getGraphics();
 		
 		g.setColor(0xabcdef);
 		g.fillRect(0,0,240,400);
 		
 		callParseLBP("levels/example.bin");
+		printObjectOriginally();
+		
+		flushGraphics();
 		
 		// temporarily failcheck
 		if (mainApp.data[32] == 0x00) {
 			System.out.println("cannot continue");
 		}
+		
+		for (int i = 0; i < levelBinaryParser.idArray.length - 1; i++) {
+			if (levelBinaryParser.idArray[i] == 0) {
+				maxValue = i;
+				break;
+			}
+		}
+		
+		if (maxValue == 0 && levelBinaryParser.idArray[0] != 0) {
+			maxValue = levelBinaryParser.idArray.length;
+		}
+		
+		try { Thread.sleep(5000); } catch (Exception e) { e.printStackTrace(); }
 		
 		while (isRunning) {
 			
@@ -372,41 +390,48 @@ public class GameEngine extends GameCanvas implements Runnable {
 			// add the assets for ship with gravity inverted and mini ship with gravity inverted and normal
 			
 			// TEST SANDBOX //
-			// ufoMode(true, true, false);
+			shipMode(true, true, false);
+			
+			printObjectMoving(5);
 			// -------------------------- //
 			
 			flushGraphics();
 			
-			updateState();
+			for (int i = 0; i < maxValue; i++) {
+				
+				if (levelBinaryParser.xArray[i] < -32 || levelBinaryParser.xArray[] > 128) {
+					checkCollision(levelBinaryParser.idArray[i], 81, y, gamemodeWidthAndHeight[1][2], gamemodeWidthAndHeight[1][3], levelBinaryParser.xArray[i], levelBinaryParser.yArray[i], widthAndHeight[levelBinaryParser.idArray[i]][2], widthAndHeight[levelBinaryParser.idArray[i]][3]);
+					System.out.println("xArray[] = " + levelBinaryParser.xArray[i] + ", yArray[] = " + levelBinaryParser.yArray[i]);
+				}
+				
+			}
 			
+			updateState();
 		} 
 		
 	}
 	
-	/* public void hitboxCollision() {
+	public void checkCollision(
+	int id, int Ax, int Ay, int Aw, int Ah,
+	int Bx, int By, int Bw, int Bh
+	) {
 		
-		if (playScreen == null) {
-			playScreen = new PlayScreen(mainApp);
+		boolean value = ((Ax < Bx + Bw) && (Ax + Aw > Bx) && (Ay < By + Bh) && (Ay + Ah > By));
+		
+		System.out.println(
+		"Ax < Bx + Bw = " + (Ax < Bx + Bw) +
+		"\nAx + Aw > Bx = " + (Ax + Aw > Bx) +
+		"\nAy < By + Bh = " + (Ay < By + Bh) +
+		"\nAy + Ah > By = " + (Ay + Ah > By) +
+		"\nAx = " + Ax + ", Ay = " + Ay + ", Aw = " + Aw + ", Ah = " + Ah +
+		"\nBx = " + Bx + ", By = " + By + ", Bw = " + Bw + ", Bh = " + Bh +
+		"\nTotal = " + value);
+		
+		if (value == true) {
+			System.out.println("dead");
+			return;
 		}
-		
-		Graphics g = getGraphics();
-		
-		g.setColor(0xff0000);
-		
-		if (playScreen.haveTouched == true) {
-			for (int i = 0; i < (levelBinaryParser.idArray.length - 1); i++) {
-				if (levelBinaryParser.idArray[i] == levelBinaryParser.safeObjectID[i]) {
-					
-					
-					
-				} else if (levelBinaryParser.idArray[i] == levelBinaryParser.dangerousObjectID[i]) {
-					
-					
-					
-				}
-			}
-		}
-	} */
+	}
 	
 	public void shipMode(boolean isShip, boolean isNormalGravity, boolean isMiniMode) {
 		
