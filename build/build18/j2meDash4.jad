@@ -1,0 +1,8 @@
+MIDlet-Name: j2meDash
+MIDlet-Version: 1.0.0
+MIDlet-Vendor: RobTop Games AB
+MIDlet-Jar-URL: https://cdn.statically.io/gh/mnp075075/j2meDash@master/build/build18/j2meDash4.jar
+MIDlet-Jar-Size: 354308
+MicroEdition-Profile: MIDP-2.0
+MicroEdition-Configuration: CLDC-1.1
+MIDlet-1: j2meDash,assets/icon.png,j2meDash
