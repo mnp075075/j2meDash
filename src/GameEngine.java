@@ -399,7 +399,7 @@ public class GameEngine extends GameCanvas implements Runnable {
 			
 			for (int i = 0; i < maxValue; i++) {
 				
-				if (levelBinaryParser.xArray[i] < -32 || levelBinaryParser.xArray[] > 128) {
+				if (levelBinaryParser.xArray[i] < -32 || levelBinaryParser.xArray[i] > 128) {
 					checkCollision(levelBinaryParser.idArray[i], 81, y, gamemodeWidthAndHeight[1][2], gamemodeWidthAndHeight[1][3], levelBinaryParser.xArray[i], levelBinaryParser.yArray[i], widthAndHeight[levelBinaryParser.idArray[i]][2], widthAndHeight[levelBinaryParser.idArray[i]][3]);
 					System.out.println("xArray[] = " + levelBinaryParser.xArray[i] + ", yArray[] = " + levelBinaryParser.yArray[i]);
 				}
