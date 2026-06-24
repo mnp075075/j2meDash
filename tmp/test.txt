@@ -1,0 +1,674 @@
+	public void run() {
+		
+		// Graphics graphics = getGraphics();
+		
+		// setTicker(tip); - ONLY ENABLE THIS IF THE EMULATOR BEING USED TO RUN THIS MIDLET ISN'T FREEJ2ME
+		System.out.println("PlayScreen is activated");
+		
+		// System.out.println("Running in: " + Thread.currentThread().getName());
+
+		// this is important
+		/* SPEED COUNT:
+		 * 0.5x speed: 1
+		 * 1x speed: 0
+		 * 2x speed: 2
+		 * 3x speed: 3
+		 * 4x speed: 4
+		 */
+		 
+		int tickCount = 0;
+		
+		while (isRunning) {
+			
+			if (isRunning != true) {
+				break;
+			} else {
+				// continue
+				/* NOTES:
+				 * don't you dare add anything here
+				 * i hate coding like this very much already
+				 * just remember that
+				 */
+			}
+			
+			int spikeX = kForSpikeX - 21;
+			int spikeY = kForSpikeY - 21;
+			
+			int cubeX = iForCube - 21;
+			int cubeY = 287 - jumpHeight - 21;
+
+			
+			// this is just messy
+			// long currentTime = System.currentTimeMillis();
+			
+			tickCount++;
+			
+			System.out.println("tickCount: " + tickCount + " jumpTick: " + jumpTick + " jumpFrame: " + jumpFrame + " speedCount: " + mainApp.speedCount);
+			// System.out.println(" jumpTick: " + jumpTick);
+			// System.out.printlb(" jumpFrame: " + jumpFrame);
+			
+			// System.out.println("kForSpikeX: " + kForSpikeX);
+				
+			Graphics g = getGraphics();
+			//
+			if (backgroundX > 0) backgroundX -= 1;
+			else if (backgroundX == 0) backgroundX = 240;
+			
+			g.drawImage(background, xBackground, 400, Graphics.RIGHT | Graphics.BOTTOM);
+			g.drawImage(background, xBackground + 240, 400, Graphics.RIGHT | Graphics.BOTTOM);
+			
+			if (foregroundX > 0) foregroundX -= 5; // change this to the speed of the actual project or aka mainApp.speedCount
+			else if (foregroundX == 0) foregroundX = 240;
+			
+			g.drawImage(foreground, jForForeground, 425, Graphics.RIGHT | Graphics.BOTTOM);
+			g.drawImage(foreground, jForForeground + 240, 425, Graphics.RIGHT | Graphics.BOTTOM);
+			//
+			
+			if (cubeX < 81) cubeX += 5; // change this to the speed of the actual project or aka mainApp.speedCount
+			
+			if (tickCount == 1000000) tickCount = 0;
+			if (jumpTick == 1000000) tickCount = 0;
+			
+			if (isJumpingOnX == true && isJumpingOnY == true) {
+				
+				gravityAndSizeFlags = 0x11;
+				
+				switch(gravityAndSizeFlags) {
+					case 0x00:
+					varNormalGravity = false;
+					varNormalMode = false;
+					break;
+					case 0x01:
+					varNormalGravity = false;
+					varNormalMode = true;
+					break;
+					case 0x10:
+					varNormalGravity = true;
+					varNormalMode = false;
+					break;
+					case 0x11:
+					varNormalGravity = true;
+					varNormalMode = true;
+					break;
+				}
+
+				if (varNormalGravity == true) normalGravity(true);
+				else normalGravity(false);
+				
+				if (varNormalMode == true) normalMode (true);
+				else normalMode(false);
+				
+				if (jumpFrame > 8 && isJumpingOnX == true && isJumpingOnY == true) {
+					jumpHeight = 0;
+					jumpFrame = 0;
+					jumpTick = 0;
+					isJumpingOnX = false;
+					isJumpingOnY = false;
+				}
+				
+				/* try {
+					Thread.sleep(50);
+				} catch (InterruptedException whatwhat) {
+					// nothing
+				} */
+				
+			} else if (isJumpingOnX == false && isJumpingOnY == false) {
+				g.drawImage(cubeRotate0, iForCube, 287, Graphics.RIGHT | Graphics.BOTTOM);
+				// g.setColor(255,0,0);
+				// g.fillRect(kForSpikeX - 12, kForSpikeY - 11, 3, 7);
+				// System.out.println("HELLO?");
+				// g.fillRect(spikeX, spikeY, spikeW, spikeH);
+				
+				// that above is testing material
+				// please do not touch
+				// end
+			}
+			
+			g.drawImage(spike1_0, kForSpikeX, kForSpikeY, Graphics.RIGHT | Graphics.BOTTOM);
+			g.drawImage(spike1_0, kForSpikeX + 240, kForSpikeY, Graphics.RIGHT | Graphics.BOTTOM);
+			
+			/* for (int i = 0; i < 40; i++) {
+				g.drawImage(objectID[i], 5*i, 300, Graphics.RIGHT | Graphics.BOTTOM);
+				// break;
+			} */
+
+			flushGraphics();
+			
+			switch(mainApp.speedCount) {
+				case 1:
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException error1) { }
+				/* case 1:
+				try {
+					Thread.sleep(5);
+				} catch (InterruptedException error2) { } */
+				break;
+				case 2:
+				try {
+					Thread.sleep(3);
+				} catch (InterruptedException error3) { }
+				break;
+				case 3:
+				try {
+					Thread.sleep(2);
+				} catch (InterruptedException error4) { }
+				break;
+				case 4:
+				try {
+					Thread.sleep(1);
+				} catch (InterruptedException error5) { }
+				break;
+				default: // case 0
+				try {
+					Thread.sleep(5);
+				} catch (InterruptedException error) {
+					// nothing
+				}
+				break;
+			}
+			
+			
+			if (cubeX < (kForSpikeX - 12) + spikeW &&
+			cubeX + cubeW > (kForSpikeX - 12) &&
+			cubeY < (kForSpikeY - 11) + spikeH &&
+			cubeY + cubeH > (kForSpikeY - 11)) { // the old hitbox check
+				
+				haveTouched = true;
+				iForCube = 21;
+				jForForeground = 240;
+				kForSpikeX = 240;
+				kForSpikeY = 287;
+				
+				jumpFrame = 0;
+				jumpHeight = 0;
+				jumpTick = 0;
+				
+				isRunning = false;
+				// System.out.print("\033[H\033[2J");
+				// System.out.flush();
+				
+				mainApp.showGameOverScreen();
+				
+			}
+			
+		}
+		
+	}
+	
+	public void paint(Graphics g) {
+		// nothing
+	}
+
+	public void levelDirectoryLoader() {
+
+		dirLoader = new TextBox("Load the level data from your directory. You may use \"file:///\" to type your file name.", null, 256, TextField.ANY);
+		
+		String path = dirLoader.getString();
+		
+		successfully = new Alert("Level data found","Successfully found the level data at: " + path,null,AlertType.INFO);
+		failed = new Alert("Level data missing","Cannot find the level data at: " + path,null,AlertType.INFO);
+
+		dirLoader.addCommand(OK);
+		dirLoader.addCommand(EXIT);
+
+		dirLoader.setCommandListener(this);
+		Display.getDisplay(mainApp).setCurrent(dirLoader);
+		
+	}
+	
+	public void flagChooser() {
+		
+		FlagChooser = new Form("Flag Value Chooser");
+		FlagChooser.append("This is for changing the configuration for your gameplay");
+		
+		FlagChooser.addCommand(GravityAndSize);
+		FlagChooser.addCommand(Mode);
+		FlagChooser.addCommand(Speed);
+		FlagChooser.addCommand(Exit);
+		
+		gravityAndSize = new TextBox("Value:", null, 2, TextField.NUMERIC);
+		mode = new TextBox("Value:", null, 1, TextField.NUMERIC);
+		speed = new TextBox("Value:", null, 1, TextField.NUMERIC);
+		
+		gravityAndSize.addCommand(Back);
+		gravityAndSize.addCommand(Save);
+		
+		mode.addCommand(Back);
+		mode.addCommand(Save);
+		
+		speed.addCommand(Back);
+		speed.addCommand(Save);
+		
+		String savedMessage = "The value has been saved";
+		String errorMessageGas = "The value you have typed is invalid\n" +
+								 "For Gravity&Size, valid values are:\n" +
+								 "0x00: flippedGravity+miniMode(int 0)\n" +
+								 "0x01: flippedGravity+normalMode(int 1)\n" +
+								 "0x10: normalGravity+miniMode(int 16)\n" +
+								 "0x11: normalGravity+normalMode(int 17)\n";
+								 
+		String errorMessageM = "The value you have typed is invalid\n" +
+							   "For Mode, valid values are:\n" +
+							   "0x00: cube (int 0)\n 0x01: ship (int 1)\n" +
+							   "0x02: ball (int 2)\n 0x03: ufo (int 3)\n" +
+							   "0x04: wave (int 4)\n 0x05: robot (int 5)\n" +
+							   "0x06: spider (int 6)\n 0x07: swing (unused)\n";
+		
+		String errorMessageS = "The value you have typed is invalid\n" +
+							   "For Speed, valid values are:\n" +
+							   "0x00: 1x speed (int 0)\n0x01: 0.5x speed (int 1)\n" +
+							   "0x02: 2x speed (int 2)\n0x03: 3x speed (int 3)\n" +
+							   "0x04: 4x speed (int 4)";
+		
+		saved = new Alert("Saved successfully", savedMessage, null, AlertType.INFO);
+		errorGas = new Alert("Failed to save", errorMessageGas, null, AlertType.INFO);
+		errorM = new Alert("Failed to save", errorMessageM, null, AlertType.INFO);
+		errorS = new Alert("Failed to save", errorMessageS, null, AlertType.INFO);
+		
+		tForNoReason = new Ticker("YOUR COPY OF GDONJAVA HAS BEEN CONFISCATED, PLEASE RETURN THIS TO THE SELLER IMMEDIATELY");
+		FlagChooser.setTicker(tForNoReason);
+		
+		Display.getDisplay(mainApp).setCurrent(FlagChooser);
+		
+		FlagChooser.setCommandListener(this);
+		gravityAndSize.setCommandListener(this);
+		mode.setCommandListener(this);
+		speed.setCommandListener(this);
+		
+		
+	}
+	
+	public void normalGravity(boolean isNormalGravity) {
+		// this will handle the gravity
+
+		Graphics g = getGraphics();
+		
+		if (g == null) {
+			// destroyApp(true);
+			// notifyDestroyed();
+			
+			return;
+		}
+
+		if (isNormalGravity == true) {
+
+			if (isJumpingOnX == true && isJumpingOnY == true) {
+				// something
+
+				int drawIndexPositive = (jumpFrame > 8) ? 0 : jumpFrame;
+
+				// System.out.println(drawIndexPositive);
+
+				if (cubeRotatePositive[drawIndexPositive] != null) {
+					g.drawImage(cubeRotatePositive[drawIndexPositive], iForCube, 287 - jumpHeight, Graphics.RIGHT | Graphics.BOTTOM);
+				} else {
+					System.out.println("frame" + jumpFrame + "is missing");
+				}
+
+				switch(jumpFrame) {
+					
+					// case 0: jumpHeight = 0; break; // i know there's a default one
+				
+					case 1:
+				
+					jumpHeight += parabola[0]; /* tickCount += -1 ;*/ 
+					switch(mainApp.speedCount) {
+						case 1: jumpTick++; break;
+						case 2: jumpTick += 4; break;
+						case 3: jumpTick += 8; break;
+						case 4: jumpTick += 16; break;
+						default: jumpTick += 2; break;
+					}
+					System.out.print("case 1 ");  
+					break;
+				
+					case 2: 
+				
+					jumpHeight += parabola[1]; 
+					switch(mainApp.speedCount) {
+						case 1: jumpTick++; break;
+						case 2: jumpTick += 4; break;
+						case 3: jumpTick += 8; break;
+						case 4: jumpTick += 16; break;
+						default: jumpTick += 2; break;
+					}
+					System.out.print("case 2 ");  
+					break;
+				
+					case 3: 
+					
+					jumpHeight += parabola[2]; 
+					switch(mainApp.speedCount) {
+						case 1: jumpTick++; break;
+						case 2: jumpTick += 4; break;
+						case 3: jumpTick += 8; break;
+						case 4: jumpTick += 16; break;
+						default: jumpTick += 2; break;
+					}
+					System.out.print("case 3 ");  
+					break;
+					
+					case 4: 
+					
+					jumpHeight += parabola[3]; 
+					switch(mainApp.speedCount) {
+						case 1: jumpTick++; break;
+						case 2: jumpTick += 4; break;
+						case 3: jumpTick += 8; break;
+						case 4: jumpTick += 16; break;
+						default: jumpTick += 2; break;
+					}
+					System.out.print("case 4 ");  
+					break;
+					
+					case 5: 
+					
+					jumpHeight -= parabola[3]; 
+					switch(mainApp.speedCount) {
+						case 1: jumpTick++; break;
+						case 2: jumpTick += 4; break;
+						case 3: jumpTick += 8; break;
+						case 4: jumpTick += 16; break;
+						default: jumpTick += 2; break;
+					}
+					System.out.print("case 5 "); 
+					break;
+					
+					case 6: 
+					
+					jumpHeight -= parabola[2]; 
+					switch(mainApp.speedCount) {
+						case 1: jumpTick++; break;
+						case 2: jumpTick += 4; break;
+						case 3: jumpTick += 8; break;
+						case 4: jumpTick += 16; break;
+						default: jumpTick += 2; break;
+					}
+					System.out.print("case 6 "); 
+					break;
+					
+					case 7: 
+					
+					jumpHeight -= parabola[1]; 
+					switch(mainApp.speedCount) {
+						case 1: jumpTick++; break;
+						case 2: jumpTick += 4; break;
+						case 3: jumpTick += 8; break;
+						case 4: jumpTick += 16; break;
+						default: jumpTick += 2; break;
+					}
+					System.out.print("case 7 ");  
+					break;
+					
+					case 8: 
+					
+					jumpHeight -= parabola[0]; 
+					switch(mainApp.speedCount) {
+						case 1: jumpTick++; break;
+						case 2: jumpTick += 4; break;
+						case 3: jumpTick += 8; break;
+						case 4: jumpTick += 16; break;
+						default: jumpTick += 2; break;
+					}
+					System.out.print("case 8 ");  
+					break;
+					
+					default: 
+					
+					jumpHeight = 0; 
+					jumpTick = 0; 
+
+					System.out.print("case 0 ");
+					break; // just in case
+						
+				}
+
+				
+			} /* else if (isJumpingOnX == false && isJumpingOnY == false) {
+				g.drawImage(cubeRotate[0], iForCube, 287, Graphics.RIGHT | Graphics.BOTTOM);
+				
+			} */
+
+			switch(mainApp.speedCount) {
+				case 1: 
+				if (jumpTick >= 4) {
+					jumpFrame++;
+					jumpTick = 0;
+				} // else if (tickCount % 3 != 0) {
+				// return;
+				// }
+				
+				break;
+				
+				case 2:
+				if (jumpTick >= 16) {
+					jumpFrame++;
+					jumpTick = 0;
+				}
+				
+				break;
+				
+				case 3:
+				if (jumpTick >= 32) {
+					jumpFrame++;
+					jumpTick = 0;
+				}
+				
+				break;
+				
+				case 4:
+				if (jumpTick >= 64) {
+					jumpFrame++;
+					jumpTick = 0;
+				}
+				
+				break;
+				
+				default: // case 0
+				if (jumpTick >= 8) {
+					jumpFrame++;
+					jumpTick = 0;
+				}
+				
+				break;
+				
+			}
+
+		} else if (isNormalGravity == false) {
+
+			if (isJumpingOnX == true && isJumpingOnY == true) {
+				// something
+
+				int drawIndexNegative = (jumpFrame > 8) ? 0 : jumpFrame;
+
+				if (cubeRotateNegative[drawIndexNegative] != null) {
+					g.drawImage(cubeRotateNegative[drawIndexNegative], iForCube, 287 - jumpHeight, Graphics.RIGHT | Graphics.BOTTOM);
+				} else {
+					System.out.println("frame" + jumpFrame + "is missing");
+				}
+
+				switch(jumpFrame) {
+				
+					// case 0: jumpHeight = 0; break; // i know there's a default one
+				
+					case 1:
+				
+					jumpHeight -= parabola[0]; /* tickCount += -1 ;*/ 
+					switch(mainApp.speedCount) {
+						case 1: jumpTick++; break;
+						case 2: jumpTick += 4; break;
+						case 3: jumpTick += 8; break;
+						case 4: jumpTick += 16; break;
+						default: jumpTick += 2; break;
+					}
+					System.out.print("case -1 ");  
+					break;
+				
+					case 2: 
+				
+					jumpHeight -= parabola[1]; 
+					switch(mainApp.speedCount) {
+						case 1: jumpTick++; break;
+						case 2: jumpTick += 4; break;
+						case 3: jumpTick += 8; break;
+						case 4: jumpTick += 16; break;
+						default: jumpTick += 2; break;
+					}
+					System.out.print("case -2 ");  
+					break;
+				
+					case 3: 
+					
+					jumpHeight -= parabola[2]; 
+					switch(mainApp.speedCount) {
+						case 1: jumpTick++; break;
+						case 2: jumpTick += 4; break;
+						case 3: jumpTick += 8; break;
+						case 4: jumpTick += 16; break;
+						default: jumpTick += 2; break;
+					}
+					System.out.print("case -3 ");  
+					break;
+					
+					case 4: 
+					
+					jumpHeight -= parabola[3]; 
+					switch(mainApp.speedCount) {
+						case 1: jumpTick++; break;
+						case 2: jumpTick += 4; break;
+						case 3: jumpTick += 8; break;
+						case 4: jumpTick += 16; break;
+						default: jumpTick += 2; break;
+					}
+					System.out.print("case -4 ");  
+					break;
+					
+					case 5: 
+					
+					jumpHeight += parabola[3]; 
+					switch(mainApp.speedCount) {
+						case 1: jumpTick++; break;
+						case 2: jumpTick += 4; break;
+						case 3: jumpTick += 8; break;
+						case 4: jumpTick += 16; break;
+						default: jumpTick += 2; break;
+					}
+					System.out.print("case -5 "); 
+					break;
+					
+					case 6: 
+					
+					jumpHeight += parabola[2]; 
+					switch(mainApp.speedCount) {
+						case 1: jumpTick++; break;
+						case 2: jumpTick += 4; break;
+						case 3: jumpTick += 8; break;
+						case 4: jumpTick += 16; break;
+						default: jumpTick += 2; break;
+					}
+					System.out.print("case -6 "); 
+					break;
+					
+					case 7: 
+					
+					jumpHeight += parabola[1]; 
+					switch(mainApp.speedCount) {
+						case 1: jumpTick++; break;
+						case 2: jumpTick += 4; break;
+						case 3: jumpTick += 8; break;
+						case 4: jumpTick += 16; break;
+						default: jumpTick += 2; break;
+					}
+					System.out.print("case -7 ");  
+					break;
+					
+					case 8: 
+					
+					jumpHeight += parabola[0]; 
+					switch(mainApp.speedCount) {
+						case 1: jumpTick++; break;
+						case 2: jumpTick += 4; break;
+						case 3: jumpTick += 8; break;
+						case 4: jumpTick += 16; break;
+						default: jumpTick += 2; break;
+					}
+					System.out.print("case -8 ");  
+					break;
+					
+					default: 
+					
+					jumpHeight = 0; 
+					jumpTick = 0; 
+					System.out.print("case 0 ");
+					break; // just in case
+					
+				}
+
+			} /* else if (isJumpingOnX == false && isJumpingOnY == false) {
+				g.drawImage(cubeRotate[0], iForCube, 287, Graphics.RIGHT | Graphics.BOTTOM);
+				
+			} */
+
+			switch(mainApp.speedCount) {
+				case 1: 
+				if (jumpTick >= 4) {
+					jumpFrame++;
+					jumpTick = 0;
+				} // else if (tickCount % 3 != 0) {
+				// return;
+				// }
+				
+				break;
+				
+				case 2:
+				if (jumpTick >= 16) {
+					jumpFrame++;
+					jumpTick = 0;
+				}
+				
+				break;
+				
+				case 3:
+				if (jumpTick >= 32) {
+					jumpFrame++;
+					jumpTick = 0;
+				}
+				
+				break;
+				
+				case 4:
+				if (jumpTick >= 64) {
+					jumpFrame++;
+					jumpTick = 0;
+				}
+				
+				break;
+				
+				default: // case 0
+				if (jumpTick >= 8) {
+					jumpFrame++;
+					jumpTick = 0;
+				}
+				
+				break;
+						
+			}
+
+		} /* else if (isNormalGravity == null) {
+			
+			System.out.println("invalid");
+			return;
+	
+		} */
+	}
+
+	public void normalMode(boolean isNormalMode) {
+		// this will handle the gamemode's size
+
+		if (isNormalMode == true) {
+			// something
+		} else {
+			// something
+		}
+	}

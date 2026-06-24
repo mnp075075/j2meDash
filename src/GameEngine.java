@@ -32,6 +32,7 @@ public class GameEngine extends GameCanvas implements Runnable {
 	private boolean oneShotPressed = false;
 	private boolean canPress = true;
 	private boolean normalGravity = true;
+	private int gamemode = -1;
 	private int y = 287;
 	
 	// components for the ship gamemode
@@ -381,7 +382,7 @@ public class GameEngine extends GameCanvas implements Runnable {
 			maxValue = levelBinaryParser.idArray.length;
 		}
 		
-		try { Thread.sleep(5000); } catch (Exception e) { e.printStackTrace(); }
+		// try { Thread.sleep(5000); } catch (Exception e) { e.printStackTrace(); }
 		
 		while (isRunning) {
 			
@@ -395,16 +396,46 @@ public class GameEngine extends GameCanvas implements Runnable {
 			printObjectMoving(5);
 			// -------------------------- //
 			
-			flushGraphics();
-			
 			for (int i = 0; i < maxValue; i++) {
 				
-				if (levelBinaryParser.xArray[i] < -32 || levelBinaryParser.xArray[i] > 128) {
-					checkCollision(levelBinaryParser.idArray[i], 81, y, gamemodeWidthAndHeight[1][2], gamemodeWidthAndHeight[1][3], levelBinaryParser.xArray[i], levelBinaryParser.yArray[i], widthAndHeight[levelBinaryParser.idArray[i]][2], widthAndHeight[levelBinaryParser.idArray[i]][3]);
-					System.out.println("xArray[] = " + levelBinaryParser.xArray[i] + ", yArray[] = " + levelBinaryParser.yArray[i]);
+				if (levelBinaryParser.xArray[i] >= -60 && levelBinaryParser.xArray[i] <= 300) {
+					
+					int currentID = levelBinaryParser.idArray[i];
+					int safeID = -1;
+					int hazardID = -1;
+					
+					for (int j = 0; j < levelBinaryParser.safeObjectID.length; j++) {
+						if (currentID == levelBinaryParser.safeObjectID[j]) {
+							safeID = currentID;
+							break;
+						}
+					}
+					
+					for (int j = 0; j < levelBinaryParser.dangerousObjectID.length; j++) {
+						if (currentID == levelBinaryParser.dangerousObjectID[j]) {
+							hazardID = currentID;
+							break;
+						}
+					}
+					
+					int playerX = 81;
+					int playerY = y;
+					int playerBodyW = gamemodeWidthAndHeight[gamemode][2];
+					int playerBodyH = gamemodeWidthAndHeight[gamemode][3];
+					int playerHazardW = gamemodeWidthAndHeight[gamemode][0];
+					int playerHazardH = gamemodeWidthAndHeight[gamemode][1];
+					
+					int objectX = levelBinaryParser.xArray[i];
+					int objectY = levelBinaryParser.yArray[i];
+					int objectW = widthAndHeight[levelBinaryParser.idArray[i]][2];
+					int objectH = widthAndHeight[levelBinaryParser.idArray[i]][3];
+					
+					checkCollision(safeID, hazardID, playerX, playerY, playerBodyW, playerBodyH, playerHazardW, playerHazardH, objectX, objectY, objectW, objectH);
 				}
 				
 			}
+			
+			flushGraphics();
 			
 			updateState();
 		} 
@@ -412,30 +443,66 @@ public class GameEngine extends GameCanvas implements Runnable {
 	}
 	
 	public void checkCollision(
-	int id, int Ax, int Ay, int Aw, int Ah,
-	int Bx, int By, int Bw, int Bh
+	int safeID, int hazardID, int Ax, int Ay, int AwBody, int AhBody,
+	int AwHazard, int AhHazard, int Bx, int By, int Bw, int Bh
 	) {
 		
-		boolean value = ((Ax < Bx + Bw) && (Ax + Aw > Bx) && (Ay < By + Bh) && (Ay + Ah > By));
+		boolean valueBody = ((Ax < Bx + Bw) && (Ax + AwBody > Bx) && (Ay < By + Bh) && (Ay + AhBody > By));
+		boolean valueHazard = ((Ax < Bx + Bw) && (Ax + AwHazard > Bx) && (Ay < By + Bh) && (Ay + AhHazard > By));
+		
+		int[] blockID = {1,2,3,4};
+		int[] speedID = {13,14,15,16,17};
+		int[] gamePortalID = {18,19,20,21,22,23,24};
 		
 		System.out.println(
-		"Ax < Bx + Bw = " + (Ax < Bx + Bw) +
-		"\nAx + Aw > Bx = " + (Ax + Aw > Bx) +
+		"========== AwBody + AhBody ==========" +
+		"\nAx < Bx + Bw = " + (Ax < Bx + Bw) +
+		"\nAx + AwBody > Bx = " + (Ax + AwBody > Bx) +
 		"\nAy < By + Bh = " + (Ay < By + Bh) +
-		"\nAy + Ah > By = " + (Ay + Ah > By) +
-		"\nAx = " + Ax + ", Ay = " + Ay + ", Aw = " + Aw + ", Ah = " + Ah +
-		"\nBx = " + Bx + ", By = " + By + ", Bw = " + Bw + ", Bh = " + Bh +
-		"\nTotal = " + value);
+		"\nAy + AhBody > By = " + (Ay + AhBody > By) +
+		"\n======== AwHazard + AhHazard ========" +
+		"\nAx < Bx + Bw = " + (Ax < Bx + Bw) +
+		"\nAx + AwBody > Bx = " + (Ax + AwHazard > Bx) +
+		"\nAy < By + Bh = " + (Ay < By + Bh) +
+		"\nAy + AhBody > By = " + (Ay + AhHazard > By) +
+		"\nAx = " + Ax + ", Ay = " + Ay + ", AwBody = " + AwBody + ", AhBody = " + AhBody +
+		"\nAwHazard = " + AwHazard + ", AhHazard = " + AhHazard + "Bx = " + Bx + ", By = " + By + ", Bw = " + Bw + ", Bh = " + Bh +
+		"\nTotal - Body = " + valueBody + ", Total - Hazard = " + valueHazard);
 		
-		if (value == true) {
-			System.out.println("dead");
-			return;
+		if (valueHazard == true && hazardID != -1) {
+			System.out.println("died");
+			mainApp.showGameOverScreen();
+		} else if (valueBody == true && safeID != -1) {
+			System.out.println("survived");
+			
+			if (safeID >= 1 && safeID <= 4) {
+				y = By - AhBody;
+			}
+			
+			/* switch (speedID) {
+				case 0: mainApp.speedCount = 0; break;
+				case 1: mainApp.speedCount = 1; break;
+				case 2: mainApp.speedCount = 2; break;
+				case 3: mainApp.speedCount = 3; break;
+				case 4: mainApp.speedCount = 4; break;
+			}
+			
+			switch (gamePortalID) {
+				case 0: break;
+				case 1: break;
+				case 2: break;
+				case 3: break;
+				case 4: break;
+				case 5: break;
+				case 6: break;
+			} */
 		}
 	}
 	
 	public void shipMode(boolean isShip, boolean isNormalGravity, boolean isMiniMode) {
 		
 		Graphics g = getGraphics();
+		gamemode = 1;
 		int[] parabola = {1,2,3,4,0};
 		int[] parabolaMini = {1,2,4,8,0};
 		int lastSavedValue = 0;
@@ -1286,34 +1353,41 @@ public class GameEngine extends GameCanvas implements Runnable {
 		// updateState(); REMEMBER TO ADD UPDATE STATE FOR THIS PARTICULAR GAMEMODE
 	}
 	
+	public void cubeMode(boolean isCube, boolean isNormalGravity, isMiniMode) {
+		
+		
+		
+		
+	}
+	
 	public void updateState() {
 		switch(mainApp.speedCount) {
-				case 1:
-				try {
-					Thread.sleep(10);
-				} catch (InterruptedException error1) { }
-				break;
-				case 2:
-				try {
-					Thread.sleep(3);
-				} catch (InterruptedException error3) { }
-				break;
-				case 3:
-				try {
-					Thread.sleep(2);
-				} catch (InterruptedException error4) { }
-				break;
-				case 4:
-				try {
-					Thread.sleep(1);
-				} catch (InterruptedException error5) { }
-				break;
-				default: // case 0
-				try {
-					Thread.sleep(5);
-				} catch (InterruptedException error) { }
-				break;
-			}
+			case 1:
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException error1) { }
+			break;
+			case 2:
+			try {
+				Thread.sleep(3);
+			} catch (InterruptedException error3) { }
+			break;
+			case 3:
+			try {
+				Thread.sleep(2);
+			} catch (InterruptedException error4) { }
+			break;
+			case 4:
+			try {
+				Thread.sleep(1);
+			} catch (InterruptedException error5) { }
+			break;
+			default: // case 0
+			try {
+				Thread.sleep(5);
+			} catch (InterruptedException error) { }
+			break;
+		}
 	}
 	
 	protected void pointerPressed(int x, int y) {
