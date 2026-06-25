@@ -23,7 +23,7 @@ public class GameEngine extends GameCanvas implements Runnable {
 								{21,3,21,3}, {21,5,21,5}, {21,5,21,5}, {21,21,21,21},			// 36,37,38,39
 								{21,21,21,21}	};												// 40
 								
-	private int[][] gamemodeWidthAndHeight = {{21,21,10,10},{21,30,10,15},{},{},{},{}};
+	private int[][] gamemodeWidthAndHeight = {{21,21,10,10},{21,21,10,10},{16,16,8,8},{21,21,10,10},{21,21,10,10},{21,21,10,10}}; // add the mini gamemode w and h here
 	private Image spreadsheet;
 	
 	// global components for all gamemodes
@@ -33,7 +33,9 @@ public class GameEngine extends GameCanvas implements Runnable {
 	private boolean canPress = true;
 	private boolean normalGravity = true;
 	private int gamemode = -1;
+	private int x = 81;
 	private int y = 287;
+	private int velocityY = 0;
 	
 	// components for the ship gamemode
 	private boolean havePassed = false;
@@ -106,6 +108,7 @@ public class GameEngine extends GameCanvas implements Runnable {
 	private int timer = 0;
 	
 	// temporary components
+	// empty
 	
 	public int[] srcID = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40};
 	
@@ -150,7 +153,6 @@ public class GameEngine extends GameCanvas implements Runnable {
 	}
 	
 	public void showNotify() {
-		
 		isRunning = true;
 		gameTest = new Thread(this);
 		gameTest.start();
@@ -391,7 +393,7 @@ public class GameEngine extends GameCanvas implements Runnable {
 			// add the assets for ship with gravity inverted and mini ship with gravity inverted and normal
 			
 			// TEST SANDBOX //
-			shipMode(true, true, false);
+			ufoMode(true, true, false);
 			
 			printObjectMoving(5);
 			// -------------------------- //
@@ -418,7 +420,7 @@ public class GameEngine extends GameCanvas implements Runnable {
 						}
 					}
 					
-					int playerX = 81;
+					int playerX = x;
 					int playerY = y;
 					int playerBodyW = gamemodeWidthAndHeight[gamemode][2];
 					int playerBodyH = gamemodeWidthAndHeight[gamemode][3];
@@ -447,7 +449,10 @@ public class GameEngine extends GameCanvas implements Runnable {
 	int AwHazard, int AhHazard, int Bx, int By, int Bw, int Bh
 	) {
 		
-		boolean valueBody = ((Ax < Bx + Bw) && (Ax + AwBody > Bx) && (Ay < By + Bh) && (Ay + AhBody > By));
+		// boolean valueBody = ((Ax < Bx + Bw) && (Ax + AwBody > Bx) && (Ay < By + Bh) && (Ay + AhBody > By));
+		// boolean valueHazard = ((Ax < Bx + Bw) && (Ax + AwHazard > Bx) && (Ay < By + Bh) && (Ay + AhHazard > By));
+		
+		boolean valueBody = ((Ax < Bx + Bw) && (Ax + AwBody > Bx) && (Ay < By + Bh) && (Ay + AhHazard > By));
 		boolean valueHazard = ((Ax < Bx + Bw) && (Ax + AwHazard > Bx) && (Ay < By + Bh) && (Ay + AhHazard > By));
 		
 		int[] blockID = {1,2,3,4};
@@ -476,26 +481,42 @@ public class GameEngine extends GameCanvas implements Runnable {
 			System.out.println("survived");
 			
 			if (safeID >= 1 && safeID <= 4) {
-				y = By - AhBody;
+				if (gamemode == 2) {
+					System.out.println("died");
+					hideNotify();
+					mainApp.showGameOverScreen();
+				}
+				
+				if (gamemode == 4) {
+					if (velocityY >= 0) {
+						y = By - AhHazard;
+					} else {
+						y = By + Bh;
+					}
+					velocityY = 0;
+					pressedCounter = 0;
+					return;
+				}
+				
+				int overlapY = (Ay + AhHazard) - By;
+				int tolerance = 4; // pixels, probably
+				
+				if (overlapY > tolerance) {
+					System.out.println("died");
+					hideNotify();
+					mainApp.showGameOverScreen();
+					return;
+				} else {
+					y = By - AhHazard;
+					velocityY = 0;
+					pressedCounter = 0;
+				}
+				
 			}
 			
-			/* switch (speedID) {
-				case 0: mainApp.speedCount = 0; break;
-				case 1: mainApp.speedCount = 1; break;
-				case 2: mainApp.speedCount = 2; break;
-				case 3: mainApp.speedCount = 3; break;
-				case 4: mainApp.speedCount = 4; break;
+			if (safeID >= 13 && safeID <= 17) {
+				mainApp.speedCount = safeID - 13;
 			}
-			
-			switch (gamePortalID) {
-				case 0: break;
-				case 1: break;
-				case 2: break;
-				case 3: break;
-				case 4: break;
-				case 5: break;
-				case 6: break;
-			} */
 		}
 	}
 	
@@ -509,6 +530,7 @@ public class GameEngine extends GameCanvas implements Runnable {
 		int index = 0;
 		int n = (tick % 2 == 0) ? 0 : 1;
 		int deltaY = 0;
+		velocityY = deltaY;
 		
 		if (isShip == true && isMiniMode == false) {
 			boolean onGround = (y == 287) ? true : false;
@@ -682,80 +704,80 @@ public class GameEngine extends GameCanvas implements Runnable {
 				y = 287;
 				leftoverEnergy = false;
 				havePassed = false;
-				g.drawImage(ship, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawImage(ship, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 			} else if (y <= 40) {
 				y = 40;
 				leftoverEnergy = false;
 				havePassed = false;
-				g.drawImage(ship, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawImage(ship, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 			} else {
 				if (isNormalGravity == true) {
 					if (deltaY < 0) {
 						switch (Math.abs(deltaY)) {
 							case 1:
-								g.drawImage(ship_1, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+								g.drawImage(ship_1, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 								break;
 							case 2:
-								g.drawImage(ship_2, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+								g.drawImage(ship_2, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 								break;
 							case 3:
-								g.drawImage(ship_3, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+								g.drawImage(ship_3, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 								break;
 							case 4:
-								g.drawImage(ship_4, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+								g.drawImage(ship_4, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 								break;
 						}
 					} else if (deltaY > 0) {
 						switch (deltaY) {
 							case 1:
-								g.drawImage(ship_1, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+								g.drawImage(ship_1, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 								break;
 							case 2:
-								g.drawImage(ship_2, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+								g.drawImage(ship_2, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 								break;
 							case 3:
-								g.drawImage(ship_3, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+								g.drawImage(ship_3, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 								break;
 							case 4:
-								g.drawImage(ship_4, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+								g.drawImage(ship_4, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 								break;
 						}
 					} else if (deltaY == 0) {
-						g.drawImage(ship, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+						g.drawImage(ship, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 					}
 				} else { // change this one
 					if (deltaY > 0) {
 						switch (deltaY) {
 							case 1:
-								g.drawImage(ship_1, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+								g.drawImage(ship_1, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 								break;
 							case 2:
-								g.drawImage(ship_2, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+								g.drawImage(ship_2, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 								break;
 							case 3:
-								g.drawImage(ship_3, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+								g.drawImage(ship_3, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 								break;
 							case 4:
-								g.drawImage(ship_4, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+								g.drawImage(ship_4, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 								break;
 						}
 					} else if (deltaY < 0) {
 						switch (Math.abs(deltaY)) {
 							case 1:
-								g.drawImage(ship_1, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+								g.drawImage(ship_1, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 								break;
 							case 2:
-								g.drawImage(ship_2, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+								g.drawImage(ship_2, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 								break;
 							case 3:
-								g.drawImage(ship_3, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+								g.drawImage(ship_3, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 								break;
 							case 4:
-								g.drawImage(ship_4, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+								g.drawImage(ship_4, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 								break;
 						}
 					} else if (deltaY == 0) {
-						g.drawImage(ship, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+						g.drawImage(ship, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 					}
 				}
 			}
@@ -932,80 +954,80 @@ public class GameEngine extends GameCanvas implements Runnable {
 				y = 287;
 				leftoverEnergy = false;
 				havePassed = false;
-				g.drawImage(ship, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawImage(ship, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 			} else if (y <= 40) {
 				y = 40;
 				leftoverEnergy = false;
 				havePassed = false;
-				g.drawImage(ship, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawImage(ship, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 			} else {
 				if (isNormalGravity == true) {
 					if (deltaY < 0) {
 						switch (Math.abs(deltaY)) {
 							case 1:
-								g.drawImage(ship_1, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+								g.drawImage(ship_1, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 								break;
 							case 2:
-								g.drawImage(ship_2, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+								g.drawImage(ship_2, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 								break;
 							case 4:
-								g.drawImage(ship_3, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+								g.drawImage(ship_3, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 								break;
 							case 8:
-								g.drawImage(ship_4, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+								g.drawImage(ship_4, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 								break;
 						}
 					} else if (deltaY > 0) {
 						switch (deltaY) {
 							case 1:
-								g.drawImage(ship_1, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+								g.drawImage(ship_1, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 								break;
 							case 2:
-								g.drawImage(ship_2, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+								g.drawImage(ship_2, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 								break;
 							case 4:
-								g.drawImage(ship_3, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+								g.drawImage(ship_3, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 								break;
 							case 8:
-								g.drawImage(ship_4, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+								g.drawImage(ship_4, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 								break;
 						}
 					} else if (deltaY == 0) {
-						g.drawImage(ship, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+						g.drawImage(ship, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 					}
 				} else { // change this one
 					if (deltaY > 0) {
 						switch (deltaY) {
 							case 1:
-								g.drawImage(ship_1, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+								g.drawImage(ship_1, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 								break;
 							case 2:
-								g.drawImage(ship_2, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+								g.drawImage(ship_2, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 								break;
 							case 4:
-								g.drawImage(ship_3, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+								g.drawImage(ship_3, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 								break;
 							case 8:
-								g.drawImage(ship_4, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+								g.drawImage(ship_4, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 								break;
 						}
 					} else if (deltaY < 0) {
 						switch (Math.abs(deltaY)) {
 							case 1:
-								g.drawImage(ship_1, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+								g.drawImage(ship_1, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 								break;
 							case 2:
-								g.drawImage(ship_2, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+								g.drawImage(ship_2, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 								break;
 							case 4:
-								g.drawImage(ship_3, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+								g.drawImage(ship_3, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 								break;
 							case 8:
-								g.drawImage(ship_4, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+								g.drawImage(ship_4, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 								break;
 						}
 					} else if (deltaY == 0) {
-						g.drawImage(ship, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+						g.drawImage(ship, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 					}
 				}
 			}
@@ -1026,6 +1048,7 @@ public class GameEngine extends GameCanvas implements Runnable {
 	public void waveMode(boolean isWave, boolean isNormalGravity, boolean isMiniMode) {
 		
 		Graphics g = getGraphics();
+		gamemode = 2;
 		
 		if (isWave == true && isMiniMode == false) {
 			
@@ -1063,12 +1086,12 @@ public class GameEngine extends GameCanvas implements Runnable {
 			if (y <= 40) y = 40;
 			
 			if (y >= 287 || y <= 40) {
-				g.drawImage(wave, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawImage(wave, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 			} else {
 				if (isUp == true && isDown == false) {
-					g.drawImage(wave_up, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+					g.drawImage(wave_up, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 				} else if (isDown = true && isUp == false) {
-					g.drawImage(wave_down, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+					g.drawImage(wave_down, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 				}
 			}
 			
@@ -1086,7 +1109,7 @@ public class GameEngine extends GameCanvas implements Runnable {
 				case 4: shift = 2; break;
 			}
 			
-			int verticalDelta = (shift * 1732) / 1000;
+			int verticalDelta = (shift * 2236) / 1000;
 			
 			if (isNormalGravity == true) {
 				if (isPressed == true && isReleased == false) {
@@ -1114,12 +1137,12 @@ public class GameEngine extends GameCanvas implements Runnable {
 			if (y <= 40) y = 40;
 			
 			if (y >= 287 || y <= 40) {
-				g.drawImage(wave, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawImage(wave, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 			} else {
 				if (isUp == true && isDown == false) {
-					g.drawImage(wave_up, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+					g.drawImage(wave_up, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 				} else if (isDown = true && isUp == false) {
-					g.drawImage(wave_down, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+					g.drawImage(wave_down, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 				}
 			}
 			
@@ -1135,6 +1158,7 @@ public class GameEngine extends GameCanvas implements Runnable {
 		
 		int[] parabola = {1,2,4,8};
 		Graphics g = getGraphics();
+		gamemode = 3;
 		
 		// System.out.println("normalGravity = " + normalGravity);
 		if (passed == false) {
@@ -1155,21 +1179,21 @@ public class GameEngine extends GameCanvas implements Runnable {
 			int index = (pressedCounter < 5) ? 0 : (pressedCounter < 10) ? 1 : (pressedCounter < 20) ? 2 : 3;
 			
 			if (isNormalGravity == true) {
-				if (normalGravity == false) {y += parabola[index];}
-				else {y -= parabola[index];}
+				if (normalGravity == false) {velocityY = y += parabola[index];}
+				else {velocityY = y -= parabola[index];}
 			} else {
-				if (normalGravity == false) {y -= parabola[index];}
-				else {y += parabola[index];}
+				if (normalGravity == false) {velocityY = y -= parabola[index];}
+				else {velocityY = y += parabola[index];}
 			}
 			
 			if (y >= 287) {
 				y = 287;
-				g.drawImage(ball, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawImage(ball, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 			} else if (y <= 100) {
 				y = 100;
-				g.drawImage(ball, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawImage(ball, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 			} else {
-				g.drawImage(ball, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawImage(ball, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 			}
 			
 			// flushGraphics();
@@ -1179,37 +1203,32 @@ public class GameEngine extends GameCanvas implements Runnable {
 			updateState();
 				
 		} else if (isBall == true && isMiniMode == true) {
-			if (oneShotPressed == true) {
-				if (canPress == true) {
-					if (y >= 287 || y <= 100) {
-						if (normalGravity == true) {
-							normalGravity = false;
-						} else {
-							normalGravity = true;
-						}
-						
-						canPress = false;
-						pressedCounter = 0;
-					}
+			if (oneShotPressed == true && canPress == true) {
+				if (y >= 287 || y <= 100) {
+					normalGravity = !normalGravity;
+					canPress = false;
+					pressedCounter = 0;
 				}
 			}
 					
 			int index = (pressedCounter < 3) ? 0 : (pressedCounter < 6) ? 1 : (pressedCounter < 12) ? 2 : 3;
 			
-			if (normalGravity == false) {
-				y -= parabola[index];
-			} else if (normalGravity == true) {
-				y += parabola[index];
+			if (isNormalGravity == true) {
+				if (normalGravity == false) {velocityY = y += parabola[index];}
+				else {velocityY = y -= parabola[index];}
+			} else {
+				if (normalGravity == false) {velocityY = y -= parabola[index];}
+				else {velocityY = y += parabola[index];}
 			}
 			
 			if (y >= 287) {
 				y = 287;
-				g.drawImage(ball, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawImage(ball, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 			} else if (y <= 100) {
 				y = 100;
-				g.drawImage(ball, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawImage(ball, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 			} else {
-				g.drawImage(ball, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawImage(ball, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 			}
 			
 			// flushGraphics();
@@ -1224,6 +1243,8 @@ public class GameEngine extends GameCanvas implements Runnable {
 	
 	public void spiderMode(boolean isSpider, boolean isNormalGravity, boolean isMiniMode) {
 		Graphics g = getGraphics();
+		gamemode = 4;
+		int oldY = y;
 		
 		if (isSpider == true && isMiniMode == false) {
 			
@@ -1242,14 +1263,16 @@ public class GameEngine extends GameCanvas implements Runnable {
 				else y = 40;
 			}
 			
+			velocityY = y - oldY;
+			
 			if (y == 40) {
-				g.drawImage(spider_inverted, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawImage(spider_inverted, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 			} else if (y == 287) {
-				g.drawImage(spider, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawImage(spider, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 			}
 			
 			updateState();
-		} else if (isSpider == true && isMiniMode == false) {
+		} else if (isSpider == true && isMiniMode == true) {
 			
 			if (oneShotPressed == true && canPress == true) {
 				if (y >= 287 || y <= 40) {
@@ -1266,10 +1289,12 @@ public class GameEngine extends GameCanvas implements Runnable {
 				else y = 40;
 			}
 			
+			velocityY = y - oldY;
+			
 			if (y == 40) {
-				g.drawImage(spider_inverted, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawImage(spider_inverted, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 			} else if (y == 287) {
-				g.drawImage(spider, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawImage(spider, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 			}
 			
 			updateState();
@@ -1280,6 +1305,7 @@ public class GameEngine extends GameCanvas implements Runnable {
 	
 	public void ufoMode(boolean isUFO, boolean isNormalGravity, boolean isMiniMode) {
 		Graphics g = getGraphics();
+		gamemode = 5;
 		int parabola[] = {1,2,3,4};
 		int parabola2[] = {1,2};
 		
@@ -1293,12 +1319,14 @@ public class GameEngine extends GameCanvas implements Runnable {
 			
 			if (timer > 0) {
 				int index = (timeCounter < 3) ? 3 : (timeCounter < 6) ? 2 : (timeCounter < 12) ? 1 : 0;
-				y -= parabola[index];
+				velocityY = parabola[index];
+				y -= velocityY;
 				timer--;
 			} else if (timer <= 0) {
 				if (y < 287) {
 					int index = (releaseCounter < 3) ? 0 : (releaseCounter < 6) ? 1 : (releaseCounter < 12) ? 2 : 3;
-					y += parabola[index];
+					velocityY = parabola[index];
+					y += velocityY;
 					releaseCounter++;
 				}
 			}
@@ -1307,15 +1335,16 @@ public class GameEngine extends GameCanvas implements Runnable {
 			if (y >= 287) {
 				y = 287;
 				timer = -1;
-				g.drawImage(ufo, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawImage(ufo, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 			} else if (y <= 40) {
 				y = 40;
 				timer = -1;
-				g.drawImage(ufo, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawImage(ufo, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 			} else {
-				g.drawImage(ufo, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawImage(ufo, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 			}
 		} else if (isUFO == true && isMiniMode == true) {
+			System.out.println("timeCounter = " + timeCounter + ", y = " + y + ", releaseCounter = " + releaseCounter + ", timer = " + timer);
 			if (oneShotPressed == true && canPress == true) {
 				canPress = false;
 				timer = 12;
@@ -1323,26 +1352,30 @@ public class GameEngine extends GameCanvas implements Runnable {
 			}
 			
 			if (timer > 0) {
-				int index = (timeCounter < 3) ? 0 : 1;
-				y -= parabola2[index];
+				int index = (timeCounter < 3) ? 1 : 0;
+				velocityY = parabola[index];
+				y -= velocityY;
 				timer--;
-			} else if (timer == 0) {
-				int index = (releaseCounter < 3) ? 1 : 0;
-				y += parabola2[index];
-				releaseCounter++;
+			} else if (timer <= 0) {
+				if (y < 287) {
+					int index = (releaseCounter < 3) ? 0 : 1;
+					velocityY = parabola[index];
+					y += velocityY;
+					releaseCounter++;
+				}
 			}
 				
 			
 			if (y >= 287) {
 				y = 287;
 				timer = -1;
-				g.drawImage(ufo, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawImage(ufo, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 			} else if (y <= 40) {
 				y = 40;
 				timer = -1;
-				g.drawImage(ufo, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawImage(ufo, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 			} else {
-				g.drawImage(ufo, 81, y, Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawImage(ufo, x, y, Graphics.RIGHT | Graphics.BOTTOM);
 			}
 		} else {
 			// nothing
@@ -1353,7 +1386,7 @@ public class GameEngine extends GameCanvas implements Runnable {
 		// updateState(); REMEMBER TO ADD UPDATE STATE FOR THIS PARTICULAR GAMEMODE
 	}
 	
-	public void cubeMode(boolean isCube, boolean isNormalGravity, isMiniMode) {
+	public void cubeMode(boolean isCube, boolean isNormalGravity, boolean isMiniMode) {
 		
 		
 		
