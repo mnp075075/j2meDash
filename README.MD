@@ -1,5 +1,8 @@
 ![](j2meDash_ASCII.png)
 
+[![Tokei](https://tokei.rs/b1/github/mnp075075/j2meDash?category=lines)](https://github.com/mnp075075/j2meDash)
+[![Tokei](https://tokei.rs/b1/github/mnp075075/j2meDash?category=files)](https://github.com/mnp075075/j2meDash)
+
 # j2meDash #
 j2meDash is a demake version of Geometry Dash ported to Java ME (or J2ME) for Java-supported phones
 
