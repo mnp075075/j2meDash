@@ -2,6 +2,7 @@
 
 echo Cleaning compiled .jar
 
+cd ..
 if exist "j2meDash4.jar" ( 
 	set found=1
 )
@@ -27,6 +28,7 @@ if exist "j2meDash4+NOKIA.jar" (
 goto continue
 
 :continue
+cd tmp
 cd classes
 
 if exist *.class (
