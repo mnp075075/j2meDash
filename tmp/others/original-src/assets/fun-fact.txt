@@ -1,0 +1,24 @@
+fun fact:
+
+my code have:
+6409 \t
+2775 \t\t
+1616 \t\t\t
+902 \t\t\t\t
+546 \t\t\t\t\t
+348 \t\t\t\t\t\t
+162 \t\t\t\t\t\t\t
+87 \t\t\t\t\t\t\t\t
+72 \t\t\t\t\t\t\t\t\t
+54 \t\t\t\t\t\t\t\t\t\t
+49 \t\t\t\t\t\t\t\t\t\t\t
+44 \t\t\t\t\t\t\t\t\t\t\t\t
+39 \t\t\t\t\t\t\t\t\t\t\t\t\t
+34 \t\t\t\t\t\t\t\t\t\t\t\t\t\t
+29 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t
+24 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t
+19 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t
+14 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t
+2 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t
+
+at the current time of speaking which is May 5th 2026

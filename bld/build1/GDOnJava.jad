@@ -1,0 +1,8 @@
+MIDlet-Name: GDOnJava
+MIDlet-Version: 1.0
+MIDlet-Vendor: idk
+MIDlet-1: GDOnJava,,GDOnJava
+MicroEdition-Configuration: CLDC-1.1
+MicroEdition-Profile: MIDP-2.0
+MIDlet-Jar-URL: GDOnJava.jar
+MIDlet-Jar-Size: 1863
