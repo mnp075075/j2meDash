@@ -31,7 +31,7 @@ public class PauseScreen extends GameCanvas {
 		// this.playScreen = playScreen;
 		
 		try {
-			background = Image.createImage("img/background.png");
+			background = Image.createImage("rsc/img/background.png");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

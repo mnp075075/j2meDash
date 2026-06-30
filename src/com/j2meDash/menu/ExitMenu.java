@@ -36,7 +36,7 @@ public class ExitMenu extends GameCanvas {
 		this.mainApp = mainApp;
 		
 		try {
-			EXIT = Image.createImage("img/cubeRotate0.png");
+			EXIT = Image.createImage("rsc/img/cubeRotate0.png");
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println("NO IMAGE NAMED cubeRotate0.png (perhaps you forgot .png isn't .PNG)");

@@ -32,7 +32,7 @@ public class SplashScreen extends GameCanvas {
 		this.mainApp = mainApp;
 		
 		try {
-			robert_topala = Image.createImage("img/roberttopala.png");
+			robert_topala = Image.createImage("rsc/img/roberttopala.png");
 		} catch (Exception e) {
 			System.err.println();
 		}

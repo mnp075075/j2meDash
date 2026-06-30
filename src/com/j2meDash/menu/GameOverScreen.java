@@ -28,7 +28,7 @@ public class GameOverScreen extends GameCanvas {
 		this.mainApp = mainApp;
 		
 		try {
-			background = Image.createImage("img/background.png");
+			background = Image.createImage("rsc/img/background.png");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

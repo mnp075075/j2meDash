@@ -45,7 +45,7 @@ public class WarningScreen extends GameCanvas implements Runnable {
 		// System.out.println("mainApp: " + mainApp);
 		
 		try {
-			warning = Image.createImage("img/warning.png");
+			warning = Image.createImage("rsc/img/warning.png");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

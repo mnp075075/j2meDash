@@ -33,9 +33,9 @@ public class MainMenu extends GameCanvas /* implements Runnable */ {
 	
 		// IMAGE
 		try {
-			FIREINTHEHOLE = Image.createImage("img/cubeRotate0.png");
-			background = Image.createImage("img/background.png");
-			gdlogo = Image.createImage("img/gdlogo.png");
+			FIREINTHEHOLE = Image.createImage("rsc/img/cubeRotate0.png");
+			background = Image.createImage("rsc/img/background.png");
+			gdlogo = Image.createImage("rsc/img/gdlogo.png");
 			// SpeedForm speedForm = new SpeedForm();
 			
 			// bgMusic.start();

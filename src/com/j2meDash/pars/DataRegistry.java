@@ -26,7 +26,7 @@ public class DataRegistry {
 	public DataRegistry(MainApp mainApp) {
 		
 		this.mainApp = mainApp;
-		InputStream is = getClass().getResourceAsStream("img/objectIDSpreadsheet.csv");
+		InputStream is = getClass().getResourceAsStream("rsc/img/objectIDSpreadsheet.csv");
 
 		if (is == null) {
 			System.out.println("objectIDSpreadsheet.csv doesn't exist");

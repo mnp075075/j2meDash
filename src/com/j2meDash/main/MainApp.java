@@ -382,12 +382,12 @@ public class MainApp extends MIDlet implements CommandListener {
 		// levelBinaryParser = new LevelBinaryParser(this);
 		
 		// showWarningScreen();
-		// levelBinaryParser.parseByte("levels/example.bin");
+		// levelBinaryParser.parseByte("rsc/lvl/example.bin");
 		
 		// for testing
 		gameEngine = new GameEngine(this);
 		
-		// testDisplayLevelLoader.callParseLBP("levels/example.bin");
+		// testDisplayLevelLoader.callParseLBP("rsc/lvl/example.bin");
 		showGameEngine();
 
 	}

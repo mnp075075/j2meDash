@@ -26,7 +26,7 @@ public class NewTimerScreen extends GameCanvas implements Runnable {
 		
 		this.mainApp = mainApp;
 		try {
-			background1 = Image.createImage("img/background.png");
+			background1 = Image.createImage("rsc/img/background.png");
 		} catch (Exception e) {
 			// nothing
 		}
