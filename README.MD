@@ -1,12 +1,9 @@
-![](j2meDash_ASCII.png)
-
 # j2meDash #
 j2meDash is a demake version of Geometry Dash ported to Java ME (or J2ME) for Java-supported phones
 
 ## WARNING
-- This project is still experimental and is in its pre-alpha phase.
-- I have only built support for Nokia Asha 311 phone model (resolution 240x400). As for other models, I will add them later in the `main` branch.
-- **DO NOT USE OPTION `4` WHEN RUNNING `compile.bat`. The `Nokia_API\` folder is NOT provided in this repository, therefore will cause compilation errors with `build.bat`**
+- This project is still experimental and is in its: **BETA** phase.
+- I have only built support for Nokia Asha 311 phone model (resolution 240x400). As for other models, I will add them later in the `test-resolution-compatibility` branch.
 
 ## Prerequisites
 - **Java 1.4 SDK** or **Java 8 SDK** (recommend JDK 1.4.2_19 or JDK 8u202)
@@ -58,7 +55,7 @@ From there, click the `.exe` file to install all three of the SDK
       - 3.2b.2: Package all into a `*.jar` file
       >  `"C:\path\to\JDK_8\bin\jar.exe" cfm j2meDashForJava8.jar META-INF\MANIFEST.MF assets levels -C classes/ .`
 
-### LINUX AND ONLINE USERS:
+### LINUX AND ONLINE USERS: **(OUTDATED)**
 - **THE FOLLOWING GUIDES WILL HAVE COMPILATION INSTRUCTIONS ON DEBIAN, ARCH, RED HAT, AND ALPINE DISTRO FAMILY as well as Google Colab (which runs Ubuntu)**
 - **INSTALLATION**
 - **FOR UBUNTU AND DEBIAN-BASED DISTRO (and Google Colab)**
@@ -74,7 +71,9 @@ From there, click the `.exe` file to install all three of the SDK
   - Step 1: Clone the repo by typing `git clone https://github.com/mnp075075/j2meDash`
   - Step 2: Download these files:
   > [MicroEmulator MIDP 2.0](https://cdn.statically.io/gh/mnp075075/j2meDash@master/lib/midp.jar)
+
   > [MicroEmulator CLDC 1.1](https://cdn.statically.io/gh/mnp075075/j2meDash@master/lib/cldc.jar)
+
   > [MicroEmulator JSR 75](https://cdn.statically.io/gh/mnp075075/j2meDash@master/lib/jsr-75.jar)
   - Step 3: Move all these files to the cloned repo directory inside `j2meDash/lib/` by typing `mv midp.jar cldc.jar jsr-75.jar j2meDash/lib/`
   - Step 4: Go to `j2meDash/src/` folder (make sure the cloned repo is in your current path in the terminal) by `cd j2meDash/src/`
@@ -93,7 +92,7 @@ After you successfully compiled the code, there'll be a new file named `j2meDash
 ***NOTE:*** *You should limit the emulator's FPS to around 30-60 to play smoothly*
 
 ## Controls:
-**AS OF NOW, SINCE THERE'S ONLY BUILDS FOR NOKIA ASHA 311, there isn't any controls yet, you can just touch the screen to jump and navigate**
+**AS OF NOW, SINCE THERE'RE ONLY BUILDS FOR NOKIA ASHA 311 (or devices with a resolution of 240x400 that also support touchscreen), there isn't any controls yet, you can just touch the screen to jump and navigate**
 
 `1`: to change speed (in the main menu)
 
@@ -104,7 +103,9 @@ After you successfully compiled the code, there'll be a new file named `j2meDash
 ## Cleaning up:
 **WINDOWS**
 You can delete the project's directory manually in File Explorer or open the Command Prompt at the project's directory and run `clean.bat`
+
 **LINUX**
-You can do it manually
+You can do it manually too
+
 **MACOS**
 Same as well
