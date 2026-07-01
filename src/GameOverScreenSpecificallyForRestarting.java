@@ -38,9 +38,8 @@ public class GameOverScreenSpecificallyForRestarting extends GameCanvas {
 		// g.setColor(0,0,0);
 		// g.fillRect(0,0,240,400);
 		g.setColor(255,255,255);
-		g.drawString("GAME OVER", 120, 200, Graphics.HCENTER | Graphics.VCENTER);
-		g.drawString("Returning to mainMenu in 5 seconds", 120, 215, Graphics.HCENTER | Graphics.VCENTER);
-		
+		g.drawString("GAME OVER", 120, 200, Graphics.HCENTER | Graphics.TOP);
+		g.drawString("Returning to mainMenu in 5 seconds", 120, 215, Graphics.HCENTER | Graphics.TOP);
 		serviceRepaints();
 		
 		mainApp.showPlayScreen(null);

@@ -179,8 +179,7 @@ public class NewTimerScreen extends GameCanvas implements Runnable {
 																
 																if (sexquinquagintaducentupleFortnightCount % 2 == 0) {
 																	g.setColor(0,0,0);
-																	g.drawString("CONGRATS USER, YOU HAVE WASTED TIME", 120, 200, Graphics.HCENTER | Graphics.VCENTER);
-																	
+																	g.drawString("CONGRATS USER, YOU HAVE WASTED TIME", 120, 200, Graphics.HCENTER | Graphics.TOP);
 																	flushGraphics();
 																	
 																	try {

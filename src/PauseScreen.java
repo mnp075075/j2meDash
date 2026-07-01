@@ -41,18 +41,16 @@ public class PauseScreen extends GameCanvas {
 		g.fillRect(30, 30, 180, 340);
 		
 		g.setColor(255,255,255);
-		g.drawString("Do you want to exit game?", 120, 60, Graphics.HCENTER | Graphics.VCENTER);
-		
+		g.drawString("Do you want to exit game?", 120, 60, Graphics.HCENTER | Graphics.TOP);
 		g.setColor(50,50,50);
 		g.fillRect(100, 100, 40, 30);
 		g.fillRect(100, 200, 40, 30);
 		g.fillRect(100, 300, 40, 30);
 		
 		g.setColor(255,255,255);
-		g.drawString("Yes", 120, 115, Graphics.HCENTER | Graphics.VCENTER);
-		g.drawString("No", 120, 215, Graphics.HCENTER | Graphics.VCENTER);
-		g.drawString("Restart", 120, 315, Graphics.HCENTER | Graphics.VCENTER);
-		
+		g.drawString("Yes", 120, 115, Graphics.HCENTER | Graphics.TOP);
+		g.drawString("No", 120, 215, Graphics.HCENTER | Graphics.TOP);
+		g.drawString("Restart", 120, 315, Graphics.HCENTER | Graphics.TOP);
 	}
 	
 	protected void pointerPressed(int x, int y) {

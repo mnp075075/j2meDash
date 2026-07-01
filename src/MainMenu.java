@@ -77,8 +77,7 @@ public class MainMenu extends GameCanvas /* implements Runnable */ {
 		g.drawString("top right", 239, 0, Graphics.RIGHT | Graphics.TOP);
 		g.drawString("bottom left", 0, 399, Graphics.LEFT | Graphics.BOTTOM);
 		g.drawString("bottom right", 239, 399, Graphics.RIGHT | Graphics.BOTTOM);
-		g.drawString("center", 120, 200, Graphics.HCENTER | Graphics.VCENTER);
-		
+		g.drawString("center", 120, 200, Graphics.HCENTER | Graphics.TOP);
 		g.drawLine(0, 200, 239, 200);
 		g.drawLine(0, 202, 239, 202);
 		g.drawLine(0, 204, 239, 204);
@@ -105,29 +104,24 @@ public class MainMenu extends GameCanvas /* implements Runnable */ {
 		g.setFont(font2);
 		g.fillRect(100, 300, 40, 30);
 		g.setColor(255, 255, 255);
-		g.drawString("Exit", 120, 315, Graphics.HCENTER | Graphics.VCENTER);
-
+		g.drawString("Exit", 120, 315, Graphics.HCENTER | Graphics.TOP);
 		g.setColor(0,0,0);
 		g.fillRect(100, 340, 40, 30);
 		g.setColor(255,255,255);
-		g.drawString("Sound", 120, 355, Graphics.HCENTER | Graphics.VCENTER);
-		
+		g.drawString("Sound", 120, 355, Graphics.HCENTER | Graphics.TOP);
 		g.setColor(0,0,0);
 		g.fillRect(100, 50, 40, 30);
 		g.setColor(255,255,255);
-		g.drawString("Timer", 120, 75, Graphics.HCENTER | Graphics.VCENTER);
-	
+		g.drawString("Timer", 120, 75, Graphics.HCENTER | Graphics.TOP);
 		g.setColor(0,0,0);
 		g.fillRect(100, 220, 40, 30);
 		g.setColor(255,255,255);
-		g.drawString("About", 120, 235, Graphics.HCENTER | Graphics.VCENTER);
-		
+		g.drawString("About", 120, 235, Graphics.HCENTER | Graphics.TOP);
 		g.setColor(0,0,0);
 		g.fillRect(100, 260, 40, 30);
 		g.setColor(255,255,255);
 	
-		g.drawString("Play", 120, 275, Graphics.HCENTER | Graphics.VCENTER);
-			
+		g.drawString("Play", 120, 275, Graphics.HCENTER | Graphics.TOP);
 		// g.fillRect(0,385,200,400);
 		
 	}

@@ -50,8 +50,8 @@ public class ExitMenu extends GameCanvas {
 		g.setColor(0,173,119);
 		g.fillRect(0, 0, 240, 400);
 		g.setColor(255,255,255);
-		g.drawString("Do you want to exit?", 120, 30, Graphics.VCENTER | Graphics.HCENTER);
-		g.drawString("SIDE NOTE:", 120, 60, Graphics.VCENTER | Graphics.HCENTER);
+		g.drawString("Do you want to exit?", 120, 30, Graphics.HCENTER | Graphics.TOP);
+		g.drawString("SIDE NOTE:", 120, 60, Graphics.HCENTER | Graphics.TOP);
 		g.drawString("Rage quiting is not my problem", 10, 75, Graphics.LEFT | Graphics.TOP);
 		g.drawString("The issue here is that:", 10, 90, Graphics.LEFT | Graphics.TOP);
 		g.drawString("### You're not skilled enough ###", 10, 105, Graphics.LEFT | Graphics.TOP);
@@ -66,14 +66,14 @@ public class ExitMenu extends GameCanvas {
 		g.fillRect(40, 255, 40, 20);
 		g.fillRect(160, 255, 40, 20);
 		g.setColor(255,255,255);
-		g.drawString("Exit", 60, 265, Graphics.HCENTER | Graphics.VCENTER);
-		g.drawString("Cancel", 180, 265, Graphics.HCENTER | Graphics.VCENTER);
+		g.drawString("Exit", 60, 265, Graphics.HCENTER | Graphics.TOP);
+		g.drawString("Cancel", 180, 265, Graphics.HCENTER | Graphics.TOP);
 		g.setColor(0,173,119);
 		
 		if (EXIT != null) {
 			g.drawImage(EXIT, 120, 310, Graphics.HCENTER | Graphics.VCENTER);
 		} else {
-			g.drawString("???", 120, 310, Graphics.HCENTER | Graphics.VCENTER);
+			g.drawString("???", 120, 310, Graphics.HCENTER | Graphics.TOP);
 		}
 
 	}

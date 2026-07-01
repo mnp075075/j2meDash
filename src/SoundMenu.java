@@ -49,8 +49,8 @@ public class SoundMenu extends GameCanvas {
 		g.setColor(0,173,119);
 		g.fillRect(0, 0, 240, 400);
 		g.setColor(255,255,255);
-		g.drawString("Do you want to have sound?", 120, 30, Graphics.VCENTER | Graphics.HCENTER);
-		g.drawString("FUN FACT:", 120, 60, Graphics.VCENTER | Graphics.HCENTER);
+		g.drawString("Do you want to have sound?", 120, 30, Graphics.HCENTER | Graphics.TOP);
+		g.drawString("FUN FACT:", 120, 60, Graphics.HCENTER | Graphics.TOP);
 		g.drawString("Robert Topala is the creator of", 10, 75, Graphics.LEFT | Graphics.TOP);
 		g.drawString("Geometry Dash which is made using", 10, 90, Graphics.LEFT | Graphics.TOP);
 		g.drawString("Cocos-2dx, a good game engine tbh", 10, 105, Graphics.LEFT | Graphics.TOP);
@@ -63,14 +63,13 @@ public class SoundMenu extends GameCanvas {
 		g.drawString("YouTube is a property of Google Inc.", 10, 225, Graphics.LEFT | Graphics.TOP);
 		g.drawString("Discord is a property of Discord Inc.", 10, 240, Graphics.LEFT | Graphics.TOP);
 		g.drawString("Twitter is a property of X Corp.", 10, 255, Graphics.LEFT | Graphics.TOP);
-		g.drawString("So do you want sound?", 120, 285, Graphics.VCENTER | Graphics.HCENTER);
+		g.drawString("So do you want sound?", 120, 285, Graphics.HCENTER | Graphics.TOP);
 		g.setColor(0,206,119);
 		g.fillRect(40, 310, 40, 20);
 		g.fillRect(160, 310, 40, 20);
 		g.setColor(255,255,255);
-		g.drawString("Yes", 60, 320, Graphics.VCENTER | Graphics.HCENTER);
-		g.drawString("No", 180, 320, Graphics.VCENTER | Graphics.HCENTER);
-		
+		g.drawString("Yes", 60, 320, Graphics.HCENTER | Graphics.TOP);
+		g.drawString("No", 180, 320, Graphics.HCENTER | Graphics.TOP);
 	}
 
 	// BUTTONS FOR SOUND MENU
