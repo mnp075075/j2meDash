@@ -113,6 +113,9 @@ public class GameEngine extends GameCanvas implements Runnable {
 	private int timer = 0;
 	
 	// temporary components
+	
+	// components for yellow orb
+	private boolean canPressForOrbs;
 	// empty
 	
 	public int[] srcID = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40};
@@ -1396,6 +1399,73 @@ public class GameEngine extends GameCanvas implements Runnable {
 		
 		
 		
+	}
+	
+	public void yellowOrb(int gamemode, boolean isNormalGravity, boolean isMiniMode) {
+		Graphics g = getGraphics();
+		
+		int parabola[] = {1,2,3,4};
+		// int parabola2[] = {1,2};
+		
+		if (isMiniMode == false) {
+			// System.out.println("timeCounter = " + timeCounter + ", y = " + y + ", releaseCounter = " + releaseCounter + ", timer = " + timer);
+			if (oneShotPressed == true && canPressForOrbs == true) {
+				canPressForOrbs = false;
+				timer = 12;
+				timeCounter = 0;
+			}
+			
+			if (timer > 0) {
+				int index = (timeCounter < 3) ? 3 : (timeCounter < 6) ? 2 : (timeCounter < 12) ? 1 : 0;
+				velocityY = parabola[index];
+				y -= velocityY;
+				timer--;
+			} else if (timer <= 0) {
+				if (y < 287) {
+					int index = (releaseCounter < 3) ? 0 : (releaseCounter < 6) ? 1 : (releaseCounter < 12) ? 2 : 3;
+					velocityY = parabola[index];
+					y += velocityY;
+					releaseCounter++;
+				}
+			}
+				
+			
+			if (y >= 287) {
+				y = 287;
+				timer = -1;
+				canPressForOrbs = true;
+				g.drawImage(ufo, x, y, Graphics.RIGHT | Graphics.BOTTOM);
+			} else if (y <= 40) {
+				y = 40;
+				timer = -1;
+				canPressForOrbs = true;
+				g.drawImage(ufo, x, y, Graphics.RIGHT | Graphics.BOTTOM);
+			} else {
+				g.drawImage(ufo, x, y, Graphics.RIGHT | Graphics.BOTTOM);
+			}
+		}
+		
+		// updateState(); REMEMBER TO ADD UPDATE STATE FOR THIS PARTICULAR GAMEMODE
+	}
+	
+	public void pinkOrb(boolean isOrb, boolean isNormalGravity, boolean isMiniMode) {
+		Graphics g = getGraphics();
+	}
+	
+	public void redOrb(boolean isOrb, boolean isNormalGravity, boolean isMiniMode) {
+		Graphics g = getGraphics();
+	}
+	
+	public void blueOrb(boolean isOrb, boolean isNormalGravity, boolean isMiniMode) {
+		Graphics g = getGraphics();
+	}
+	
+	public void greenOrb(boolean isOrb, boolean isNormalGravity, boolean isMiniMode) {
+		Graphics g = getGraphics();
+	}
+	
+	public void blackOrb(boolean isOrb, boolean isNormalGravity, boolean isMiniMode) {
+		Graphics g = getGraphics();
 	}
 	
 	public void updateState() {
