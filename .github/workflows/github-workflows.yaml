@@ -1,20 +1,28 @@
+# im testing github workflows
+
 name: Automatically commit releases
+
 run-name: ${{ github.repository }}
+
 on:
-    push:
-        branch:
-            - test-level-loader
-            
+  push:
+    branches:
+      - test-level-loader
+
 permissions:
-    contents: write
+  contents: write
 
 jobs:
-    Explore-GitHub-Actions:
-        runs-on: ubuntu-latest
-        steps:
-            - name: clone repo
-            uses: actions/checkout@v6
-            - name: List files in the repository
-            run: |
-                ls ${{ github.workspace }}
-            - run: echo "🍏 This job's status is ${{ job.status }}."
+  explore-github-actions:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4   # v4 is more stable/recommended than v6 for most cases
+      
+      - name: List files in the repository
+        run: |
+          ls -la ${{ github.workspace }}
+
+      - name: Show job status
+        run: echo "This job's status is ${{ job.status }}."
