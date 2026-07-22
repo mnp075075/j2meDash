@@ -1450,6 +1450,7 @@ public class GameEngine extends GameCanvas implements Runnable {
 	
 	public void pinkOrb(boolean isOrb, boolean isNormalGravity, boolean isMiniMode) {
 		Graphics g = getGraphics();
+		// it's been almost 3 weeks since I added anything
 	}
 	
 	public void redOrb(boolean isOrb, boolean isNormalGravity, boolean isMiniMode) {
@@ -1467,6 +1468,8 @@ public class GameEngine extends GameCanvas implements Runnable {
 	public void blackOrb(boolean isOrb, boolean isNormalGravity, boolean isMiniMode) {
 		Graphics g = getGraphics();
 	}
+	
+	// MAKE SURE TO ADD SOME NEW STUFFS LIKE PRACTICE MODE HERE IN THE FUTURE
 	
 	public void updateState() {
 		switch(mainApp.speedCount) {
