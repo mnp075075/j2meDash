@@ -34,6 +34,7 @@ jobs:
           cd tmp
           if not exist "classes\" mkdir classes
           cd ..
+          dir /s /b src\*.java > sourcelist.txt
           javac -encoding UTF-8 -classpath "lib\*" -sourcepath src -d tmp\classes @sourcelist.txt
           if errorlevel 1 echo "failed to compile" && exit /b 1
           jar cfm j2meDash8.jar src\META-INF\MANIFEST.MF rsc -C tmp\classes .
