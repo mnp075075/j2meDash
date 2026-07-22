@@ -30,5 +30,16 @@ jobs:
         shell: cmd
         run: |
           dir /s
+          echo Generating class
+          cd ..
+          cd tmp
+          if not exist "classes\" mkdir classes
+          cd ..
+          javac -encoding UTF-8 -classpath "lib\*" -sourcepath src -d tmp\classes @sourcelist.txt
+          if errorlevel 1 echo "failed to compile" && exit /b 1
+          jar cfm j2meDash8.jar src\META-INF\MANIFEST.MF rsc -C tmp\classes .
+          if errorlevel 1 echo "failed to package" && exit /b 1
+          if exist "j2meDash8.jar" move -Y "j2meDash8.jar" "bin"
           cd bin
-          REM compile.bat 1
+          echo "successfully compiled"
+          goto :eof
