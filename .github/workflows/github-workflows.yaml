@@ -14,15 +14,13 @@ permissions:
 
 jobs:
   explore-github-actions:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4   # v4 is more stable/recommended than v6 for most cases
+        uses: actions/checkout@v4
       
       - name: List files in the repository
         run: |
-          ls -la ${{ github.workspace }}
-
-      - name: Show job status
-        run: echo "This job's status is ${{ job.status }}."
+          dir /s
+          shell: cmd
