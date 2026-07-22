@@ -29,7 +29,7 @@ jobs:
       - name: Compile code for Java 8
         shell: cmd
         run: |
-          dir /s
+          dir
           echo Generating class
           cd ..
           cd tmp
