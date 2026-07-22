@@ -31,15 +31,13 @@ jobs:
         run: |
           dir
           echo Generating class
-          cd tmp
-          if not exist "classes\" mkdir classes
-          cd ..
+          if not exist "classes\" mkdir "tmp\classes"
           dir /s /b src\*.java > sourcelist.txt
           javac -encoding UTF-8 -classpath "lib\*" -sourcepath src -d tmp\classes @sourcelist.txt
           if errorlevel 1 echo "failed to compile" && exit /b 1
           jar cfm j2meDash8.jar src\META-INF\MANIFEST.MF rsc -C tmp\classes .
           if errorlevel 1 echo "failed to package" && exit /b 1
-          if exist "j2meDash8.jar" move -Y "j2meDash8.jar" "bin"
+          if exist "j2meDash8.jar" move /Y "j2meDash8.jar" "bin"
           cd bin
           echo "successfully compiled"
           goto :eof
