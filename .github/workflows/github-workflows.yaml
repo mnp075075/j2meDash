@@ -31,7 +31,6 @@ jobs:
         run: |
           dir
           echo Generating class
-          cd ..
           cd tmp
           if not exist "classes\" mkdir classes
           cd ..
