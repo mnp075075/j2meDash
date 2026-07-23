@@ -41,13 +41,13 @@ jobs:
           jar cfm j2meDash8.jar src\META-INF\MANIFEST.MF rsc -C tmp\classes .
           if errorlevel 1 echo failed to package "*.jar" file && exit /b 1
           if exist "j2meDash8.jar" move /Y "j2meDash8.jar" "bin"
-          cd bin
           echo Successfully compiled code
           goto :eof
 
       - name: Generate JAD File
         shell: bash
         run: |
+          cd bin
           JAR_FILE="j2meDash8.jar"
           JAD_FILE="j2meDash8.jad"
           JAR_SIZE=$(wc -c < "$JAR_FILE" | tr -d ' ')
@@ -66,6 +66,7 @@ jobs:
       - name: Generate SHA-256 Checksum
         shell: bash
         run: |
+          cd bin
           sha256sum j2meDash.jar > checksums.txt
           echo "Computed SHA-256:"
           cat checksums.txt
@@ -73,6 +74,7 @@ jobs:
       - name: Verify Checksum
         shell: bash
         run: |
+          cd bin
           sha256sum -c checksums.txt
 
       - name: Create GitHub Release
@@ -81,7 +83,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create "v-${{ github.sha }}" \
+          cd bin
+          gh release create "dev-${{ github.sha }}" \
             checksums.txt \
             j2meDash8.jar \
             j2meDash8.jad \
