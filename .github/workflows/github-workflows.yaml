@@ -2,7 +2,7 @@
 
 name: Build and commit
 
-run-name: ${{ github.repository }}
+run-name: "Built by ${{ github.actor }} from commit `${{ substring(github.sha, 0, 7) }}`"
 
 on:
   push:
@@ -30,14 +30,17 @@ jobs:
         shell: cmd
         run: |
           dir
-          echo Generating class
+          echo Creating "tmp/classes" folder
           if not exist "classes\" mkdir "tmp\classes"
+          echo Creating "sourcelist.txt" file
           dir /s /b src\*.java > sourcelist.txt
+          echo Compiling "*.classes" file
           javac -encoding UTF-8 -classpath "lib\*" -sourcepath src -d tmp\classes @sourcelist.txt
-          if errorlevel 1 echo "failed to compile" && exit /b 1
+          if errorlevel 1 echo failed to compile "*.classes" file && exit /b 1
+          echo Packaging into "*.jar" file
           jar cfm j2meDash8.jar src\META-INF\MANIFEST.MF rsc -C tmp\classes .
-          if errorlevel 1 echo "failed to package" && exit /b 1
+          if errorlevel 1 echo failed to package "*.jar" file && exit /b 1
           if exist "j2meDash8.jar" move /Y "j2meDash8.jar" "bin"
           cd bin
-          echo "successfully compiled"
+          echo Successfully compiled code
           goto :eof
