@@ -13,7 +13,7 @@ permissions:
   contents: write
 
 jobs:
-  compile and release:
+  compile-and-release:
     runs-on: windows-latest
     
     steps:
