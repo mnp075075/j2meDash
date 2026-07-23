@@ -2,7 +2,7 @@
 
 name: Build and commit
 
-run-name: "Built by ${{ github.actor }} from commit `${{ substring(github.sha, 0, 7) }}`"
+run-name: "Built by ${{ github.actor }} from commit `${{ github.sha }}`"
 
 on:
   push:
