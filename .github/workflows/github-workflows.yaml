@@ -14,6 +14,7 @@ permissions:
 
 jobs:
   compile-and-release:
+    if: contains(github.event.head_commit.message, '[release]')
     runs-on: windows-latest
     
     steps:
@@ -78,7 +79,6 @@ jobs:
           sha256sum -c checksums.txt
 
       - name: Create GitHub Release
-        if: contains(github.event.head_commit.message, '[release]')
         shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
