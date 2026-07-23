@@ -44,3 +44,46 @@ jobs:
           cd bin
           echo Successfully compiled code
           goto :eof
+
+      - name: Generate JAD File
+        shell: bash
+        run: |
+          JAR_FILE="j2meDash.jar"
+          JAD_FILE="j2meDash.jad"
+          JAR_SIZE=$(wc -c < "$JAR_FILE" | tr -d ' ')
+
+          cat <<EOF > "$JAD_FILE"
+          MIDlet-Name: j2meDash
+          MIDlet-Version: 1.0.0
+          MIDlet-Vendor: Not RobTop Games AB
+          MIDlet-Jar-URL: j2meDash4.jar
+          MIDlet-Jar-Size: $JAR_SIZE
+          MicroEdition-Profile: MIDP-2.0
+          MicroEdition-Configuration: CLDC-1.1
+          MIDlet-1: j2meDash,rsc/img/icon.png,j2meDash
+          EOF
+
+      - name: Generate SHA-256 Checksum
+        shell: bash
+        run: |
+          sha256sum j2meDash.jar > checksums.txt
+          echo "Computed SHA-256:"
+          cat checksums.txt
+
+      - name: Verify Checksum
+        shell: bash
+        run: |
+          sha256sum -c checksums.txt
+
+      - name: Create GitHub Release
+        if: contains(github.event.head_commit.message, '[release]')
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "v-${{ github.sha }}" \
+            checksums.txt \
+            j2meDash8.jar \
+            j2meDash8.jad \
+            --title "Release ${{ github.sha }}" \
+            --generate-notes
