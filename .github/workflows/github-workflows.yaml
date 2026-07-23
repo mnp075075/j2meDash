@@ -1,6 +1,6 @@
 # im testing github workflows
 
-name: Automatically commit releases
+name: Build and commit
 
 run-name: ${{ github.repository }}
 
