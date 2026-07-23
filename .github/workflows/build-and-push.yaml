@@ -82,10 +82,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd bin
-          gh release create "dev-${{ github.sha }}" \
+          SHORT_SHA=${GITHUB_SHA:0:7}
+          gh release create "dev-$SHORT_SHA" \
             checksums.txt \
             j2meDash8.jar \
             j2meDash8.jad \
             --prerelease \
             --title "Development Release: ${{ github.sha }}" \
-            --notes "This is a pre-release version of: ${{ github.repository }} for branch: ${{ github.ref_name }} from commit ${{ github.sha }}\n**NOTE: Pre-release/Development versions may contain bugs in there**"
+            --notes $'This is a pre-release version of: ${{ github.repository }} for branch: ${{ github.ref_name }} from commit ${{ github.sha }}\n**NOTE: Pre-release/Development versions may contain bugs in there**'
