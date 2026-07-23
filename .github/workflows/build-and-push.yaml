@@ -87,7 +87,7 @@ jobs:
             j2meDash8.jar \
             j2meDash8.jad \
             --prerelease
-            --title "Development Release: ${{ github.sha }}" \
+            --title: "Development Release: ${{ github.sha }}" \
             --notes: 
               This is a pre-release version of: ${{ github.repository }} for branch: ${{ github.ref_name }} from commit ${{ github.sha }}
               **NOTE: Pre-release/Development versions may contain bugs in there**
