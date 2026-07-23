@@ -1,6 +1,6 @@
 # im testing github workflows
 
-name: Build and commit
+name: Build and push
 
 run-name: "Built by ${{ github.actor }} from commit `${{ github.sha }}`"
 
