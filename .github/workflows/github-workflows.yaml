@@ -48,8 +48,8 @@ jobs:
       - name: Generate JAD File
         shell: bash
         run: |
-          JAR_FILE="j2meDash.jar"
-          JAD_FILE="j2meDash.jad"
+          JAR_FILE="j2meDash8.jar"
+          JAD_FILE="j2meDash8.jad"
           JAR_SIZE=$(wc -c < "$JAR_FILE" | tr -d ' ')
 
           cat <<EOF > "$JAD_FILE"
@@ -85,5 +85,5 @@ jobs:
             checksums.txt \
             j2meDash8.jar \
             j2meDash8.jad \
-            --title "Release ${{ github.sha }}" \
+            --title "Development Release: ${{ github.sha }}" \
             --generate-notes
