@@ -68,7 +68,7 @@ jobs:
         shell: bash
         run: |
           cd bin
-          sha256sum j2meDash.jar > checksums.txt
+          sha256sum j2meDash8.jar > checksums.txt
           echo "Computed SHA-256:"
           cat checksums.txt
 
