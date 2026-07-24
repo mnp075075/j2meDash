@@ -83,7 +83,7 @@ jobs:
         run: |
           cd bin
           SHORT_SHA=${GITHUB_SHA:0:7}
-          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/run/${{ github.run_id }}"
+          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           COMMIT_TITLE=$(git log -1 --format="%s")
           gh release create "dev-$SHORT_SHA" \
             checksums.txt \
@@ -91,4 +91,4 @@ jobs:
             j2meDash8.jad \
             --prerelease \
             --title "Development Release - $SHORT_SHA" \
-            --notes $'Nightly version for branch ${{ github.ref_name }} from commit $SHORT_SHA:**$COMMIT_TITLE**\n\n[Automatically created by GitHub Actions]($RUN_URL)'
+            --notes $'Nightly version for branch ${{ github.ref_name }} from commit '"$SHORT_SHA:**$COMMIT_TITLE**"$'\n\n[Automatically created by GitHub Actions]('"$RUN_URL"$')'
