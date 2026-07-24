@@ -91,4 +91,4 @@ jobs:
             j2meDash8.jad \
             --prerelease \
             --title "Development Release - $SHORT_SHA" \
-            --notes $'Nightly version for branch ${{ github.ref_name }} from commit '"$SHORT_SHA:**$COMMIT_TITLE**"$'\n\n[Automatically created by GitHub Actions]('"$RUN_URL"$')'
+            --notes $'Nightly version for branch ${{ github.ref_name }} from commit '"$SHORT_SHA: **$COMMIT_TITLE**"$'\n\n[Automatically created by GitHub Actions]('"$RUN_URL"$')'
