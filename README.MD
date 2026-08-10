@@ -1,7 +1,7 @@
 # j2meDash #
 j2meDash is a demake version of Geometry Dash ported to Java ME (or J2ME) for Java-supported phones
 
-## WARNING
+## Warning
 - This project is still experimental and is in its: **BETA** phase.
 - I have only built support for Nokia Asha 311 phone model (resolution 240x400). As for other models, I will add them later in the `test-resolution-compatibility` branch.
 
@@ -39,7 +39,6 @@ From there, click the `.exe` file to install all four of the SDK
     - `1` for Java 1.4, generating `j2meDash4.jar`
     - `2` for Java 8, generating `j2meDash8.jar`
     - `3` for both versions of Java above
-    - ~~`4` for Java 1.4 with addition of Nokia APIs, this requires you to have the `Nokia_API\` folder (which can be downloaded from this repo) in `E:` volume (by creating a new partition) so that the dir would be `E:\Nokia_API\`, generating `j2meDash4+NOKIA.jar`~~ (DO NOT CHOOSE THIS OPTION, READ THE <u>[**WARNING SECTION**](#warning)</u> ABOVE)
   - 3.2: Alternatively you can also type each command individually:
     - 3.2.0: Create a new folder named `classes\` inside the  `src\`  directory by doing it manually or type `mkdir classes` in the Command Prompt (with its dir set to the `src\>`)
     - **FOR JAVA 1.4 or JAVA 4**
@@ -55,7 +54,7 @@ From there, click the `.exe` file to install all four of the SDK
       - 3.2b.2: Package all into a `*.jar` file
       >  `"C:\path\to\JDK_8\bin\jar.exe" cfm j2meDashForJava8.jar META-INF\MANIFEST.MF assets levels -C classes/ .`
 
-### LINUX AND ONLINE USERS: **(OUTDATED)**
+### LINUX AND ONLINE USERS:
 - i'm being lazy
 
 ### MAC USERS:
