@@ -4,7 +4,9 @@ if "%1"=="1" goto OP1
 if "%1"=="2" goto OP2
 if "%1"=="3" goto OP3
 
-if "%1"=="" (
+if not "%1"=="" goto INVALID_ARG
+
+:MENU
 	set "input="
 	echo Choose Java version:
 	echo 1. Java 1.4 (or Java 4) (output j2meDash4.jar)
@@ -16,7 +18,15 @@ if "%1"=="" (
 	if "%input%"=="1" goto OP1
 	if "%input%"=="2" goto OP2
 	if "%input%"=="3" goto OP3
-)
+
+	echo Invalid
+	echo .
+	goto MENU
+
+:INVALID_ARG
+	echo Invalid argument provided.
+	pause
+	exit /b
 
 :OP1
 	echo Generating class
