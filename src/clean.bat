@@ -50,3 +50,4 @@ goto :eof
 :finished
 echo Finished deleting *.jar and *.class files
 goto :eof
+
