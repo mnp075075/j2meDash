@@ -20,17 +20,16 @@ if exist "j2meDash4.jar" (
 if exist "j2meDash8.jar" (
 	del /f j2meDash8.jar 
 )
-if exist "j2meDash4+NOKIA.jar" ( 
-	del /f j2meDash4+NOKIA.jar 
-)
 
 goto continue
 
 :continue
+cd ..
+cd tmp
 cd classes
 
-if exist *.class (
-	del /f /s /q *.class
+if exist "com/" (
+	rmdir /s /q "com/"
 	cd ..
 	goto finished
 )
@@ -45,9 +44,12 @@ goto :eof
 
 :failed2
 echo Cannot find *.class
+cd ..
+cd bin
 goto :eof
 
 :finished
 echo Finished deleting *.jar and *.class files
+cd ..
+cd bin
 goto :eof
-
