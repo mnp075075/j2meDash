@@ -1,11 +1,3 @@
-// by new place I mean being separated instead of a huge monolith like before
-// this also removed storage space drastically
-
-// the beginning of the source file
-// props to freej2me and freej2me-plus for being the emulator testing this app
-// also props to microemulator and kemu for actually showing TextBox and playing sound correctly
-
-// IMPORT ALL THOSE THINGS
 package com.j2meDash.main;
 
 import com.j2meDash.game.*;
@@ -36,7 +28,6 @@ import java.io.*; // basically input and output, self-explanatory
 
 */
 
-// THE BRAIN OF THE PROJECT (no more)
 public class MainApp extends MIDlet implements CommandListener { 
 
 	private MainApp mainApp;
@@ -63,6 +54,7 @@ public class MainApp extends MIDlet implements CommandListener {
 	GameOverScreenSpecificallyForRestarting gameOverScreenSpecificallyForRestarting;
 	TransitionScreen transitionScreen;
 	GameEngine gameEngine;
+	TestingFPS testFPS;
 	
 	// DEFINING EVERYTHING
 	public static boolean SoundEnabled; // deprecated, used to control sound
@@ -374,22 +366,36 @@ public class MainApp extends MIDlet implements CommandListener {
 		
 		Display.getDisplay(this).setCurrent(gameEngine);
 	}
+
+	public void showTestFPS() {
+		// for testing only
+		if (testFPS == null) {
+			testFPS = new TestingFPS(this);
+		}
+		
+		Display.getDisplay(this).setCurrent(testFPS);
+	}
 	
 	// START APP
 	public void startApp() {
 		
-		// dataRegistry = new DataRegistry(this);
-		// levelBinaryParser = new LevelBinaryParser(this);
+		/*
+		dataRegistry = new DataRegistry(this);
+		levelBinaryParser = new LevelBinaryParser(this);
 		
-		// showWarningScreen();
-		// levelBinaryParser.parseByte("rsc/lvl/example.bin");
+		showWarningScreen();
+		levelBinaryParser.parseByte("rsc/lvl/example.bin");
+		*/
 		
-		// for testing
+		/* for testing
 		gameEngine = new GameEngine(this);
 		
 		// testDisplayLevelLoader.callParseLBP("rsc/lvl/example.bin");
-		showGameEngine();
+		showGameEngine(); */
 
+		// also for testing
+		testFPS = new TestingFPS(this);
+		showTestFPS();
 	}
 
 	// PAUSE APP
