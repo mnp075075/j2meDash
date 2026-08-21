@@ -29,6 +29,8 @@ public class NewGameEngine extends GameCanvas implements Runnable {
         this.mainApp = mainApp;
     }
 
-    // will do later
+    public void run() {
+        // will do it later
+    }
     
 }

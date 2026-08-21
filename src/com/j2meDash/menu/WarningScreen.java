@@ -1,6 +1,7 @@
 package com.j2meDash.menu;
 import com.j2meDash.main.*;
-import javax.microedition.lcdui.*;
+
+import javax.microedition.lcdui.*;
 import javax.microedition.lcdui.game.*;
 
 /*
@@ -84,17 +85,12 @@ public class WarningScreen extends GameCanvas implements Runnable {
 		
 		if (this.seconds == 0) {
 			if (this.haventOpened == true) {
-				// splashScreen.splashScreen = new splashScreen.SplashScreen();
-				
-				// System.out.println("mainApp: " + mainApp);
-				mainApp.showSplashScreen();
+				mainApp.showSoundMenu();
 				this.haventOpened = false;
 			} else {
 				// nothing
 			}
 		}
-		
-		
 		
 	}
 

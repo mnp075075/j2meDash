@@ -3,7 +3,8 @@ import com.j2meDash.main.*;
 import com.j2meDash.menu.*;
 import com.j2meDash.pars.*;
 import com.j2meDash.temp.*;
-import javax.microedition.lcdui.*;
+
+import javax.microedition.lcdui.*;
 import javax.microedition.lcdui.game.*;
 
 /*
@@ -67,12 +68,12 @@ public class PauseScreen extends GameCanvas {
 			
 		} else if (x >= 100 && y >= 200 && x <= 140 && y <= 230) {
 			
-			mainApp.showPlayScreen(null);
+			mainApp.showPlayScreen();
 			
 		} else if (x >= 100 && y >= 300 && x <= 140 && y <= 330) {
 			
 			restartPlayScreen(true);
-			mainApp.showPlayScreen(null);
+			mainApp.showPlayScreen();
 			
 		}
 	}

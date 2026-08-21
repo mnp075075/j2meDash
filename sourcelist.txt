@@ -1,6 +1,8 @@
 /home/mnpmnp/j2meDash/j2meDash-remasteredEngine/src/com/j2meDash/game/GameEngine.java
+/home/mnpmnp/j2meDash/j2meDash-remasteredEngine/src/com/j2meDash/game/NewGameEngine.java
 /home/mnpmnp/j2meDash/j2meDash-remasteredEngine/src/com/j2meDash/game/PauseScreen.java
 /home/mnpmnp/j2meDash/j2meDash-remasteredEngine/src/com/j2meDash/game/PlayScreen.java
+/home/mnpmnp/j2meDash/j2meDash-remasteredEngine/src/com/j2meDash/game/Utilities.java
 /home/mnpmnp/j2meDash/j2meDash-remasteredEngine/src/com/j2meDash/main/MainApp.java
 /home/mnpmnp/j2meDash/j2meDash-remasteredEngine/src/com/j2meDash/menu/AboutMenu.java
 /home/mnpmnp/j2meDash/j2meDash-remasteredEngine/src/com/j2meDash/menu/DebugMenu.java

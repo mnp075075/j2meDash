@@ -1,6 +1,7 @@
 package com.j2meDash.menu;
 import com.j2meDash.main.*;
-import javax.microedition.lcdui.*;
+
+import javax.microedition.lcdui.*;
 import javax.microedition.lcdui.game.*;
 
 /*
@@ -45,7 +46,7 @@ public class GameOverScreenSpecificallyForRestarting extends GameCanvas {
 		
 		serviceRepaints();
 		
-		mainApp.showPlayScreen(null);
+		mainApp.showPlayScreen();
 		
 	}
 	

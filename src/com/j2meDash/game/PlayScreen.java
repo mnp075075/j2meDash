@@ -3,7 +3,8 @@ import com.j2meDash.main.*;
 import com.j2meDash.menu.*;
 import com.j2meDash.pars.*;
 import com.j2meDash.temp.*;
-import javax.microedition.lcdui.*;
+
+import javax.microedition.lcdui.*;
 import javax.microedition.lcdui.game.*;
 import javax.microedition.io.file.*;
 import javax.microedition.io.Connector;
@@ -1003,7 +1004,7 @@ public class PlayScreen extends GameCanvas implements Runnable, CommandListener 
 			
 		} else if (c == Exit) {
 			
-			mainApp.showPlayScreen("playScreen");
+			mainApp.showPlayScreen();
 			showNotify(); // just to make sure
 		
 		} else if (c == Save) {
