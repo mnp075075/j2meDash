@@ -1,16 +1,19 @@
 package com.j2meDash.game;
 
 import com.j2meDash.main.MainApp;
+import com.j2meDash.pars.LevelBinaryParser;
 
 import java.io.IOException;
 
 import javax.microedition.lcdui.*;
 import javax.microedition.lcdui.game.*;
 
+// TODO: add resources and images
 public class NewGameEngine extends GameCanvas implements Runnable {
     private MainApp mainApp;
+    private LevelBinaryParser levelBinaryParser;
     private Thread t;
-
+    
     private volatile boolean isRunning;
     private int[][] widthAndHeight = { 	{0,0,0,0}, {21,21,21,21}, {21,21,21,21}, {21,21,21,21}, // 0,1,2,3
 								{21,21,21,21}, {21,21,3,7}, {21,21,7,3}, {21,21,3,7},			// 4,5,6,7
@@ -25,45 +28,97 @@ public class NewGameEngine extends GameCanvas implements Runnable {
 								{21,21,21,21}	};												// 40
 								
 	private int[][] gamemodeWidthAndHeight = {{21,21,10,10},{21,21,10,10},{16,16,8,8},{21,21,10,10},{21,21,10,10},{21,21,10,10}}; // add the mini gamemode w and h here
+    private int[] srcID = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40};
+	private int[] srcX = {0,93};
+	private int[] srcY = {0,207};
 
-	private Image sheet;
-    private Image background;
-    private Image foreground;
+	private Image sheet; // for objects (not gameplay elements)
+    private Image background; // for bg
+    private Image foreground; // for fg
 
-    private Image[] cube_mode;
-    private Image[] ship_mode;
-    private Image[] ball_mode;
-    private Image[] ufo_mode;
-    private Image[] wave_mode;
-    private Image[] robot_mode;
-    private Image[] spider_mode;
-    private Image[] swing_mode;
+    // gamemodes (w&h, w&h hitbox, srcX & srcY from spreadsheet)
+    private int[][] cube_mode;
+    private int[][] ship_mode;
+    private int[][] ball_mode;
+    private int[][] ufo_mode;
+    private int[][] wave_mode;
+    private int[][] robot_mode;
+    private int[][] spider_mode;
+    private int[][] swing_mode;
 
+    // gameplay elements
     private Image[] orbs;
     private Image[] pads;
     private Image[] portals;
-    public Image[] font1;
-    public Image[] font2;
-    public Image[] font3;
-    public Image[] font4;
+
+    // fonts (w&h and srcX&srcY from spreadsheet)
+    public Image[] fonts;
+    public int[][] font1;
+    public int[][] font2;
+    public int[][] font3;
+    public int[][] font4;
     
     public NewGameEngine(MainApp mainApp) {
         super(true);
         this.mainApp = mainApp;
 
         try {
-            // bg elements
-            sheet = Image.createImage("rsc/img/sheet.png");
-            background = Image.createImage("rsc/img/bg.png");
-            foreground = Image.createImage("rsc/img/fg.png");
+            // spreadsheets
+            sheet = Image.createImage("rsc/img/sheets/obj_port_sh.png");
 
-            // gamemodes
-            
-            // orbs and portals
+            // bg elements
+            background = Image.createImage("rsc/img/bg/bg.png");
+            foreground = Image.createImage("rsc/img/bg/fg.png");
+
+            // orbs
+            orbs = new Image[] {
+                Image.createImage("rsc/img/orbs/yellow_orb.png"),
+                Image.createImage("rsc/img/orbs/pink_orb.png"),
+                Image.createImage("rsc/img/orbs/red_orb.png"),
+                Image.createImage("rsc/img/orbs/blue_orb.png"),
+                Image.createImage("rsc/img/orbs/green_orb.png"),
+                Image.createImage("rsc/img/orbs/black_orb.png"),
+                Image.createImage("rsc/img/orbs/spider_orb.png")
+            };
+
+            // pads
+            pads = new Image[] {
+                Image.createImage("rsc/img/pads/yellow_pad.png"),
+                Image.createImage("rsc/img/pads/red_pad.png"),
+                Image.createImage("rsc/img/pads/pink_pad.png"),
+                Image.createImage("rsc/img/pads/blue_pad.png"),
+                Image.createImage("rsc/img/pads/spider_pad.png")
+            };
+
+            // portals
+            portals = new Image[] {
+                Image.createImage("rsc/img/orbs/cube_portal.png"),
+                Image.createImage("rsc/img/orbs/ship_portal.png"),
+                Image.createImage("rsc/img/orbs/ball_portal.png"),
+                Image.createImage("rsc/img/orbs/ufo_portal.png"),
+                Image.createImage("rsc/img/orbs/wave_portal.png"),
+                Image.createImage("rsc/img/orbs/robot_portal.png"),
+                Image.createImage("rsc/img/orbs/spider_portal.png"),
+                Image.createImage("rsc/img/orbs/swing_portal.png"),
+                Image.createImage("rsc/img/orbs/normalSize_portal.png"),
+                Image.createImage("rsc/img/orbs/miniSize_portal.png"),
+                Image.createImage("rsc/img/orbs/blue_portal.png"),
+                Image.createImage("rsc/img/orbs/yellow_portal.png"),
+                Image.createImage("rsc/img/orbs/green_portal.png"),
+                Image.createImage("rsc/img/orbs/halfSpeed_portal.png"),
+                Image.createImage("rsc/img/orbs/_1xSpeed_portal.png"),
+                Image.createImage("rsc/img/orbs/_2xSpeed_portal.png"),
+                Image.createImage("rsc/img/orbs/_3xSpeed_portal.png"),
+                Image.createImage("rsc/img/orbs/_4xSpeed_portal.png")
+            };
 
             // fonts
-
-            // miscellaneous
+            fonts = new Image[] {
+                Image.createImage("rsc/font/font1.png"),
+                Image.createImage("rsc/font/font2.png"),
+                Image.createImage("rsc/font/font3.png"),
+                Image.createImage("rsc/font/font4.png")
+            };
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -114,6 +169,10 @@ public class NewGameEngine extends GameCanvas implements Runnable {
         g.drawString("FPS: " + displayFPS, 0, 0, Graphics.LEFT | Graphics.TOP);
         flushGraphics();
         frameCount++;
+    }
+
+    public void drawingCharString(Graphics g, Image fontstrip, String s, int x, int y, int[][] metrics) {
+        // note: metrics[][] contains width and height of each character and its srcX and srcY on the font strip
     }
 
     // PRINTING FUNCTION
@@ -226,14 +285,14 @@ public class NewGameEngine extends GameCanvas implements Runnable {
 			int eighthCurrentID = levelBinaryParser.idArray[i+7];
 			
 			if (id > srcID[0] && id <= srcID[srcID.length-1]) {
-				g.drawRegion(sheet, srcX[firstCurrentID], srcY[firstCurrentID], widthAndHeight[firstCurrentID][0], widthAndHeight[firstCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i] -= offset, levelBinaryParser.yArray[i], Graphics.RIGHT | Graphics.BOTTOM);
-				g.drawRegion(sheet, srcX[secondCurrentID], srcY[secondCurrentID], widthAndHeight[secondCurrentID][0], widthAndHeight[secondCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+1] -= offset, levelBinaryParser.yArray[i+1], Graphics.RIGHT | Graphics.BOTTOM);
-				g.drawRegion(sheet, srcX[thirdCurrentID], srcY[thirdCurrentID], widthAndHeight[thirdCurrentID][0], widthAndHeight[thirdCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+2] -= offset, levelBinaryParser.yArray[i+2], Graphics.RIGHT | Graphics.BOTTOM);
-				g.drawRegion(sheet, srcX[fourthCurrentID], srcY[fourthCurrentID], widthAndHeight[fourthCurrentID][0], widthAndHeight[fourthCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+3] -= offset, levelBinaryParser.yArray[i+3], Graphics.RIGHT | Graphics.BOTTOM);
-				g.drawRegion(sheet, srcX[fifthCurrentID], srcY[fifthCurrentID], widthAndHeight[fifthCurrentID][0], widthAndHeight[fifthCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+4] -= offset, levelBinaryParser.yArray[i+4], Graphics.RIGHT | Graphics.BOTTOM);
-				g.drawRegion(sheet, srcX[sixthCurrentID], srcY[sixthCurrentID], widthAndHeight[sixthCurrentID][0], widthAndHeight[sixthCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+5] -= offset, levelBinaryParser.yArray[i+5], Graphics.RIGHT | Graphics.BOTTOM);
-				g.drawRegion(sheet, srcX[seventhCurrentID], srcY[seventhCurrentID], widthAndHeight[seventhCurrentID][0], widthAndHeight[seventhCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+6] -= offset, levelBinaryParser.yArray[i+6], Graphics.RIGHT | Graphics.BOTTOM);
-				g.drawRegion(sheet, srcX[eighthCurrentID], srcY[eighthCurrentID], widthAndHeight[eighthCurrentID][0], widthAndHeight[eighthCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+7] -= offset, levelBinaryParser.yArray[i+7], Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawRegion(sheet, srcX[firstCurrentID], srcY[firstCurrentID], widthAndHeight[firstCurrentID][0], widthAndHeight[firstCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i] - offset, levelBinaryParser.yArray[i], Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawRegion(sheet, srcX[secondCurrentID], srcY[secondCurrentID], widthAndHeight[secondCurrentID][0], widthAndHeight[secondCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+1] - offset, levelBinaryParser.yArray[i+1], Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawRegion(sheet, srcX[thirdCurrentID], srcY[thirdCurrentID], widthAndHeight[thirdCurrentID][0], widthAndHeight[thirdCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+2] - offset, levelBinaryParser.yArray[i+2], Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawRegion(sheet, srcX[fourthCurrentID], srcY[fourthCurrentID], widthAndHeight[fourthCurrentID][0], widthAndHeight[fourthCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+3] - offset, levelBinaryParser.yArray[i+3], Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawRegion(sheet, srcX[fifthCurrentID], srcY[fifthCurrentID], widthAndHeight[fifthCurrentID][0], widthAndHeight[fifthCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+4] - offset, levelBinaryParser.yArray[i+4], Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawRegion(sheet, srcX[sixthCurrentID], srcY[sixthCurrentID], widthAndHeight[sixthCurrentID][0], widthAndHeight[sixthCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+5] - offset, levelBinaryParser.yArray[i+5], Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawRegion(sheet, srcX[seventhCurrentID], srcY[seventhCurrentID], widthAndHeight[seventhCurrentID][0], widthAndHeight[seventhCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+6] - offset, levelBinaryParser.yArray[i+6], Graphics.RIGHT | Graphics.BOTTOM);
+				g.drawRegion(sheet, srcX[eighthCurrentID], srcY[eighthCurrentID], widthAndHeight[eighthCurrentID][0], widthAndHeight[eighthCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+7] - offset, levelBinaryParser.yArray[i+7], Graphics.RIGHT | Graphics.BOTTOM);
 			}
 			
 		}
@@ -249,10 +308,10 @@ public class NewGameEngine extends GameCanvas implements Runnable {
 					int fourthCurrentID = levelBinaryParser.idArray[i+3];
 					
 					if (id > srcID[0] && id <= srcID[srcID.length-1]) {
-						g.drawRegion(sheet, srcX[firstCurrentID], srcY[firstCurrentID], widthAndHeight[firstCurrentID][0], widthAndHeight[firstCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i] -= offset, levelBinaryParser.yArray[i], Graphics.RIGHT | Graphics.BOTTOM);
-						g.drawRegion(sheet, srcX[secondCurrentID], srcY[secondCurrentID], widthAndHeight[secondCurrentID][0], widthAndHeight[secondCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+1] -= offset, levelBinaryParser.yArray[i+1], Graphics.RIGHT | Graphics.BOTTOM);
-						g.drawRegion(sheet, srcX[thirdCurrentID], srcY[thirdCurrentID], widthAndHeight[thirdCurrentID][0], widthAndHeight[thirdCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+2] -= offset, levelBinaryParser.yArray[i+2], Graphics.RIGHT | Graphics.BOTTOM);
-						g.drawRegion(sheet, srcX[fourthCurrentID], srcY[fourthCurrentID], widthAndHeight[fourthCurrentID][0], widthAndHeight[fourthCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+3] -= offset, levelBinaryParser.yArray[i+3], Graphics.RIGHT | Graphics.BOTTOM);
+						g.drawRegion(sheet, srcX[firstCurrentID], srcY[firstCurrentID], widthAndHeight[firstCurrentID][0], widthAndHeight[firstCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i] - offset, levelBinaryParser.yArray[i], Graphics.RIGHT | Graphics.BOTTOM);
+						g.drawRegion(sheet, srcX[secondCurrentID], srcY[secondCurrentID], widthAndHeight[secondCurrentID][0], widthAndHeight[secondCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+1] - offset, levelBinaryParser.yArray[i+1], Graphics.RIGHT | Graphics.BOTTOM);
+						g.drawRegion(sheet, srcX[thirdCurrentID], srcY[thirdCurrentID], widthAndHeight[thirdCurrentID][0], widthAndHeight[thirdCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+2] - offset, levelBinaryParser.yArray[i+2], Graphics.RIGHT | Graphics.BOTTOM);
+						g.drawRegion(sheet, srcX[fourthCurrentID], srcY[fourthCurrentID], widthAndHeight[fourthCurrentID][0], widthAndHeight[fourthCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+3] - offset, levelBinaryParser.yArray[i+3], Graphics.RIGHT | Graphics.BOTTOM);
 					}
 				}
 				break;
@@ -264,8 +323,8 @@ public class NewGameEngine extends GameCanvas implements Runnable {
 					int secondCurrentID = levelBinaryParser.idArray[i+1];
 					
 					if (id > srcID[0] && id <= srcID[srcID.length-1]) {
-						g.drawRegion(sheet, srcX[firstCurrentID], srcY[firstCurrentID], widthAndHeight[firstCurrentID][0], widthAndHeight[firstCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i] -= offset, levelBinaryParser.yArray[i], Graphics.RIGHT | Graphics.BOTTOM);
-						g.drawRegion(sheet, srcX[secondCurrentID], srcY[secondCurrentID], widthAndHeight[secondCurrentID][0], widthAndHeight[secondCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+1] -= offset, levelBinaryParser.yArray[i+1], Graphics.RIGHT | Graphics.BOTTOM);
+						g.drawRegion(sheet, srcX[firstCurrentID], srcY[firstCurrentID], widthAndHeight[firstCurrentID][0], widthAndHeight[firstCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i] - offset, levelBinaryParser.yArray[i], Graphics.RIGHT | Graphics.BOTTOM);
+						g.drawRegion(sheet, srcX[secondCurrentID], srcY[secondCurrentID], widthAndHeight[secondCurrentID][0], widthAndHeight[secondCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i+1] - offset, levelBinaryParser.yArray[i+1], Graphics.RIGHT | Graphics.BOTTOM);
 					}
 				}
 				break;
@@ -277,7 +336,7 @@ public class NewGameEngine extends GameCanvas implements Runnable {
 					int firstCurrentID = levelBinaryParser.idArray[i];
 					
 					if (id > srcID[0] && id <= srcID[srcID.length-1]) {
-						g.drawRegion(sheet, srcX[firstCurrentID], srcY[firstCurrentID], widthAndHeight[firstCurrentID][0], widthAndHeight[firstCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i] -= offset, levelBinaryParser.yArray[i], Graphics.RIGHT | Graphics.BOTTOM);
+						g.drawRegion(sheet, srcX[firstCurrentID], srcY[firstCurrentID], widthAndHeight[firstCurrentID][0], widthAndHeight[firstCurrentID][1], Sprite.TRANS_NONE, levelBinaryParser.xArray[i] - offset, levelBinaryParser.yArray[i], Graphics.RIGHT | Graphics.BOTTOM);
 					}
 				}
 				break;
@@ -427,19 +486,19 @@ public class NewGameEngine extends GameCanvas implements Runnable {
 
     }
 
-    public void 1xSpeedPortal() {
+    public void _1xSpeedPortal() {
         
     }
 
-    public void 2xSpeedPortal() {
+    public void _2xSpeedPortal() {
         
     }
 
-    public void 3xSpeedPortal() {
+    public void _3xSpeedPortal() {
         
     }
 
-    public void 4xSpeedPortal() {
+    public void _4xSpeedPortal() {
         
     }
 
