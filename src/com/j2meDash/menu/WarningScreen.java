@@ -18,6 +18,7 @@ import javax.microedition.lcdui.game.*;
 public class WarningScreen extends GameCanvas implements Runnable {
 	
 	private MainApp mainApp;
+	private SoundMenu soundMenu;
 	// Display display = Display.getDisplay(mainApp);
 	// private SplashScreen splashScreen = new SplashScreen(mainApp);
 	Image warning;
@@ -85,7 +86,8 @@ public class WarningScreen extends GameCanvas implements Runnable {
 		
 		if (this.seconds == 0) {
 			if (this.haventOpened == true) {
-				mainApp.showSoundMenu();
+				soundMenu = new SoundMenu(mainApp);
+				mainApp.show(soundMenu);
 				this.haventOpened = false;
 			} else {
 				// nothing

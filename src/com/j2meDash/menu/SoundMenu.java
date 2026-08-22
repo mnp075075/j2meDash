@@ -1,6 +1,7 @@
 package com.j2meDash.menu;
 import com.j2meDash.main.*;
-import javax.microedition.lcdui.*;
+
+import javax.microedition.lcdui.*;
 import javax.microedition.lcdui.game.*;
 
 /*
@@ -23,6 +24,7 @@ public class SoundMenu extends GameCanvas {
 	 * and i don't know why and i'm not stepping in now
 	 */
 	private MainApp mainApp;
+	private MainMenu mainMenu;
 	// Display display = Display.getDisplay(mainApp);
 	
 	// private MainMenu mainMenu = new MainMenu(mainApp);
@@ -81,26 +83,13 @@ public class SoundMenu extends GameCanvas {
 		// timerScreen = new TimerScreen();
 		
 		if (x >= 40 && x <= 80 && y >= 310 && y <= 330) {
-			
-			// SoundEnabled = true;
-			// display.setCurrent(timerScreen);
-			// timerScreen.repaint();
-			mainApp.showMainMenu();
-			System.err.println("IT WORKS");
-			
-			// NORMAL LOOKING LOOP
-			/* for (int i = 0; i < 5; i++) {
-				System.err.println("loop: " + i);
-			} */
-			// I have to turn this loop off to optimize performance
-
+			mainMenu = new MainMenu(mainApp);
+			mainApp.show(mainMenu);
+			System.out.println("IT WORKS");
 		} else if (x >= 160 && x <= 200 && y >= 310 && y <= 330) {
-			
-			// SoundEnabled = false;
-			// display.setCurrent(timerScreen);
-			// timerScreen.repaint();
-			mainApp.showMainMenu();
-			System.err.println("IT ALSO WORKS");
+			mainMenu = new MainMenu(mainApp);
+			mainApp.show(mainMenu);
+			System.out.println("IT ALSO WORKS");
 		}
 			
 	}
