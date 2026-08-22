@@ -1,6 +1,7 @@
 package com.j2meDash.pars;
 import com.j2meDash.main.*;
-
+
+
 import java.io.*;
 import java.io.InputStream.*;
 import java.io.ByteArrayInputStream.*;
@@ -38,10 +39,10 @@ public class LevelBinaryParser {
 	public static int y3;
 	public static int par;
 	
-	public static int[] idArray = new int[1048576];
-	public static int[] xArray = new int[1048576];
-	public static int[] yArray = new int[1048576];
-	public static int[] parArray = new int[1048576];
+	public static int[] idArray = new int[262144];
+	public static int[] xArray = new int[262144];
+	public static int[] yArray = new int[262144];
+	public static int[] parArray = new int[262144];
 	
 	public static int[] safeObjectID = {1,2,3,4,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40};
 	public static int[] dangerousObjectID = {5,6,7,8,9,10,11,12};
@@ -58,37 +59,32 @@ public class LevelBinaryParser {
 	
 	public void parseByte(String name) {;
 		
-		InputStream is = null;
+		InputStream input = null;
 		
 		try {
-			is = getClass().getResourceAsStream(name);
-			System.err.println("FILENAME DOES EXIST");
+			input = getClass().getResourceAsStream(name);
+			System.out.println("Directory/filename does exist: " + name);
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.err.println("FILENAME DOES NOT EXIST");
+			System.err.println("Directory/filename does NOT exist: " + name);
 		}
 		
-		ByteArrayOutputStream Baos = new ByteArrayOutputStream();
-		// DataOutputStream Dos = new DataOutputStream(Baos);
-		// int bytes;
-		
 		try {
 			
-			int total = is.read(mainApp.data);
-			byte[] header1 = {0x47, 0x44, 0x4F, 0x6E, 0x4A, 0x61, 0x76, 0x61, 0x12, 0x6C, 0x65, 0x76, 0x44, 0x61, 0x74, 0x61};
-			// byte[] header2 = {
-			
-			is.close();
+			int counter = 0;
+			byte[] header = {0x47, 0x44, 0x4F, 0x6E, 0x4A, 0x61, 0x76, 0x61, 0x12, 0x6C, 0x65, 0x76, 0x44, 0x61, 0x74, 0x61};
 			boolean isValid = true;
-			
-			// is.close();
-			
-			while ((total = is.read()) != -1) {
-				Baos.write(mainApp.data);
+
+			int b;
+
+			while ((b = input.read()) != -1) {
+				mainApp.data[counter] = (byte) b;
+				counter++;
 			}
 
+			input.close();
+
 			for (int i = 0; i < 16; i++) {
-				if (mainApp.data[i] != header1[i]) {
+				if (mainApp.data[i] != header[i]) {
 					isValid = false;
 					break;
 				}
@@ -99,10 +95,9 @@ public class LevelBinaryParser {
 				System.out.println("Reason: Incorrect file header");
 				
 				for (int i = 0; i < 16; i++) {
-					if (mainApp.data[i] != header1[i] /* || data[i] != header2[i] */) {
+					if (mainApp.data[i] != header[i]) {
 						System.out.println("At 0x" + Integer.toHexString(i) + ", byte: 0x" + Integer.toHexString(mainApp.data[i] & 0xFF) + " is wrong.");
 						System.out.println("The **valid** header is: 0x47 0x44 0x4F 0x6E 0x4A 0x61 0x76 0x61 0x12 0x6C 0x65 0x76 0x44 0x61 0x74 0x61");
-						System.out.println("Please check, modify your header and try again");
 						break;
 					}
 				}
@@ -111,7 +106,7 @@ public class LevelBinaryParser {
 			} else {
 				System.out.println("Valid File");
 				// System.out.println("byte read: " + total);
-				for (int i = 32; i > total; i += 8) {
+				for (int i = 32; i < counter; i += 8) {
 
 					// String hexBytes = Integer.toHexString(bytes);
 
@@ -131,7 +126,7 @@ public class LevelBinaryParser {
 				
 					// System.out.println(hexBytes + " ");
 				
-					if (id != 0 || x1 != 0 || x2 != 0 || x3 != 00 || y1 != 0 || y2 != 0 || y3 != 0 || par != 0) {
+					if (id != 0 || x1 != 0 || x2 != 0 || x3 != 0 || y1 != 0 || y2 != 0 || y3 != 0 || par != 0) {
 						System.out.println("obj: " + ((i/8)-4) + 
 										   " id: " + Integer.toHexString(id) + 
 										   " x1: " + Integer.toHexString(x1) + 
@@ -143,10 +138,9 @@ public class LevelBinaryParser {
 										   " par: " + Integer.toHexString(par) +
 										   "\n" + "xArray: " + xArray[startingInt] + " yArray: " + yArray[startingInt]);
 						
-						objectNumber = ((i/8)-4)+1;
-						// System.out.println("data" + data);
+						objectNumber = (i/8)-3;
 					} else if (id == 0 && x1 == 0 && x2 == 0 && x3 == 0 && y1 == 0 && y2 == 0 && y3 == 0 && par == 0) {
-						System.out.println("End of: " + name);
+						System.out.println("EOF: " + name);
 						break;
 					}
 					
@@ -159,8 +153,21 @@ public class LevelBinaryParser {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("SOMETHING IS DEFINITELY WRONG");
-			// note
+			System.err.println("SOMETHING IS DEFINITELY WRONG");
+		} finally {
+			try {
+				if (input != null) input.close();
+			} catch (IOException ignored) {}
+			id = 0;
+			x1 = 0;
+			x2 = 0;
+			x3 = 0;
+			y1 = 0;
+			y2 = 0;
+			y3 = 0;
+			par = 0;
+			objectNumber = 0;
+			startingInt = 0;
 		}
 	}
 }

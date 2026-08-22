@@ -56,6 +56,7 @@ public class MainApp extends MIDlet implements CommandListener {
 	GameEngine gameEngine;
 	TestingFPS testFPS;
 	Utilities utilities;
+	NewGameEngine newGameEngine;
 	
 	// DEFINING EVERYTHING
 	public static boolean SoundEnabled; // deprecated, used to control sound
@@ -392,8 +393,8 @@ public class MainApp extends MIDlet implements CommandListener {
 	
 	// START APP
 	public void startApp() {
-		utilities = new Utilities(this);
-		show(utilities);
+		newGameEngine = new NewGameEngine(this);
+		show(newGameEngine);
 	}
 
 	// PAUSE APP

@@ -30,7 +30,7 @@ public class NewGameEngine extends GameCanvas implements Runnable {
     }
 
     public void run() {
-        // will do it later
+        
     }
     
 }
