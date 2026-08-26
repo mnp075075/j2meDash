@@ -34,9 +34,9 @@ public class MainMenu extends GameCanvas /* implements Runnable */ {
 	
 		// IMAGE
 		try {
-			// FIREINTHEHOLE = Image.createImage("rsc/img/cubeRotate0.png");
-			background = Image.createImage("rsc/img/background.png");
-			gdlogo = Image.createImage("rsc/img/gdlogo.png");
+			// FIREINTHEHOLE = Image.createImage("/rsc/img/cubeRotate0.png");
+			background = Image.createImage("/rsc/img/background.png");
+			gdlogo = Image.createImage("/rsc/img/gdlogo.png");
 			// SpeedForm speedForm = new SpeedForm();
 			
 			// bgMusic.start();
@@ -68,31 +68,31 @@ public class MainMenu extends GameCanvas /* implements Runnable */ {
 		g.setColor(0,0,0);
 		g.fillRect(100, 200, 40, 30);
 		g.setColor(255,255,255);
-		g.drawString("Timer", 120, 75, Graphics.HCENTER | Graphics.VCENTER);
+		g.drawString("Timer", 120, 75, Graphics.HCENTER | Graphics.BASELINE);
 	
 		// About button
 		g.setColor(0,0,0);
 		g.fillRect(100, 240, 40, 30);
 		g.setColor(255,255,255);
-		g.drawString("About", 120, 235, Graphics.HCENTER | Graphics.VCENTER);
+		g.drawString("About", 120, 235, Graphics.HCENTER | Graphics.BASELINE);
 		
 		// Play button
 		g.setColor(0,0,0);
 		g.fillRect(100, 280, 40, 30);
 		g.setColor(255,255,255);
-		g.drawString("Play", 120, 275, Graphics.HCENTER | Graphics.VCENTER);
+		g.drawString("Play", 120, 275, Graphics.HCENTER | Graphics.BASELINE);
 	
 		// Exit button
 		g.setColor(0, 0, 0);
 		g.fillRect(100, 320, 40, 30);
 		g.setColor(255, 255, 255);
-		g.drawString("Exit", 120, 315, Graphics.HCENTER | Graphics.VCENTER);
+		g.drawString("Exit", 120, 315, Graphics.HCENTER | Graphics.BASELINE);
 
 		// Sound button
 		g.setColor(0,0,0);
 		g.fillRect(100, 360, 40, 30);
 		g.setColor(255,255,255);
-		g.drawString("Sound", 120, 355, Graphics.HCENTER | Graphics.VCENTER);
+		g.drawString("Sound", 120, 355, Graphics.HCENTER | Graphics.BASELINE);
 		
 	}
 

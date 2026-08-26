@@ -74,7 +74,7 @@ if [[ "$choice" == "1" ]]; then
     && mv tmp/classes_tmp tmp/classes
 
     echo "Packaging jar"
-    "$jdk_path/bin/jar" cvfm j2meDash4.jar src/META-INF/MANIFEST.MF rsc -C tmp/classes .
+    "$jdk_path/bin/jar" cvfm j2meDash4.jar src/META-INF/MANIFEST.MF icon.png rsc -C tmp/classes .
 
     if [ -f "j2meDash4.jar" ];
     then
@@ -121,7 +121,7 @@ elif [[ "$choice" == "2" ]]; then
         @sourcelist.txt
 
     echo "Packaging jar"
-    "$jdk_path/bin/jar" cvfm j2meDash8.jar src/META-INF/MANIFEST.MF rsc -C tmp/classes .
+    "$jdk_path/bin/jar" cvfm j2meDash8.jar src/META-INF/MANIFEST.MF icon.png rsc -C tmp/classes .
 
     if [ -f "j2meDash8.jar" ];
     then

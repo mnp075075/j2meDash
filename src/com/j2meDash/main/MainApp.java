@@ -393,8 +393,9 @@ public class MainApp extends MIDlet implements CommandListener {
 	
 	// START APP
 	public void startApp() {
-		newGameEngine = new NewGameEngine(mainApp);
-		show(newGameEngine);
+		splashScreen = new SplashScreen(this);
+		show(splashScreen);
+		splashScreen.threading();
 	}
 
 	// PAUSE APP

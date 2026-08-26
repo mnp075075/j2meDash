@@ -146,30 +146,30 @@ public class GameEngine extends GameCanvas implements Runnable {
 		this.mainApp = mainApp;
 		
 		try {
-			sheet = Image.createImage("rsc/img/sheet.png");
+			sheet = Image.createImage("/rsc/img/sheet.png");
 			
 			// ship
-			ship = Image.createImage("rsc/img/ship.png");
-			ship_1 = Image.createImage("rsc/img/ship_1.png");
-			ship_2 = Image.createImage("rsc/img/ship_2.png");
-			ship_3 = Image.createImage("rsc/img/ship_3.png");
-			ship_4 = Image.createImage("rsc/img/ship_4.png");
+			ship = Image.createImage("/rsc/img/ship.png");
+			ship_1 = Image.createImage("/rsc/img/ship_1.png");
+			ship_2 = Image.createImage("/rsc/img/ship_2.png");
+			ship_3 = Image.createImage("/rsc/img/ship_3.png");
+			ship_4 = Image.createImage("/rsc/img/ship_4.png");
 			
 			// wave
-			wave = Image.createImage("rsc/img/wave.png");
-			wave_up = Image.createImage("rsc/img/wave_up.png");
-			wave_down = Image.createImage("rsc/img/wave_down.png");
+			wave = Image.createImage("/rsc/img/wave.png");
+			wave_up = Image.createImage("/rsc/img/wave_up.png");
+			wave_down = Image.createImage("/rsc/img/wave_down.png");
 			
 			// ball
-			ball = Image.createImage("rsc/img/ball.png");
+			ball = Image.createImage("/rsc/img/ball.png");
 			
 			// spider
-			spider = Image.createImage("rsc/img/spider.png");
-			spider_inverted = Image.createImage("rsc/img/spider_inverted.png");
+			spider = Image.createImage("/rsc/img/spider.png");
+			spider_inverted = Image.createImage("/rsc/img/spider_inverted.png");
 			
 			// ufo
-			ufo = Image.createImage("rsc/img/ufo.png");
-			ufo_inverted = Image.createImage("rsc/img/ufo_inverted.png");
+			ufo = Image.createImage("/rsc/img/ufo.png");
+			ufo_inverted = Image.createImage("/rsc/img/ufo_inverted.png");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -388,7 +388,7 @@ public class GameEngine extends GameCanvas implements Runnable {
 		g.setColor(0xabcdef);
 		g.fillRect(0,0,240,400);
 		
-		callParseLBP("rsc/lvl/example.bin");
+		callParseLBP("/rsc/lvl/example.bin");
 		printObjectOriginally();
 		
 		flushGraphics();

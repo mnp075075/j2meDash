@@ -27,9 +27,9 @@ public class SplashScreen extends GameCanvas {
 		this.mainApp = mainApp;
 		
 		try {
-			java_logo = Image.createImage("rsc/img/javalogo.png");
+			java_logo = Image.createImage("/rsc/img/javalogo.png");
 		} catch (Exception e) {
-			System.err.println();
+			System.err.println("java_logo: " + java_logo);
 		}
 		
 	}	

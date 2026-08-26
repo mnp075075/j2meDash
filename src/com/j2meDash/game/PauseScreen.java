@@ -32,7 +32,7 @@ public class PauseScreen extends GameCanvas {
 		// this.playScreen = playScreen;
 		
 		try {
-			background = Image.createImage("rsc/img/background.png");
+			background = Image.createImage("/rsc/img/background.png");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -47,7 +47,7 @@ public class PauseScreen extends GameCanvas {
 		g.fillRect(30, 30, 180, 340);
 		
 		g.setColor(255,255,255);
-		g.drawString("Do you want to exit game?", 120, 60, Graphics.HCENTER | Graphics.VCENTER);
+		g.drawString("Do you want to exit game?", 120, 60, Graphics.HCENTER | Graphics.BASELINE);
 		
 		g.setColor(50,50,50);
 		g.fillRect(100, 100, 40, 30);
@@ -55,9 +55,9 @@ public class PauseScreen extends GameCanvas {
 		g.fillRect(100, 300, 40, 30);
 		
 		g.setColor(255,255,255);
-		g.drawString("Yes", 120, 115, Graphics.HCENTER | Graphics.VCENTER);
-		g.drawString("No", 120, 215, Graphics.HCENTER | Graphics.VCENTER);
-		g.drawString("Restart", 120, 315, Graphics.HCENTER | Graphics.VCENTER);
+		g.drawString("Yes", 120, 115, Graphics.HCENTER | Graphics.BASELINE);
+		g.drawString("No", 120, 215, Graphics.HCENTER | Graphics.BASELINE);
+		g.drawString("Restart", 120, 315, Graphics.HCENTER | Graphics.BASELINE);
 		
 	}
 	

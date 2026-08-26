@@ -47,7 +47,7 @@ public class WarningScreen extends GameCanvas implements Runnable {
 		// System.out.println("mainApp: " + mainApp);
 		
 		try {
-			warning = Image.createImage("rsc/img/warning.png");
+			warning = Image.createImage("/rsc/img/warning.png");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -64,16 +64,16 @@ public class WarningScreen extends GameCanvas implements Runnable {
 		}
 		
 		g.setColor(255,255,255);
-		g.drawString("Warning: This game is", 120, 200, Graphics.HCENTER | Graphics.VCENTER);
-		g.drawString("bad on purpose but who cares", 120, 215, Graphics.HCENTER | Graphics.VCENTER);
-		g.drawString("you have been warned", 120, 230, Graphics.HCENTER | Graphics.VCENTER);
+		g.drawString("Warning: This game is", 120, 200, Graphics.HCENTER | Graphics.BASELINE);
+		g.drawString("bad on purpose but who cares", 120, 215, Graphics.HCENTER | Graphics.BASELINE);
+		g.drawString("you have been warned", 120, 230, Graphics.HCENTER | Graphics.BASELINE);
 		
 		
 		while (seconds > 0) {
 			g.setColor(0,0,0);
 			g.fillRect(0,235,240,250);
 			g.setColor(255,255,255);
-			g.drawString("this warning will close in: " + this.seconds, 120, 245, Graphics.HCENTER | Graphics.VCENTER);
+			g.drawString("this warning will close in: " + this.seconds, 120, 245, Graphics.HCENTER | Graphics.BASELINE);
 			flushGraphics();
 			this.haventOpened = true;
 			try {

@@ -1,6 +1,7 @@
 package com.j2meDash.menu;
 import com.j2meDash.main.*;
-import javax.microedition.lcdui.*;
+
+import javax.microedition.lcdui.*;
 import javax.microedition.lcdui.game.*;
 
 /*
@@ -54,8 +55,8 @@ private MainMenu mainMenu = new MainMenu(mainApp);
 		g.drawRect(99, 249, 41, 31);
 		g.setColor(0, 206, 119);
 		g.fillRect(100, 250, 40, 30);
-		g.setColor(255,255,255);
-		g.drawString("OK", 120, 265, Graphics.HCENTER | Graphics.VCENTER);
+		g.drawString("OK", 120, 265, Graphics.HCENTER | Graphics.BASELINE);
+		g.drawString("OK", 120, 265, Graphics.HCENTER | Graphics.BASELINE);
 	
 	}
 	

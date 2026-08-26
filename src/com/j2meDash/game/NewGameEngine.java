@@ -62,64 +62,65 @@ public class NewGameEngine extends GameCanvas implements Runnable {
         super(true);
         this.mainApp = mainApp;
 
-        try {
+        try { /*
             // spreadsheets
-            sheet = Image.createImage("rsc/img/sheets/obj_port_sh.png");
+            sheet = Image.createImage("/rsc/img/sheets/obj_port_sh.png");
 
             // bg elements
-            background = Image.createImage("rsc/img/bg/bg.png");
-            foreground = Image.createImage("rsc/img/bg/fg.png");
+            background = Image.createImage("/rsc/img/bg/bg.png");
+            foreground = Image.createImage("/rsc/img/bg/fg.png");
 
             // orbs
             orbs = new Image[] {
-                Image.createImage("rsc/img/orbs/yellow_orb.png"),
-                Image.createImage("rsc/img/orbs/pink_orb.png"),
-                Image.createImage("rsc/img/orbs/red_orb.png"),
-                Image.createImage("rsc/img/orbs/blue_orb.png"),
-                Image.createImage("rsc/img/orbs/green_orb.png"),
-                Image.createImage("rsc/img/orbs/black_orb.png"),
-                Image.createImage("rsc/img/orbs/spider_orb.png")
+                Image.createImage("/rsc/img/orbs/yellow_orb.png"),
+                Image.createImage("/rsc/img/orbs/pink_orb.png"),
+                Image.createImage("/rsc/img/orbs/red_orb.png"),
+                Image.createImage("/rsc/img/orbs/blue_orb.png"),
+                Image.createImage("/rsc/img/orbs/green_orb.png"),
+                Image.createImage("/rsc/img/orbs/black_orb.png"),
+                Image.createImage("/rsc/img/orbs/spider_orb.png")
             };
 
             // pads
             pads = new Image[] {
-                Image.createImage("rsc/img/pads/yellow_pad.png"),
-                Image.createImage("rsc/img/pads/red_pad.png"),
-                Image.createImage("rsc/img/pads/pink_pad.png"),
-                Image.createImage("rsc/img/pads/blue_pad.png"),
-                Image.createImage("rsc/img/pads/spider_pad.png")
+                Image.createImage("/rsc/img/pads/yellow_pad.png"),
+                Image.createImage("/rsc/img/pads/red_pad.png"),
+                Image.createImage("/rsc/img/pads/pink_pad.png"),
+                Image.createImage("/rsc/img/pads/blue_pad.png"),
+                Image.createImage("/rsc/img/pads/spider_pad.png")
             };
 
             // portals
             portals = new Image[] {
-                Image.createImage("rsc/img/orbs/cube_portal.png"),
-                Image.createImage("rsc/img/orbs/ship_portal.png"),
-                Image.createImage("rsc/img/orbs/ball_portal.png"),
-                Image.createImage("rsc/img/orbs/ufo_portal.png"),
-                Image.createImage("rsc/img/orbs/wave_portal.png"),
-                Image.createImage("rsc/img/orbs/robot_portal.png"),
-                Image.createImage("rsc/img/orbs/spider_portal.png"),
-                Image.createImage("rsc/img/orbs/swing_portal.png"),
-                Image.createImage("rsc/img/orbs/normalSize_portal.png"),
-                Image.createImage("rsc/img/orbs/miniSize_portal.png"),
-                Image.createImage("rsc/img/orbs/blue_portal.png"),
-                Image.createImage("rsc/img/orbs/yellow_portal.png"),
-                Image.createImage("rsc/img/orbs/green_portal.png"),
-                Image.createImage("rsc/img/orbs/halfSpeed_portal.png"),
-                Image.createImage("rsc/img/orbs/_1xSpeed_portal.png"),
-                Image.createImage("rsc/img/orbs/_2xSpeed_portal.png"),
-                Image.createImage("rsc/img/orbs/_3xSpeed_portal.png"),
-                Image.createImage("rsc/img/orbs/_4xSpeed_portal.png")
+                Image.createImage("/rsc/img/orbs/cube_portal.png"),
+                Image.createImage("/rsc/img/orbs/ship_portal.png"),
+                Image.createImage("/rsc/img/orbs/ball_portal.png"),
+                Image.createImage("/rsc/img/orbs/ufo_portal.png"),
+                Image.createImage("/rsc/img/orbs/wave_portal.png"),
+                Image.createImage("/rsc/img/orbs/robot_portal.png"),
+                Image.createImage("/rsc/img/orbs/spider_portal.png"),
+                Image.createImage("/rsc/img/orbs/swing_portal.png"),
+                Image.createImage("/rsc/img/orbs/normalSize_portal.png"),
+                Image.createImage("/rsc/img/orbs/miniSize_portal.png"),
+                Image.createImage("/rsc/img/orbs/blue_portal.png"),
+                Image.createImage("/rsc/img/orbs/yellow_portal.png"),
+                Image.createImage("/rsc/img/orbs/green_portal.png"),
+                Image.createImage("/rsc/img/orbs/halfSpeed_portal.png"),
+                Image.createImage("/rsc/img/orbs/_1xSpeed_portal.png"),
+                Image.createImage("/rsc/img/orbs/_2xSpeed_portal.png"),
+                Image.createImage("/rsc/img/orbs/_3xSpeed_portal.png"),
+                Image.createImage("/rsc/img/orbs/_4xSpeed_portal.png")
             };
 
             // fonts
             fonts = new Image[] {
-                Image.createImage("rsc/font/font1.png"),
-                Image.createImage("rsc/font/font2.png"),
-                Image.createImage("rsc/font/font3.png"),
-                Image.createImage("rsc/font/font4.png")
+                Image.createImage("/rsc/font/font1.png"),
+                Image.createImage("/rsc/font/font2.png"),
+                Image.createImage("/rsc/font/font3.png"),
+                Image.createImage("/rsc/font/font4.png")
             };
-        } catch (IOException e) {
+            */
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -164,7 +165,7 @@ public class NewGameEngine extends GameCanvas implements Runnable {
             start_count = now;
         }
         g.setColor(0x000000);
-        g.fillRect(0,0,40,15);
+        g.fillRect(0,0,100,100);
         g.setColor(0xffffff);
         g.drawString("FPS: " + displayFPS, 0, 0, Graphics.LEFT | Graphics.TOP);
         flushGraphics();
@@ -347,118 +348,118 @@ public class NewGameEngine extends GameCanvas implements Runnable {
 	}
 
     // GAMEMODES
-    public void cubeMode(boolean normal_gravity, boolean normal_size) {
+    public void cubeMode(boolean normal_gravity, boolean normal_size, int x, int y) {
         
     }
 
-    public void shipMode(boolean normal_gravity, boolean normal_size) {
+    public void shipMode(boolean normal_gravity, boolean normal_size, int x, int y) {
         
     }
 
-    public void ballMode(boolean normal_gravity, boolean normal_size) {
+    public void ballMode(boolean normal_gravity, boolean normal_size, int x, int y) {
         
     }
 
-    public void ufoMode(boolean normal_gravity, boolean normal_size) {
+    public void ufoMode(boolean normal_gravity, boolean normal_size, int x, int y) {
         
     }
 
-    public void waveMode(boolean normal_gravity, boolean normal_size) {
+    public void waveMode(boolean normal_gravity, boolean normal_size, int x, int y) {
         
     }
 
-    public void robotMode(boolean normal_gravity, boolean normal_size) {
+    public void robotMode(boolean normal_gravity, boolean normal_size, int x, int y) {
         
     }
 
-    public void spiderMode(boolean normal_gravity, boolean normal_size) {
+    public void spiderMode(boolean normal_gravity, boolean normal_size, int x, int y) {
         
     }
 
-    public void swingMode(boolean normal_gravity, boolean normal_size) {
+    public void swingMode(boolean normal_gravity, boolean normal_size, int x, int y) {
         
     }
 
     // ORBS
-    public void yellowOrb(boolean normal_gravity, boolean normal_size) {
+    public void yellowOrb(boolean normal_gravity, boolean normal_size, int x, int y) {
 
     }
 
-    public void pinkOrb(boolean normal_gravity, boolean normal_size) {
+    public void pinkOrb(boolean normal_gravity, boolean normal_size, int x, int y) {
         
     }
 
-    public void redOrb(boolean normal_gravity, boolean normal_size) {
+    public void redOrb(boolean normal_gravity, boolean normal_size, int x, int y) {
         
     }
 
-    public void blueOrb(boolean normal_gravity, boolean normal_size) {
+    public void blueOrb(boolean normal_gravity, boolean normal_size, int x, int y) {
         
     }
 
-    public void greenOrb(boolean normal_gravity, boolean normal_size) {
+    public void greenOrb(boolean normal_gravity, boolean normal_size, int x, int y) {
         
     }
 
-    public void blackOrb(boolean normal_gravity, boolean normal_size) {
+    public void blackOrb(boolean normal_gravity, boolean normal_size, int x, int y) {
         
     }
 
-    public void spiderOrb(boolean normal_gravity, boolean normal_size) {
+    public void spiderOrb(boolean normal_gravity, boolean normal_size, int x, int y) {
         
     }
 
     // PADS
-    public void yellowPad(boolean normal_gravity, boolean normal_size) {
+    public void yellowPad(boolean normal_gravity, boolean normal_size, int x, int y) {
 
     }
 
-    public void redPad(boolean normal_gravity, boolean normal_size) {
+    public void redPad(boolean normal_gravity, boolean normal_size, int x, int y) {
 
     }
 
-    public void pinkPad(boolean normal_gravity, boolean normal_size) {
+    public void pinkPad(boolean normal_gravity, boolean normal_size, int x, int y) {
 
     }
 
-    public void bluePad(boolean normal_gravity, boolean normal_size) {
+    public void bluePad(boolean normal_gravity, boolean normal_size, int x, int y) {
 
     }
 
-    public void spiderPad(boolean normal_gravity, boolean normal_size) {
+    public void spiderPad(boolean normal_gravity, boolean normal_size, int x, int y) {
 
     }
 
     // PORTALS
-    public void cubePortal(boolean normal_gravity, boolean normal_size) {
+    public void cubePortal(boolean normal_gravity, boolean normal_size, int x, int y) {
 
     }
 
-    public void shipPortal(boolean normal_gravity, boolean normal_size) {
+    public void shipPortal(boolean normal_gravity, boolean normal_size, int x, int y) {
         
     }
 
-    public void ballPortal(boolean normal_gravity, boolean normal_size) {
+    public void ballPortal(boolean normal_gravity, boolean normal_size, int x, int y) {
         
     }
 
-    public void ufoPortal(boolean normal_gravity, boolean normal_size) {
+    public void ufoPortal(boolean normal_gravity, boolean normal_size, int x, int y) {
         
     }
 
-    public void wavePortal(boolean normal_gravity, boolean normal_size) {
+    public void wavePortal(boolean normal_gravity, boolean normal_size, int x, int y) {
         
     }
 
-    public void robotPortal(boolean normal_gravity, boolean normal_size) {
+    public void robotPortal(boolean normal_gravity, boolean normal_size, int x, int y) {
         
     }
 
-    public void spiderPortal(boolean normal_gravity, boolean normal_size) {
+    public void spiderPortal(boolean normal_gravity, boolean normal_size, int x, int y) {
         
     }
 
-    public void swingPortal(boolean normal_gravity, boolean normal_size) {
+    public void swingPortal(boolean normal_gravity, boolean normal_size, int x, int y) {
         
     }
 
@@ -504,7 +505,6 @@ public class NewGameEngine extends GameCanvas implements Runnable {
 
     public void run() {
         while (isRunning) {
-            limitFPS(60);
             printFPS();
         }
     }

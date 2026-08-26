@@ -96,12 +96,12 @@ public class Utilities extends GameCanvas implements CommandListener {
         g.setColor(0x000000);
         g.fillRect(70, 100, 100, 20);
         g.setColor(0xffffff);
-        g.drawString("Load level", 120, 110, Graphics.HCENTER | Graphics.VCENTER);
+        g.drawString("Load level", 120, 110, Graphics.HCENTER | Graphics.BASELINE);
 
         g.setColor(0x000000);
         g.fillRect(70, 140, 100, 20);
         g.setColor(0xffffff);
-        g.drawString("Change flags", 120, 130, Graphics.HCENTER | Graphics.VCENTER);
+        g.drawString("Change flags", 120, 130, Graphics.HCENTER | Graphics.BASELINE);
     }
 
     public void commandAction(Command c, Displayable d) {
