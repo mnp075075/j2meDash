@@ -130,8 +130,11 @@ elif [[ "$choice" == "2" ]]; then
 
     echo "Done"
 elif [[ "$choice" == "3" ]]; then
-    "$0" 1
-    "$0" 2
+    # Compile for JDK 4
+    echo 1 | ./compile.sh
+
+    # Compile for JDK 8
+    echo 2 | ./compile.sh
 else
     echo "Invalid choice"
 fi
