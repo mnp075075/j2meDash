@@ -1,8 +1,10 @@
 Manifest-Version: 1.0
-Main-Class: 
-MIDlet-Name: MainApp
-MIDlet-Version: 0.13
-MIDlet-Vendor: Not RobTop Games
-MIDlet-1: j2meDash,, com.j2meDash.main.MainApp
+MIDlet-1: j2meDash, /icon.png, com.j2meDash.main.MainApp
+MIDlet-Name: j2meDash
+MIDlet-Icon: /icon.png
+MIDlet-Version: 1.0.0
 MicroEdition-Configuration: CLDC-1.1
-MicroEdition-Profiles: MIDP-2.0
+MicroEdition-Profile: MIDP-2.0
+MIDlet-Vendor: Nokia
+Nokia-MIDlet-On-Screen-Keypad: no
+Nokia-MIDlet-App-Orientation: portrait

@@ -1,6 +1,7 @@
 package com.j2meDash.temp;
 import com.j2meDash.main.*;
-
+
+
 import javax.microedition.lcdui.*;
 import javax.microedition.lcdui.game.*;
 
@@ -31,5 +32,7 @@ public class NewPlayScreen extends GameCanvas /* implements Runnable */ {
  * but for now it's unused
  * April 26th 2026
  */
+
+// nah im not updating this one, also april 26th 2026 was like 4 months ago
 
 }

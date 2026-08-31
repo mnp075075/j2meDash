@@ -3,7 +3,8 @@ import com.j2meDash.main.*;
 import com.j2meDash.menu.*;
 import com.j2meDash.pars.*;
 import com.j2meDash.temp.*;
-import javax.microedition.lcdui.*;
+
+import javax.microedition.lcdui.*;
 import javax.microedition.lcdui.game.*;
 import javax.microedition.io.file.*;
 import javax.microedition.io.Connector;
@@ -135,8 +136,8 @@ public class PlayScreen extends GameCanvas implements Runnable, CommandListener 
 		try {
 			
 			
-			background = Image.createImage("rsc/img/background.png");
-			foreground = Image.createImage("rsc/img/foreground.png");
+			background = Image.createImage("/rsc/img/background.png");
+			foreground = Image.createImage("/rsc/img/foreground.png");
 
 			/* for (int i = 0; i < 40; i++) {
 				String currentPath = dataRegistry.directories[i];
@@ -154,16 +155,16 @@ public class PlayScreen extends GameCanvas implements Runnable, CommandListener 
 				}
 			} */
 
-			spike1_0 = Image.createImage("rsc/img/spike1_0.png");
-			sheet = Image.createImage("rsc/img/sheet.png");
-			cubeRotate0 = Image.createImage("rsc/img/cubeRotate0.png");
+			spike1_0 = Image.createImage("/rsc/img/spike1_0.png");
+			sheet = Image.createImage("/rsc/img/sheet.png");
+			cubeRotate0 = Image.createImage("/rsc/img/cubeRotate0.png");
 			
 			for (int i = 1; i <= 8; i++) {
-				cubeRotatePositive[i] = Image.createImage("rsc/img/cubeRotate" + i + ".png"); // rotate clockwise
+				cubeRotatePositive[i] = Image.createImage("/rsc/img/cubeRotate" + i + ".png"); // rotate clockwise
 			}
 
 			for (int i = 1; i <= 8; i++) {
-				cubeRotateNegative[i] = Image.createImage("rsc/img/cubeRotate" + i + ".png"); // rotate counterclockwise
+				cubeRotateNegative[i] = Image.createImage("/rsc/img/cubeRotate" + i + ".png"); // rotate counterclockwise
 			}
 			
 		} catch (Exception e) {
@@ -1003,7 +1004,7 @@ public class PlayScreen extends GameCanvas implements Runnable, CommandListener 
 			
 		} else if (c == Exit) {
 			
-			mainApp.showPlayScreen("playScreen");
+			mainApp.showPlayScreen();
 			showNotify(); // just to make sure
 		
 		} else if (c == Save) {

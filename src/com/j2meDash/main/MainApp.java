@@ -1,11 +1,3 @@
-// by new place I mean being separated instead of a huge monolith like before
-// this also removed storage space drastically
-
-// the beginning of the source file
-// props to freej2me and freej2me-plus for being the emulator testing this app
-// also props to microemulator and kemu for actually showing TextBox and playing sound correctly
-
-// IMPORT ALL THOSE THINGS
 package com.j2meDash.main;
 
 import com.j2meDash.game.*;
@@ -36,7 +28,6 @@ import java.io.*; // basically input and output, self-explanatory
 
 */
 
-// THE BRAIN OF THE PROJECT (no more)
 public class MainApp extends MIDlet implements CommandListener { 
 
 	private MainApp mainApp;
@@ -63,6 +54,9 @@ public class MainApp extends MIDlet implements CommandListener {
 	GameOverScreenSpecificallyForRestarting gameOverScreenSpecificallyForRestarting;
 	TransitionScreen transitionScreen;
 	GameEngine gameEngine;
+	TestingFPS testFPS;
+	Utilities utilities;
+	NewGameEngine newGameEngine;
 	
 	// DEFINING EVERYTHING
 	public static boolean SoundEnabled; // deprecated, used to control sound
@@ -104,7 +98,6 @@ public class MainApp extends MIDlet implements CommandListener {
 	public Command three_times_speed = new Command("3x speed", Command.OK, 1);
 	public Command four_times_speed = new Command("4x speed", Command.OK, 1);
 	public Command exit = new Command("Exit back to mainMenu", Command.EXIT, 1);
-	// speed for real, yup
 	
 	// the music players (deprecated due to being hard to control)
 	public Player bgMusic;
@@ -127,6 +120,7 @@ public class MainApp extends MIDlet implements CommandListener {
 	public static final byte STATE_PauseScreen = 0x000d;
 	public static final byte STATE_GameOverScreen = 0x000e;
 	public static final byte STATE_GameOverScreenSpecificallyForRestarting = 0x000f;
+	public static final byte STATE_Utilities = 0x0010;
 	
 	// state ids
 	public static byte targetSTATE;
@@ -151,16 +145,33 @@ public class MainApp extends MIDlet implements CommandListener {
 			case STATE_PauseScreen: d = pauseScreen; break;
 			case STATE_GameOverScreen: d = gameOverScreen; break;
 			case STATE_GameOverScreenSpecificallyForRestarting: d = gameOverScreenSpecificallyForRestarting; break;
+			case STATE_Utilities: d = utilities; break;
 			default: d = null; System.out.println("invalid state"); exitApp();
 		}
 		
 		Display.getDisplay(this).setCurrent(d);
 		
 	}
-	
+
+	public void show(Displayable d) {
+		if (d == null) {
+			System.out.println("null displayable");
+			return;
+		}
+		Display.getDisplay(this).setCurrent(d);
+	}
+
 	public void exitApp() {
 		destroyApp(true);
 		notifyDestroyed();
+	}
+
+	public void sleepFor(int miliseconds) {
+		try {
+			Thread.sleep(miliseconds);
+		} catch (InterruptedException ie) {
+			ie.printStackTrace();
+		}
 	}
 	
 	// CONSTRUCTOR
@@ -214,8 +225,6 @@ public class MainApp extends MIDlet implements CommandListener {
 	}
 	
 	public void showExitMenu() {
-		showTransitionScreen();
-		
 		if (exitMenu == null) {
 			exitMenu = new ExitMenu(this);
 		}
@@ -224,7 +233,7 @@ public class MainApp extends MIDlet implements CommandListener {
 	}
 	
 	public void showMainMenu() {
-		showTransitionScreen();
+		
 		if (mainMenu == null) {
 			mainMenu = new MainMenu(this);
 		}
@@ -233,7 +242,7 @@ public class MainApp extends MIDlet implements CommandListener {
 	}
 	
 	public void showSpeedForm() {
-		showTransitionScreen();
+		
 		if (speedForm == null) {
 			speedForm = new SpeedForm(this);
 		}
@@ -242,7 +251,7 @@ public class MainApp extends MIDlet implements CommandListener {
 	}
 	
 	public void showDebugMenu() {
-		showTransitionScreen();
+		
 		if (debugMenu == null) {
 			debugMenu = new DebugMenu(this);
 		}
@@ -256,7 +265,7 @@ public class MainApp extends MIDlet implements CommandListener {
 		}
 		
 		Display.getDisplay(this).setCurrent(splashScreen);
-		splashScreen.THREAD();
+		splashScreen.threading();
 	}
 	
 	public void showWarningScreen() {
@@ -269,7 +278,7 @@ public class MainApp extends MIDlet implements CommandListener {
 	}
 	
 	public void showAboutMenu() {
-		showTransitionScreen();
+		
 		if (aboutMenu == null) {
 			aboutMenu = new AboutMenu(this);
 		}
@@ -278,7 +287,7 @@ public class MainApp extends MIDlet implements CommandListener {
 	}
 	
 	public void showSoundMenu() {	
-		showTransitionScreen();
+		
 		if (soundMenu == null) {
 			soundMenu = new SoundMenu(this);
 		}
@@ -287,7 +296,7 @@ public class MainApp extends MIDlet implements CommandListener {
 	}
 	
 	public void showSoundForm() {
-		showTransitionScreen();
+		
 		if (soundForm == null) {
 			soundForm = new SoundForm(cl, this);
 		}
@@ -296,7 +305,7 @@ public class MainApp extends MIDlet implements CommandListener {
 	}
 	
 	public void showNewTimerScreen() {
-		showTransitionScreen();
+		
 		if (newTimerScreen == null) {
 			newTimerScreen = new NewTimerScreen(this);
 		}
@@ -305,7 +314,7 @@ public class MainApp extends MIDlet implements CommandListener {
 	}
 	
 	public void showExitForm() {
-		showTransitionScreen();
+		
 		if (exitForm == null) {
 			exitForm = new ExitForm(cl, this);
 		}
@@ -313,22 +322,12 @@ public class MainApp extends MIDlet implements CommandListener {
 		this.targetSTATE = STATE_ExitForm;
 	}
 	
-	public void showPlayScreen(String d) {
-		
-		if (d != "playScreen" || d == null || d.equals("playScreen") == false) {
-			showTransitionScreen();
-			if (playScreen == null) {
-				playScreen = new PlayScreen(this);
-			}
-			
-			this.targetSTATE = STATE_PlayScreen;
-		} else if (d == "playScreen" || d.equals("playScreen")) {
-			if (playScreen == null) {
-				playScreen = new PlayScreen(this);
-			}
-			
-			this.targetSTATE = STATE_PlayScreen;
+	public void showPlayScreen() {
+		if (playScreen == null) {
+			playScreen = new PlayScreen(this);
 		}
+		
+		this.targetSTATE = STATE_PlayScreen;
 	}
 	
 	public void showNewPlayScreen() {
@@ -340,7 +339,7 @@ public class MainApp extends MIDlet implements CommandListener {
 	}
 	
 	public void showPauseScreen() {
-		showTransitionScreen();
+		
 		if (pauseScreen == null) {
 			pauseScreen = new PauseScreen(this);
 		}
@@ -349,7 +348,7 @@ public class MainApp extends MIDlet implements CommandListener {
 	}
 	
 	public void showGameOverScreen() {
-		showTransitionScreen();
+		
 		if (gameOverScreen == null) {
 			gameOverScreen = new GameOverScreen(this);
 		}
@@ -358,7 +357,7 @@ public class MainApp extends MIDlet implements CommandListener {
 	}
 	
 	public void showGameOverScreenSpecificallyForRestarting() {
-		showTransitionScreen();
+		
 		if (gameOverScreenSpecificallyForRestarting == null) {
 			gameOverScreenSpecificallyForRestarting = new GameOverScreenSpecificallyForRestarting(this);
 		}
@@ -374,43 +373,38 @@ public class MainApp extends MIDlet implements CommandListener {
 		
 		Display.getDisplay(this).setCurrent(gameEngine);
 	}
+
+	public void showTestFPS() {
+		// for testing only
+		if (testFPS == null) {
+			testFPS = new TestingFPS(this);
+		}
+		
+		Display.getDisplay(this).setCurrent(testFPS);
+	}
+
+	public void showUtilities() {
+		if (utilities == null) {
+			utilities = new Utilities(this);
+		}
+
+		Display.getDisplay(this).setCurrent(utilities);
+	}
 	
 	// START APP
 	public void startApp() {
-		
-		// dataRegistry = new DataRegistry(this);
-		// levelBinaryParser = new LevelBinaryParser(this);
-		
-		// showWarningScreen();
-		// levelBinaryParser.parseByte("rsc/lvl/example.bin");
-		
-		// for testing
-		gameEngine = new GameEngine(this);
-		
-		// testDisplayLevelLoader.callParseLBP("rsc/lvl/example.bin");
-		showGameEngine();
-
+		splashScreen = new SplashScreen(this);
+		show(splashScreen);
+		splashScreen.threading();
 	}
-
+	
 	// PAUSE APP
 	public void pauseApp() {
-
-		/* pauseApp()
-		 * pauseApp itself serves not much useful cases
-		 * you can't test it on emulators since there isn't any system-related force acting on the program itself
-		 * and so i don't consider adding any much code for this situation (or case)
-		 */
-	
-		// display = Display.getDisplay(this);
-		// exitMenu = new ExitMenu();
 		showExitMenu();
-		
 	}
 
 	// DESTROY APP
 	public void destroyApp(boolean unconditional) {
-
-		// this will be cleanup code
 
 	}
 

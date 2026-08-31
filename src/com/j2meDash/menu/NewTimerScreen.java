@@ -1,6 +1,7 @@
 package com.j2meDash.menu;
 import com.j2meDash.main.*;
-import javax.microedition.lcdui.*;
+
+import javax.microedition.lcdui.*;
 import javax.microedition.lcdui.game.*;
 
 /*
@@ -26,7 +27,7 @@ public class NewTimerScreen extends GameCanvas implements Runnable {
 		
 		this.mainApp = mainApp;
 		try {
-			background1 = Image.createImage("rsc/img/background.png");
+			background1 = Image.createImage("/rsc/img/background.png");
 		} catch (Exception e) {
 			// nothing
 		}
@@ -180,8 +181,8 @@ public class NewTimerScreen extends GameCanvas implements Runnable {
 																sexquinquagintaducentupleFortnightCount++;
 																
 																if (sexquinquagintaducentupleFortnightCount % 2 == 0) {
-																	g.setColor(0,0,0);
-																	g.drawString("CONGRATS USER, YOU HAVE WASTED TIME", 120, 200, Graphics.HCENTER | Graphics.VCENTER);
+																	g.drawString("CONGRATS USER, YOU HAVE WASTED TIME", 120, 200, Graphics.HCENTER | Graphics.BASELINE);
+																	g.drawString("CONGRATS USER, YOU HAVE WASTED TIME", 120, 200, Graphics.HCENTER | Graphics.BASELINE);
 																	
 																	flushGraphics();
 																	
