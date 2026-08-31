@@ -1,72 +1,94 @@
 name: Build and push
-
+on: workflow_dispatch
 run-name: "Built by ${{ github.actor }} from commit `${{ github.sha }}`"
-
-on:
-  push:
-    branches:
-      - test-level-loader
 
 permissions:
   contents: write
 
 jobs:
   compile-and-release:
-    if: contains(github.event.head_commit.message, '[release]')
-    runs-on: windows-latest
+    runs-on: ubuntu-24.04
     
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Install Java 4
+        shell: bash
+        run: |
+          ls -la
+          cd lib
+          chmod +x j2sdk-1_4_2_19-linux-i586.bin
+          ./j2sdk-1_4_2_19-linux-i586.bin
+          if [ $? -ne 0 ]; then
+            echo "Failed to install Java 4"
+            exit 1
+          fi
+          echo "Java 4 installed successfully"
 
       - name: Install Java 8
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '8'
-          
-      - name: Compile code for Java 8
-        shell: cmd
+        shell: bash
         run: |
-          dir
-          echo Creating "tmp/classes" folder
-          if not exist "classes\" mkdir "tmp\classes"
-          echo Creating "sourcelist.txt" file
-          dir /s /b src\*.java > sourcelist.txt
-          echo Compiling "*.classes" file
-          javac -encoding UTF-8 -classpath "lib\*" -sourcepath src -d tmp\classes @sourcelist.txt
-          if errorlevel 1 echo failed to compile "*.classes" file && exit /b 1
-          echo Packaging into "*.jar" file
-          jar cfm j2meDash8.jar src\META-INF\MANIFEST.MF rsc -C tmp\classes .
-          if errorlevel 1 echo failed to package "*.jar" file && exit /b 1
-          if exist "j2meDash8.jar" move /Y "j2meDash8.jar" "bin"
-          echo Successfully compiled code
-          goto :eof
+          echo "Java 8 installed successfully"
+          
+      - name: Compile code for Java 4
+        shell: bash
+        run: |
+          ls -la
+          cd bin
+          chmod +x compile.sh
+          echo "3" | ./compile.sh
 
       - name: Generate JAD File
         shell: bash
         run: |
           cd bin
-          JAR_FILE="j2meDash8.jar"
-          JAD_FILE="j2meDash8.jad"
-          JAR_SIZE=$(wc -c < "$JAR_FILE" | tr -d ' ')
+          JAR4_FILE="j2meDash4.jar"
+          JAD4_FILE="j2meDash4.jad"
+          JAR4_SIZE=$(wc -c < "$JAR4_FILE" | tr -d ' ')
 
-          cat <<EOF > "$JAD_FILE"
-          MIDlet-Name: j2meDash
-          MIDlet-Version: 1.0.0
-          MIDlet-Vendor: Not RobTop Games AB
-          MIDlet-Jar-URL: j2meDash8.jar
-          MIDlet-Jar-Size: $JAR_SIZE
-          MicroEdition-Profile: MIDP-2.0
-          MicroEdition-Configuration: CLDC-1.1
-          MIDlet-1: j2meDash,rsc/img/icon.png,j2meDash
-          EOF
+          JAR8_FILE="j2meDash8.jar"
+          JAD8_FILE="j2meDash8.jad"
+          JAR8_SIZE=$(wc -c < "$JAR8_FILE" | tr -d ' ')
+
+          touch "$JAD4_FILE"
+
+          echo "MIDlet-1: j2meDash, /icon.png, com.j2meDash.main.MainApp" >> "$JAD4_FILE"
+          echo "MIDlet-Jar-Size: $JAR4_SIZE" >> "$JAD4_FILE"
+          echo "MIDlet-Jar-URL: j2meDash4.jar" >> "$JAD4_FILE"
+          echo "MIDlet-Name: j2meDash" >> "$JAD4_FILE"
+          echo "MIDlet-Vendor: LarpTop" >> "$JAD4_FILE"
+          echo "MIDlet-Version: 1.0.0" >> "$JAD4_FILE"
+          echo "MicroEdition-Configuration: CLDC-1.1" >> "$JAD4_FILE"
+          echo "MicroEdition-Profile: MIDP-2.0" >> "$JAD4_FILE"
+          echo "MIDlet-Icon: /icon.png" >> "$JAD4_FILE"
+          echo "MIDlet-Description: Geometry Dash J2ME" >> "$JAD4_FILE"
+          echo "MIDlet-Permissions: javax.microedition.midlet, javax.microedition.lcdui, javax.microedition.lcdui.game, javax.microedition.media, javax.microedition.media.control, java.io" >> "$JAD4_FILE"
+
+          touch "$JAD8_FILE"
+
+          echo "MIDlet-1: j2meDash, /icon.png, com.j2meDash.main.MainApp" >> "$JAD8_FILE"
+          echo "MIDlet-Jar-Size: $JAR8_SIZE" >> "$JAD8_FILE"
+          echo "MIDlet-Jar-URL: j2meDash8.jar" >> "$JAD8_FILE"
+          echo "MIDlet-Name: j2meDash" >> "$JAD8_FILE"
+          echo "MIDlet-Vendor: LarpTop" >> "$JAD8_FILE"
+          echo "MIDlet-Version: 1.0.0" >> "$JAD8_FILE"
+          echo "MicroEdition-Configuration: CLDC-1.1" >> "$JAD8_FILE"
+          echo "MicroEdition-Profile: MIDP-2.0" >> "$JAD8_FILE"
+          echo "MIDlet-Icon: /icon.png" >> "$JAD8_FILE"
+          echo "MIDlet-Description: Geometry Dash J2ME" >> "$JAD8_FILE"
+          echo "MIDlet-Permissions: javax.microedition.midlet, javax.microedition.lcdui, javax.microedition.lcdui.game, javax.microedition.media, javax.microedition.media.control, java.io" >> "$JAD8_FILE"
+
 
       - name: Generate SHA-256 Checksum
         shell: bash
         run: |
           cd bin
-          sha256sum j2meDash8.jar > checksums.txt
+          sha256sum j2meDash4.jar > checksums.txt
           echo "Computed SHA-256:"
           cat checksums.txt
 
@@ -87,6 +109,8 @@ jobs:
           COMMIT_TITLE=$(git log -1 --format="%s")
           gh release create "dev-$SHORT_SHA" \
             checksums.txt \
+            j2meDash4.jar \
+            j2meDash4.jad \
             j2meDash8.jar \
             j2meDash8.jad \
             --prerelease \
