@@ -1,13 +1,10 @@
 Manifest-Version: 1.0
-Created-By: 1.0.0 (LarpTop)
-MIDlet-Data-Size: 1024
+MIDlet-1: j2meDash, /icon.png, com.j2meDash.main.MainApp
 MIDlet-Name: j2meDash
 MIDlet-Icon: /icon.png
 MIDlet-Version: 1.0.0
-MIDlet-Vendor: Nokia
 MicroEdition-Configuration: CLDC-1.1
-MIDlet-1: j2meDash, /icon.png, com.j2meDash.main.MainApp
 MicroEdition-Profile: MIDP-2.0
-Nokia-Platform: Nokia*
+MIDlet-Vendor: Nokia
 Nokia-MIDlet-On-Screen-Keypad: no
 Nokia-MIDlet-App-Orientation: portrait

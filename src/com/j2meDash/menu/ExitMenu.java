@@ -23,71 +23,49 @@ public class ExitMenu extends GameCanvas {
  */
 	
 	private MainApp mainApp;
+	private MainMenu mainMenu;
 	
-	// MainMenu mainMenu = new MainMenu(mainApp);
+	private int w = getWidth();
+	private int h = getHeight();
 	
 	Display display = Display.getDisplay(mainApp);
-	Image EXIT; // NORMAL IMAGE
 	
 	public ExitMenu(MainApp mainApp) {
 		super(true); // REQUIRED
 		
-		// IMAGE AND AUDIO FOR EXIT MENU
-		
 		this.mainApp = mainApp;
-		
-		try {
-			EXIT = Image.createImage("/rsc/img/cubeRotate0.png");
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.err.println("NO IMAGE NAMED cubeRotate0.png (perhaps you forgot .png isn't .PNG)");
-		}
 	}
-
-// THAT EXIT MENU LITERALLY DO NOTHING
-// not anymore
 
 	// GUI FOR EXIT MENU
 	public void paint(Graphics g) {
+		int fontOffset = (int) (20-g.getFont().getHeight())/2;
+		Font f1 = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_LARGE);
+		Font f2 = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL);
+		g.setFont(f1);
+		g.setColor(0x000000);
+		g.fillRect(0, 0, w, h);
+		g.setColor(0xffffff);
+		g.drawString("Вы хотите выйти?", (int)Math.round(w/2), (int)Math.round(h/2), Graphics.BASELINE | Graphics.HCENTER);
+		g.setFont(f2);
+		g.setColor(0x808080);
+		g.drawString("Do you want to exit?", (int)Math.round(w/2), (int)Math.round(h/2)+15, Graphics.BASELINE | Graphics.HCENTER);
 
-		g.setColor(0,173,119);
-		g.fillRect(0, 0, 240, 400);
-		g.drawString("Do you want to exit?", 120, 30, Graphics.BASELINE | Graphics.HCENTER);
-		g.drawString("SIDE NOTE:", 120, 60, Graphics.BASELINE | Graphics.HCENTER);
-		g.drawString("SIDE NOTE:", 120, 60, Graphics.BASELINE | Graphics.HCENTER);
-		g.drawString("Rage quiting is not my problem", 10, 75, Graphics.LEFT | Graphics.TOP);
-		g.drawString("The issue here is that:", 10, 90, Graphics.LEFT | Graphics.TOP);
-		g.drawString("### You're not skilled enough ###", 10, 105, Graphics.LEFT | Graphics.TOP);
-		g.drawString("You can try the original Geometry", 10, 120, Graphics.LEFT | Graphics.TOP);
-		g.drawString("Dash made by RobTop AB. There are", 10, 135, Graphics.LEFT | Graphics.TOP);
-		g.drawString("main levels for you to try. Maybe", 10, 150, Graphics.LEFT | Graphics.TOP);
-		g.drawString("try Stereo Madness and onwards,", 10, 165, Graphics.LEFT | Graphics.TOP);
-		g.drawString("and you'll eventually leveled up!", 10, 180, Graphics.LEFT | Graphics.TOP);
-		g.drawString("Nonetheless, hope you the best!", 10, 210, Graphics.LEFT | Graphics.TOP);
-		g.drawString("Sincerely, idk", 10, 225, Graphics.LEFT | Graphics.TOP);
-		g.setColor(0,206,119);
-		g.fillRect(40, 255, 40, 20);
-		g.fillRect(160, 255, 40, 20);
-		g.drawString("Exit", 60, 265, Graphics.HCENTER | Graphics.BASELINE);
-		g.drawString("Cancel", 180, 265, Graphics.HCENTER | Graphics.BASELINE);
-		g.drawString("Cancel", 180, 265, Graphics.HCENTER | Graphics.BASELINE);
-		g.setColor(0,173,119);
-		
-		if (EXIT != null) {
-			g.drawImage(EXIT, 120, 310, Graphics.HCENTER | Graphics.VCENTER);
-		} else {
-			g.drawString("???", 120, 310, Graphics.HCENTER | Graphics.BASELINE);
-		}
-
+		g.setColor(0xffffff);
+		g.fillRect((int)Math.round(w*0.2), (int)Math.round(h*0.8)-10, 40, 20);
+		g.fillRect((int)Math.round(w*0.8)-40, (int)Math.round(h*0.8)-10, 40, 20);
+		g.setColor(0x000000);
+		g.drawString("Exit", (int)Math.round(w*0.2)+20, (int)Math.round(h*0.8)+fontOffset, Graphics.BASELINE | Graphics.HCENTER);
+		g.drawString("Cancel", (int)Math.round(w*0.8)-20, (int)Math.round(h*0.8)+fontOffset, Graphics.BASELINE | Graphics.HCENTER);
 	}
 		
 	// BUTTONS FOR EXIT MENU
 	protected void pointerPressed(int x, int y) {
 			
-		if (x >= 40 && x <= 80 && y >= 255 && y <= 275) {
+		if (x >= (int)Math.round(w*0.2) && x <= (int)Math.round(w*0.2)+40 && y >= (int)Math.round(h*0.8)-10 && y <= (int)Math.round(h*0.8)-10+20) {
 			mainApp.exitApp();
-		} else if (x >=  160 && x <= 200 && y >= 255 && y <= 275) {
-			mainApp.showMainMenu();
+		} else if (x >= (int)Math.round(w*0.8)-40 && x <= (int)Math.round(w*0.8) && y >= (int)Math.round(h*0.8)-10 && y <= (int)Math.round(h*0.8)-10+20) {
+			mainMenu = new MainMenu(mainApp);
+			mainApp.show(mainMenu);
 		}
 		
 	}

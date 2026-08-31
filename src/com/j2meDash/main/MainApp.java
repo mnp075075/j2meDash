@@ -397,7 +397,7 @@ public class MainApp extends MIDlet implements CommandListener {
 		show(splashScreen);
 		splashScreen.threading();
 	}
-
+	
 	// PAUSE APP
 	public void pauseApp() {
 		showExitMenu();
