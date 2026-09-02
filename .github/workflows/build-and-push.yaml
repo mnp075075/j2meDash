@@ -13,7 +13,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: expansion
+          ref: {{ github.ref_name }}
 
       - name: Install Java 4
         shell: bash
@@ -39,6 +39,7 @@ jobs:
         run: |
           ls -la
           cd bin
+          sudo apt install proguard -y
           chmod +x compile.sh
           echo "3" | ./compile.sh
 
