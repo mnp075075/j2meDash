@@ -1,4 +1,4 @@
-name: Build and push
+name: Build-Push (for expansion branch)
 on: workflow_dispatch
 run-name: "Built by ${{ github.actor }} from commit `${{ github.sha }}`"
 
@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          ref: expansion
 
       - name: Install Java 4
         shell: bash
