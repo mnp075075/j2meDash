@@ -13,7 +13,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: {{ github.ref_name }}
+          ref: ${{ github.event.inputs.ref || github.ref }}
 
       - name: Install Java 4
         shell: bash
