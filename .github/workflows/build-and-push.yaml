@@ -13,19 +13,15 @@ jobs:
       - name: Install prerequisites
         shell: bash
         run: |
-          ls -la
-          sudo apt install proguard -y
+          sudo dpkg --add-architecture i386
+          sudo apt-get update
+          sudo apt-get install -y libc6:i386 libstdc++6:i386 proguard
           mkdir -p "$HOME/j2sdk1.4.2_19"
           cd "$HOME/j2sdk1.4.2_19"
           wget https://raw.githubusercontent.com/mnp075075/j2meDash/refs/heads/expansion/lib/j2sdk-1_4_2_19-linux-i586.bin
-          chmod +x j2sdk-1_4_2_19-linux-i586.bin    
-          printf "yes\n" | ./j2sdk-1_4_2_19-linux-i586.bin > /dev/null 2>&1
-          if [ $? -ne 0 ]; then
-            echo "Failed to install Java 4"
-            exit 1
-          fi
-          echo "Finished installing prerequisites"
-          EXTRACTED_DIR=$(find $HOME/jdk1.4 -maxdepth 2 -type d -name "j2sdk*" -o -name "jdk*" | head -n 1)
+          chmod +x j2sdk-1_4_2_19-linux-i586.bin
+          yes | ./j2sdk-1_4_2_19-linux-i586.bin > /dev/null 2>&1 || true
+          EXTRACTED_DIR=$(find "$HOME/j2sdk1.4.2_19" -maxdepth 2 -type d \( -name "j2sdk*" -o -name "jdk*" \) | head -n 1)
           if [ -z "$EXTRACTED_DIR" ]; then
             echo "Failed to find the extracted Java 4 directory"
             exit 1
@@ -33,9 +29,10 @@ jobs:
           export JAVA_HOME="$EXTRACTED_DIR"
           export PATH="$JAVA_HOME/bin:$PATH"
           echo "JAVA_HOME set to: $JAVA_HOME"
-          echo "PATH updated to include Java 4 binaries"
-          java -version
-          javac -version
+          java -version || true
+          javac -version || true
+          echo "JAVA_HOME=$EXTRACTED_DIR" >> $GITHUB_ENV
+          echo "$EXTRACTED_DIR/bin" >> $GITHUB_PATH
           
       - name: Checkout repository
         uses: actions/checkout@v4
