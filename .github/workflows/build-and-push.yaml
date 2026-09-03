@@ -17,13 +17,25 @@ jobs:
           sudo apt install proguard -y
           wget https://raw.githubusercontent.com/mnp075075/j2meDash/refs/heads/expansion/lib/j2sdk-1_4_2_19-linux-i586.bin
           chmod +x j2sdk-1_4_2_19-linux-i586.bin    
-          printf "yes\n" | ./j2sdk-1_4_2_19-linux-i586.bin
+          mkdir -p "$HOME/j2sdk1.4.2_19"
+          cd "$HOME/j2sdk1.4.2_19"
+          printf "yes\n" | ./j2sdk-1_4_2_19-linux-i586.bin > /dev/null 2>&1
           if [ $? -ne 0 ]; then
             echo "Failed to install Java 4"
             exit 1
           fi
           echo "Finished installing prerequisites"
-          echo "Java 4 is at: $JAVA_HOME"
+          EXTRACTED_DIR=$(find $HOME/jdk1.4 -maxdepth 2 -type d -name "j2sdk*" -o -name "jdk*" | head -n 1)
+          if [ -z "$EXTRACTED_DIR" ]; then
+            echo "Failed to find the extracted Java 4 directory"
+            exit 1
+          fi
+          export JAVA_HOME="$EXTRACTED_DIR"
+          export PATH="$JAVA_HOME/bin:$PATH"
+          echo "JAVA_HOME set to: $JAVA_HOME"
+          echo "PATH updated to include Java 4 binaries"
+          java -version
+          javac -version
           
       - name: Checkout repository
         uses: actions/checkout@v4
