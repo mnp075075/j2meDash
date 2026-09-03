@@ -10,38 +10,33 @@ jobs:
     runs-on: ubuntu-24.04
     
     steps:
-      - name: Install Java 4
+      - name: Install prerequisites
         shell: bash
         run: |
           ls -la
+          sudo apt install proguard -y
           wget https://raw.githubusercontent.com/mnp075075/j2meDash/refs/heads/expansion/lib/j2sdk-1_4_2_19-linux-i586.bin
-          chmod +x j2sdk-1_4_2_19-linux-i586.bin
+          chmod +x j2sdk-1_4_2_19-linux-i586.bin    
           printf "yes\n" | ./j2sdk-1_4_2_19-linux-i586.bin
           if [ $? -ne 0 ]; then
             echo "Failed to install Java 4"
             exit 1
           fi
-          echo "Java 4 installed successfully"
-
-      - name: Install Java 8
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '8'
+          echo "Finished installing prerequisites"
+          echo "Java 4 is at: $JAVA_HOME"
           
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.inputs.ref || github.ref }}
-          
-      - name: Compile code for Java 4
+
+      - name: Compile code
         shell: bash
         run: |
           ls -la
           cd bin
-          sudo apt install proguard -y
           chmod +x compile.sh
-          echo "3" | ./compile.sh
+          echo "1" | ./compile.sh
 
       - name: Generate JAD File
         shell: bash
@@ -50,10 +45,6 @@ jobs:
           JAR4_FILE="j2meDash4.jar"
           JAD4_FILE="j2meDash4.jad"
           JAR4_SIZE=$(wc -c < "$JAR4_FILE" | tr -d ' ')
-
-          JAR8_FILE="j2meDash8.jar"
-          JAD8_FILE="j2meDash8.jad"
-          JAR8_SIZE=$(wc -c < "$JAR8_FILE" | tr -d ' ')
 
           touch "$JAD4_FILE"
 
@@ -68,21 +59,6 @@ jobs:
           echo "MIDlet-Icon: /icon.png" >> "$JAD4_FILE"
           echo "MIDlet-Description: Geometry Dash J2ME" >> "$JAD4_FILE"
           echo "MIDlet-Permissions: javax.microedition.midlet, javax.microedition.lcdui, javax.microedition.lcdui.game, javax.microedition.media, javax.microedition.media.control, java.io" >> "$JAD4_FILE"
-
-          touch "$JAD8_FILE"
-
-          echo "MIDlet-1: j2meDash, /icon.png, com.j2meDash.main.MainApp" >> "$JAD8_FILE"
-          echo "MIDlet-Jar-Size: $JAR8_SIZE" >> "$JAD8_FILE"
-          echo "MIDlet-Jar-URL: j2meDash8.jar" >> "$JAD8_FILE"
-          echo "MIDlet-Name: j2meDash" >> "$JAD8_FILE"
-          echo "MIDlet-Vendor: LarpTop" >> "$JAD8_FILE"
-          echo "MIDlet-Version: 1.0.0" >> "$JAD8_FILE"
-          echo "MicroEdition-Configuration: CLDC-1.1" >> "$JAD8_FILE"
-          echo "MicroEdition-Profile: MIDP-2.0" >> "$JAD8_FILE"
-          echo "MIDlet-Icon: /icon.png" >> "$JAD8_FILE"
-          echo "MIDlet-Description: Geometry Dash J2ME" >> "$JAD8_FILE"
-          echo "MIDlet-Permissions: javax.microedition.midlet, javax.microedition.lcdui, javax.microedition.lcdui.game, javax.microedition.media, javax.microedition.media.control, java.io" >> "$JAD8_FILE"
-
 
       - name: Generate SHA-256 Checksum
         shell: bash
@@ -111,8 +87,6 @@ jobs:
             checksums.txt \
             j2meDash4.jar \
             j2meDash4.jad \
-            j2meDash8.jar \
-            j2meDash8.jad \
             --prerelease \
             --title "Development Release - $SHORT_SHA" \
             --notes $'Nightly version for branch ${{ github.ref_name }} from commit '"$SHORT_SHA: **$COMMIT_TITLE**"$'\n\n[Automatically created by GitHub Actions]('"$RUN_URL"$')'
