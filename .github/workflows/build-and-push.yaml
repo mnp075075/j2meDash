@@ -15,10 +15,10 @@ jobs:
         run: |
           ls -la
           sudo apt install proguard -y
-          wget https://raw.githubusercontent.com/mnp075075/j2meDash/refs/heads/expansion/lib/j2sdk-1_4_2_19-linux-i586.bin
-          chmod +x j2sdk-1_4_2_19-linux-i586.bin    
           mkdir -p "$HOME/j2sdk1.4.2_19"
           cd "$HOME/j2sdk1.4.2_19"
+          wget https://raw.githubusercontent.com/mnp075075/j2meDash/refs/heads/expansion/lib/j2sdk-1_4_2_19-linux-i586.bin
+          chmod +x j2sdk-1_4_2_19-linux-i586.bin    
           printf "yes\n" | ./j2sdk-1_4_2_19-linux-i586.bin > /dev/null 2>&1
           if [ $? -ne 0 ]; then
             echo "Failed to install Java 4"
