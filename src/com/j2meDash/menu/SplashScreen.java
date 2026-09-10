@@ -36,19 +36,20 @@ public class SplashScreen extends GameCanvas {
 	
 	// thread
 	public void threading() {
-		
 		System.out.println("running thread");
 
 		new Thread(new Runnable() {
 			public void run() {
+				int w = getWidth();
+				int h = getHeight();
 				Graphics g = getGraphics();
 				g.setColor(0x000000); // black background
-				g.fillRect(0, 0, 240, 400);
+				g.fillRect(0, 0, w, h);
 				flushGraphics();
 
 				mainApp.sleepFor(2000);
 
-				g.drawImage(java_logo, 120, 200, Graphics.HCENTER | Graphics.VCENTER);
+				g.drawImage(java_logo, w/2, h/2, Graphics.HCENTER | Graphics.VCENTER);
 				flushGraphics();
 
 				mainApp.sleepFor(4000);

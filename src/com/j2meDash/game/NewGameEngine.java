@@ -62,7 +62,7 @@ public class NewGameEngine extends GameCanvas implements Runnable {
         super(true);
         this.mainApp = mainApp;
 
-        try { /*
+        try {
             // spreadsheets
             sheet = Image.createImage("/rsc/img/sheets/obj_port_sh.png");
 
@@ -119,7 +119,6 @@ public class NewGameEngine extends GameCanvas implements Runnable {
                 Image.createImage("/rsc/font/font3.png"),
                 Image.createImage("/rsc/font/font4.png")
             };
-            */
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -346,6 +345,10 @@ public class NewGameEngine extends GameCanvas implements Runnable {
 		}
 		
 	}
+
+    public void printBackground() {
+
+    }
 
     // GAMEMODES
     public void cubeMode(boolean normal_gravity, boolean normal_size, int x, int y) {

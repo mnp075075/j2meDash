@@ -19,8 +19,6 @@ public class WarningScreen extends GameCanvas implements Runnable {
 	
 	private MainApp mainApp;
 	private SoundMenu soundMenu;
-	// Display display = Display.getDisplay(mainApp);
-	// private SplashScreen splashScreen = new SplashScreen(mainApp);
 	Image warning;
 	Graphics g = getGraphics();
 	
@@ -54,26 +52,26 @@ public class WarningScreen extends GameCanvas implements Runnable {
 	}
 	
 	public void run() {
-		
-		// System.out.println("triggered");
+		int w = getWidth();
+		int h = getHeight();
 		g.setColor(0,0,0);
-		g.fillRect(0,0,240,400);
+		g.fillRect(0,0,w,h);
 		
 		if (warning != null) {
-			g.drawImage(warning, 120, 100, Graphics.HCENTER | Graphics.VCENTER);
+			g.drawImage(warning, w/2, h/4, Graphics.HCENTER | Graphics.VCENTER);
 		}
 		
 		g.setColor(255,255,255);
-		g.drawString("Warning: This game is", 120, 200, Graphics.HCENTER | Graphics.BASELINE);
-		g.drawString("bad on purpose but who cares", 120, 215, Graphics.HCENTER | Graphics.BASELINE);
-		g.drawString("you have been warned", 120, 230, Graphics.HCENTER | Graphics.BASELINE);
+		g.drawString("Warning: This game is", (int)w/2, (int)h/2, Graphics.HCENTER | Graphics.BASELINE);
+		g.drawString("bad on purpose but who cares", (int)w/2, (int)h/2+20, Graphics.HCENTER | Graphics.BASELINE);
+		g.drawString("you have been warned", (int)w/2, (int)h/2+40, Graphics.HCENTER | Graphics.BASELINE);
 		
 		
 		while (seconds > 0) {
 			g.setColor(0,0,0);
 			g.fillRect(0,235,240,250);
 			g.setColor(255,255,255);
-			g.drawString("this warning will close in: " + this.seconds, 120, 245, Graphics.HCENTER | Graphics.BASELINE);
+			g.drawString("this warning will close in: " + this.seconds, (int)w/2, (int)h/2+60, Graphics.HCENTER | Graphics.BASELINE);
 			flushGraphics();
 			this.haventOpened = true;
 			try {
