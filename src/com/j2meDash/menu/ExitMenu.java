@@ -45,10 +45,10 @@ public class ExitMenu extends GameCanvas {
 		g.setColor(0x000000);
 		g.fillRect(0, 0, w, h);
 		g.setColor(0xffffff);
-		g.drawString("Вы хотите выйти?", (int)Math.round(w/2), (int)Math.round(h/2), Graphics.BASELINE | Graphics.HCENTER);
+		g.drawString("Do you want to exit?", (int)Math.round(w/2), (int)Math.round(h/2), Graphics.BASELINE | Graphics.HCENTER);
 		g.setFont(f2);
 		g.setColor(0x808080);
-		g.drawString("Do you want to exit?", (int)Math.round(w/2), (int)Math.round(h/2)+15, Graphics.BASELINE | Graphics.HCENTER);
+		g.drawString("Do you want to exit? (double-check)", (int)Math.round(w/2), (int)Math.round(h/2)+15, Graphics.BASELINE | Graphics.HCENTER);
 
 		g.setColor(0xffffff);
 		g.fillRect((int)Math.round(w*0.2), (int)Math.round(h*0.8)-10, 40, 20);

@@ -51,10 +51,10 @@ public class SoundMenu extends GameCanvas {
 		g.setColor(0x000000);
 		g.fillRect(0, 0, w, h);
 		g.setColor(0xffffff);
-		g.drawString("Вы хотите, чтобы был звук?", (int)Math.round(w/2), (int)Math.round(h/2), Graphics.BASELINE | Graphics.HCENTER);
+		g.drawString("Do you want sound?", (int)Math.round(w/2), (int)Math.round(h/2), Graphics.BASELINE | Graphics.HCENTER);
 		g.setFont(f2);
 		g.setColor(0x808080);
-		g.drawString("Do you want sound?", (int)Math.round(w/2), (int)Math.round(h/2)+15, Graphics.BASELINE | Graphics.HCENTER);
+		g.drawString("Do you want sound? (double-check)", (int)Math.round(w/2), (int)Math.round(h/2)+15, Graphics.BASELINE | Graphics.HCENTER);
 
 		g.setColor(0xffffff);
 		g.fillRect((int)Math.round(w*0.2), (int)Math.round(h*0.8)-10, 40, 20);
@@ -64,7 +64,7 @@ public class SoundMenu extends GameCanvas {
 		g.drawString("No", (int)Math.round(w*0.8)-20, (int)Math.round(h*0.8)+fontOffset, Graphics.BASELINE | Graphics.HCENTER);
 		
 		g.setColor(0x303030);
-		g.drawString("Эта игра создана в настоящем аду", w/2, h, Graphics.HCENTER | Graphics.BOTTOM);
+		g.drawString("This is a string", w/2, h, Graphics.HCENTER | Graphics.BOTTOM);
 	}
 
 	// BUTTONS FOR SOUND MENU

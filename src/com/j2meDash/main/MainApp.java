@@ -177,11 +177,6 @@ public class MainApp extends MIDlet implements CommandListener {
 	// CONSTRUCTOR
 	public MainApp() {
 		
-		Object name[][] = {{"SpeedForm","SoundForm","ExitMenu","DebugMenu","SplashScreen","DataRegistry","LevelBinaryParser","WarningScreen","AboutMenu","SoundMenu","MainMenu","ExitForm","NewTimerScreen","TimerScreen","PlayScreen","NewPlayScreen"},
-						   {"speedForm","soundForm","exitMenu","debugMenu","splashScreen","dataRegistry","levelBinaryParser","warningScreen","aboutMenu","soundMenu","mainMenu","exitForm","newTimerScreen","timerScreen","playScreen","newPlayScreen"}};
-						   
-		// commands = new Commands();
-		
 		try {
 			
     		bgMusic = Manager.createPlayer(getClass().getResourceAsStream(null), "audio/x-wav");
@@ -393,8 +388,9 @@ public class MainApp extends MIDlet implements CommandListener {
 	
 	// START APP
 	public void startApp() {
-		newGameEngine = new NewGameEngine(this);
-		show(newGameEngine);
+		splashScreen = new SplashScreen(this);
+		show(splashScreen);
+		splashScreen.threading();
 	}
 	
 	// PAUSE APP

@@ -25,7 +25,7 @@ if [[ "$choice" == "1" ]]; then
         echo "$PACKAGE installed successfully."
     fi
     set -e
-    find ~ -name "j2sdk1.4*" -type d | head -n 1
+    find ~ -name "j2sdk1.4*" -type d | head -n 1 > /dev/null
     if [ $? -eq 0 ]; then
         jdk_path=$(find ~ -name "j2sdk1.4*" -type d | head -n 1)
         echo "Found JDK 1.4 installation at: $jdk_path"

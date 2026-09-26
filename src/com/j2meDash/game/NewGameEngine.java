@@ -2,8 +2,7 @@ package com.j2meDash.game;
 
 import com.j2meDash.main.MainApp;
 import com.j2meDash.pars.LevelBinaryParser;
-
-import java.io.IOException;
+import java.io.*;
 
 import javax.microedition.lcdui.*;
 import javax.microedition.lcdui.game.*;
@@ -576,17 +575,162 @@ public class NewGameEngine extends GameCanvas implements Runnable {
         }
     }
 
+    // POINTERS
+    protected void pointerPressed(int x, int y) {
+
+    }
+
+    protected void pointerReleased(int x, int y) {
+
+    }
+
     // GAMEMODES
     public void cubeMode(boolean normal_gravity, boolean normal_size, int x, int y) {
-        
+        if (normal_size) {
+            if (normal_gravity) {
+                /*
+                boolean isJumping = true;
+                int frameCount = 0;
+                int[] graph_value = {6, 5, 5, 5, 4, 4, 3, 3, 3, 2, 2, 1, 1, 1, 0};
+                if (isJumping) {
+                    int dy = graph_value[frameCount % 15];
+                    y -= (frameCount < 15) ? -dy : dy;
+                    if (++frameCount >= 30) {
+                        frameCount = 0;
+                        isJumping = false;
+                    }
+                }
+                */
+            } else {
+                /*
+                boolean isJumping = true;
+                int frameCount = 0;
+                int[] graph_value = {6, 5, 5, 5, 4, 4, 3, 3, 3, 2, 2, 1, 1, 1, 0};
+                if (isJumping) {
+                    int dy = graph_value[frameCount % 15];
+                    y += (frameCount < 15) ? dy : -dy;
+                    if (++frameCount >= 30) {
+                        frameCount = 0;
+                        isJumping = false;
+                    }
+                } else {
+                    frameCount = 0;
+                }
+                */
+            }
+        } else {
+            if (normal_gravity) {
+                
+            } else {
+
+            }
+        }
     }
 
     public void shipMode(boolean normal_gravity, boolean normal_size, int x, int y) {
-        
+        if (normal_size) {
+            if (normal_gravity) {
+                /*
+                boolean isHolding_ship = true;
+                int[] graph_value = {1, 2, 3, 4};
+                if (isHolding_ship) {
+                    if (y != 40 && buoyancy == true) {
+                        frameCount = 40;
+                        buoyancy = false;
+                    }
+                    int dy = (frameCount < 10) ? graph_value[0] : (frameCount < 20) ? graph_value[1] : (frameCount < 30) ? graph_value[2] : graph_value[3];
+                    if (--frameCount > 0) y -= dy;
+                    else {
+                        frameCount = 0;
+                        y += dy;
+                    }
+                } else {
+                    if (y != 360 && buoyancy == true) {
+                        frameCount = 40;
+                        buoyancy = false;
+                    }
+                    int dy = (frameCount < 10) ? graph_value[0] : (frameCount < 20) ? graph_value[1] : (frameCount < 30) ? graph_value[2] : graph_value[3];
+                    if (--frameCount > 0) y += dy;
+                    else {
+                        frameCount = 0;
+                        y -= dy;
+                    }
+                }
+                */
+            } else {
+                /*
+                boolean isHolding_ship = true;
+                int[] graph_value = {1, 2, 3, 4};
+                if (isHolding_ship) {
+                    if (y != 40 && buoyancy == true) {
+                        frameCount = 40;
+                        buoyancy = false;
+                    }
+                    int dy = (frameCount < 10) ? graph_value[0] : (frameCount < 20) ? graph_value[1] : (frameCount < 30) ? graph_value[2] : graph_value[3];
+                    if (--frameCount > 0) y += dy;
+                    else {
+                        frameCount = 0;
+                        y -= dy;
+                    }
+                } else {
+                    if (y != 360 && buoyancy == true) {
+                        frameCount = 40;
+                        buoyancy = false;
+                    }
+                    int dy = (frameCount < 10) ? graph_value[0] : (frameCount < 20) ? graph_value[1] : (frameCount < 30) ? graph_value[2] : graph_value[3];
+                    if (--frameCount > 0) y -= dy;
+                    else {
+                        frameCount = 0;
+                        y += dy;
+                    }
+                }
+                */
+            }
+        } else {
+            if (normal_gravity) {
+
+            } else {
+                
+            }
+        }
     }
 
     public void ballMode(boolean normal_gravity, boolean normal_size, int x, int y) {
-        
+        if (normal_size) {
+            if (normal_gravity) {
+                /*
+                boolean isBalling = true;
+                int graph_value = {1, 2, 3, 4};
+                if (isBalling) {
+                    int dy = (frameCount < 10) ? graph_value[0] : (frameCount < 20) ? graph_value[1] : (frameCount < 30) ? graph_value[2] : graph_value[3];
+                    y -= dy;
+                    if (y == 360) {
+                        frameCount = 0;
+                        isBalling = false;
+                    }
+                }
+                */
+            } else {
+                /*
+                boolean isBalling = true;
+                int graph_value = {1, 2, 3, 4};
+                if (isBalling) {
+                    int dy = (frameCount < 10) ? graph_value[0] : (frameCount < 20) ? graph_value[1] : (frameCount < 30) ? graph_value[2] : graph_value[3];
+                    y += dy;
+                    if (y == 40) {
+                        frameCount = 0;
+                        isBalling = false;
+                    }
+                }
+                */
+            }
+        } else {
+            if (normal_gravity) {
+
+            } else {
+
+            }
+        }
     }
 
     public void ufoMode(boolean normal_gravity, boolean normal_size, int x, int y) {
@@ -594,7 +738,35 @@ public class NewGameEngine extends GameCanvas implements Runnable {
     }
 
     public void waveMode(boolean normal_gravity, boolean normal_size, int x, int y) {
-        
+        if (normal_size) {
+            if (normal_gravity) {
+                /*
+                boolean isHolding_wave = false;
+                if (isHolding_wave) y--;
+                else y++;
+                */
+            } else {
+                /*
+                boolean isHolding_wave = false;
+                if (isHolding_wave) y++;
+                else y--;
+                */
+            }
+        } else {
+            if (normal_gravity) {
+                /*
+                boolean isHolding_wave = false;
+                if (isHolding_wave) y -= 2;
+                else y += 2;
+                */
+            } else {
+                /*
+                boolean isHolding_wave = false;
+                if (isHolding_wave) y += 2;
+                else y -= 2;
+                */
+            }
+        }
     }
 
     public void robotMode(boolean normal_gravity, boolean normal_size, int x, int y) {
@@ -602,7 +774,7 @@ public class NewGameEngine extends GameCanvas implements Runnable {
     }
 
     public void spiderMode(boolean normal_gravity, boolean normal_size, int x, int y) {
-        
+    
     }
 
     public void swingMode(boolean normal_gravity, boolean normal_size, int x, int y) {
