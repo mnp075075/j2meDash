@@ -27,6 +27,7 @@ public class PlayScreen extends GameCanvas implements Runnable, CommandListener 
  * it's still quite barebones so you may consider improving this
  * i'm trying to make it better
  * but for now it's just a loop of a cube and spikes
+ * HELP ME FOR THE LOVE OF GOD THIS FILE IS SO FRICKING MESSY HELP
  */
 	
 	private MainApp mainApp;
