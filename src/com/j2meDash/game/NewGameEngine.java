@@ -64,7 +64,42 @@ public class NewGameEngine extends GameCanvas implements Runnable {
     private boolean drawn = false;
     private int reductionA = 0;
     private int reductionB = 0;
+
+    // gameplay variables
+    public int playerX = 0; // 0 <= x <= 240 (w)
+    public int playerY = 0; // 0 <= y <= 400 (h)
+    public boolean playerNormalSize = true; // normal = true; mini = false
+    public boolean playerNormalGravity = true; // normal = true; flipped = false;
+    public byte gamemode = 0x01;
+    /*
+    cube = 0x01
+    ship = 0x02
+    ball = 0x03
+    ufo = 0x04
+    wave = 0x05
+    robot = 0x06
+    spider = 0x07
+    swing = 0x08
+    */
     
+    // gamemode variables
+    // cube
+
+    // ship
+
+    // ball
+
+    // ufo
+
+    // wave
+    public boolean isHolding_wave = false;
+
+    // robot
+
+    // spider
+
+    // swing
+
     public NewGameEngine(MainApp mainApp) {
         super(true);
         this.mainApp = mainApp;
@@ -466,81 +501,86 @@ public class NewGameEngine extends GameCanvas implements Runnable {
 
 	}
 
-    public void initializeEverything(boolean are_you_sure) {
-        if (are_you_sure) {
-            try {
-                // spreadsheets
-                sheets = new Image[] {
-                    Image.createImage("/rsc/img/sheets/objects.png"),
-                    Image.createImage("/rsc/img/sheets/cube.png"),
-                    Image.createImage("/rsc/img/sheets/ship.png"),
-                    Image.createImage("/rsc/img/sheets/ball.png"),
-                    Image.createImage("/rsc/img/sheets/ufo.png"),
-                    Image.createImage("/rsc/img/sheets/wave.png"),
-                    Image.createImage("/rsc/img/sheets/robot.png"),
-                    Image.createImage("/rsc/img/sheets/spider.png"),
-                    Image.createImage("/rsc/img/sheets/swing.png")
-                };
+    public void initializeEverything() {
+        try {
+            // spreadsheets
+            sheets = new Image[] {
+                Image.createImage("/rsc/img/sheets/objects.png"),
+                Image.createImage("/rsc/img/sheets/cube.png"),
+                Image.createImage("/rsc/img/sheets/ship.png"),
+                Image.createImage("/rsc/img/sheets/ball.png"),
+                Image.createImage("/rsc/img/sheets/ufo.png"),
+                Image.createImage("/rsc/img/sheets/wave.png"),
+                Image.createImage("/rsc/img/sheets/robot.png"),
+                Image.createImage("/rsc/img/sheets/spider.png"),
+                Image.createImage("/rsc/img/sheets/swing.png")
+            };
 
-                // bg elements
-                background = Image.createImage("/rsc/img/bg/bg.png");
-                foreground = Image.createImage("/rsc/img/bg/fg.png");
+            // bg elements
+            background = Image.createImage("/rsc/img/bg/bg.png");
+            foreground = Image.createImage("/rsc/img/bg/fg.png");
 
-                // orbs
-                orbs = new Image[] {
-                    Image.createImage("/rsc/img/orbs/yellow_orb.png"),
-                    Image.createImage("/rsc/img/orbs/pink_orb.png"),
-                    Image.createImage("/rsc/img/orbs/red_orb.png"),
-                    Image.createImage("/rsc/img/orbs/blue_orb.png"),
-                    Image.createImage("/rsc/img/orbs/green_orb.png"),
-                    Image.createImage("/rsc/img/orbs/black_orb.png"),
-                    Image.createImage("/rsc/img/orbs/spider_orb.png")
-                };
+            // orbs
+            orbs = new Image[] {
+                Image.createImage("/rsc/img/orbs/yellow_orb.png"),
+                Image.createImage("/rsc/img/orbs/pink_orb.png"),
+                Image.createImage("/rsc/img/orbs/red_orb.png"),
+                Image.createImage("/rsc/img/orbs/blue_orb.png"),
+                Image.createImage("/rsc/img/orbs/green_orb.png"),
+                Image.createImage("/rsc/img/orbs/black_orb.png"),
+                Image.createImage("/rsc/img/orbs/spider_orb.png")
+            };
 
-                // pads
-                pads = new Image[] {
-                    Image.createImage("/rsc/img/pads/yellow_pad.png"),
-                    Image.createImage("/rsc/img/pads/red_pad.png"),
-                    Image.createImage("/rsc/img/pads/pink_pad.png"),
-                    Image.createImage("/rsc/img/pads/blue_pad.png"),
-                    Image.createImage("/rsc/img/pads/spider_pad.png")
-                };
+            // pads
+            pads = new Image[] {
+                Image.createImage("/rsc/img/pads/yellow_pad.png"),
+                Image.createImage("/rsc/img/pads/red_pad.png"),
+                Image.createImage("/rsc/img/pads/pink_pad.png"),
+                Image.createImage("/rsc/img/pads/blue_pad.png"),
+                Image.createImage("/rsc/img/pads/spider_pad.png")
+            };
 
-                // portals
-                portals = new Image[] {
-                    Image.createImage("/rsc/img/orbs/cube_portal.png"),
-                    Image.createImage("/rsc/img/orbs/ship_portal.png"),
-                    Image.createImage("/rsc/img/orbs/ball_portal.png"),
-                    Image.createImage("/rsc/img/orbs/ufo_portal.png"),
-                    Image.createImage("/rsc/img/orbs/wave_portal.png"),
-                    Image.createImage("/rsc/img/orbs/robot_portal.png"),
-                    Image.createImage("/rsc/img/orbs/spider_portal.png"),
-                    Image.createImage("/rsc/img/orbs/swing_portal.png"),
-                    Image.createImage("/rsc/img/orbs/normalSize_portal.png"),
-                    Image.createImage("/rsc/img/orbs/miniSize_portal.png"),
-                    Image.createImage("/rsc/img/orbs/blue_portal.png"),
-                    Image.createImage("/rsc/img/orbs/yellow_portal.png"),
-                    Image.createImage("/rsc/img/orbs/green_portal.png"),
-                    Image.createImage("/rsc/img/orbs/halfSpeed_portal.png"),
-                    Image.createImage("/rsc/img/orbs/_1xSpeed_portal.png"),
-                    Image.createImage("/rsc/img/orbs/_2xSpeed_portal.png"),
-                    Image.createImage("/rsc/img/orbs/_3xSpeed_portal.png"),
-                    Image.createImage("/rsc/img/orbs/_4xSpeed_portal.png")
-                };
+            // portals
+            portals = new Image[] {
+                Image.createImage("/rsc/img/orbs/cube_portal.png"),
+                Image.createImage("/rsc/img/orbs/ship_portal.png"),
+                Image.createImage("/rsc/img/orbs/ball_portal.png"),
+                Image.createImage("/rsc/img/orbs/ufo_portal.png"),
+                Image.createImage("/rsc/img/orbs/wave_portal.png"),
+                Image.createImage("/rsc/img/orbs/robot_portal.png"),
+                Image.createImage("/rsc/img/orbs/spider_portal.png"),
+                Image.createImage("/rsc/img/orbs/swing_portal.png"),
+                Image.createImage("/rsc/img/orbs/normalSize_portal.png"),
+                Image.createImage("/rsc/img/orbs/miniSize_portal.png"),
+                Image.createImage("/rsc/img/orbs/blue_portal.png"),
+                Image.createImage("/rsc/img/orbs/yellow_portal.png"),
+                Image.createImage("/rsc/img/orbs/green_portal.png"),
+                Image.createImage("/rsc/img/orbs/halfSpeed_portal.png"),
+                Image.createImage("/rsc/img/orbs/_1xSpeed_portal.png"),
+                Image.createImage("/rsc/img/orbs/_2xSpeed_portal.png"),
+                Image.createImage("/rsc/img/orbs/_3xSpeed_portal.png"),
+                Image.createImage("/rsc/img/orbs/_4xSpeed_portal.png")
+            };
 
-                // fonts
-                fonts = new Image[] {
-                    Image.createImage("/rsc/font/font1.png"),
-                    Image.createImage("/rsc/font/font2.png"),
-                    Image.createImage("/rsc/font/font3.png"),
-                    Image.createImage("/rsc/font/font4.png")
-                };
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                System.out.println("Finish initialization");
-            }
+            // fonts
+            fonts = new Image[] {
+                Image.createImage("/rsc/font/font1.png"),
+                Image.createImage("/rsc/font/font2.png"),
+                Image.createImage("/rsc/font/font3.png"),
+                Image.createImage("/rsc/font/font4.png")
+            };
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            System.out.println("Finish initialization");
         }
+    }
+
+    public void startPos(int x, int y, byte gm) {
+        playerX = x;
+        playerY = y;
+        if (gamemode <= 0x08 && gamemode != 0x00) gamemode = gm;
+        else System.out.println("Invalid gamemode");
     }
 
     public void drawBackground() {
@@ -577,14 +617,14 @@ public class NewGameEngine extends GameCanvas implements Runnable {
 
     // POINTERS
     protected void pointerPressed(int x, int y) {
-
+        
     }
 
     protected void pointerReleased(int x, int y) {
 
     }
 
-    // GAMEMODES
+    // GAMEMODES (are put into while loop)
     public void cubeMode(boolean normal_gravity, boolean normal_size, int x, int y) {
         if (normal_size) {
             if (normal_gravity) {
@@ -734,17 +774,26 @@ public class NewGameEngine extends GameCanvas implements Runnable {
     }
 
     public void ufoMode(boolean normal_gravity, boolean normal_size, int x, int y) {
-        
+        if (normal_size) {
+            if (normal_gravity) {
+
+            } else {
+
+            }
+        } else {
+            if (normal_gravity) {
+
+            } else {
+
+            }
+        }
     }
 
     public void waveMode(boolean normal_gravity, boolean normal_size, int x, int y) {
         if (normal_size) {
             if (normal_gravity) {
-                /*
-                boolean isHolding_wave = false;
                 if (isHolding_wave) y--;
                 else y++;
-                */
             } else {
                 /*
                 boolean isHolding_wave = false;
@@ -770,64 +819,100 @@ public class NewGameEngine extends GameCanvas implements Runnable {
     }
 
     public void robotMode(boolean normal_gravity, boolean normal_size, int x, int y) {
-        
+        if (normal_size) {
+            if (normal_gravity) {
+
+            } else {
+
+            }
+        } else {
+            if (normal_gravity) {
+
+            } else {
+                
+            }
+        }
     }
 
     public void spiderMode(boolean normal_gravity, boolean normal_size, int x, int y) {
-    
+        if (normal_size) {
+            if (normal_gravity) {
+
+            } else {
+
+            }
+        } else {
+            if (normal_gravity) {
+
+            } else {
+                
+            }
+        }
     }
 
     public void swingMode(boolean normal_gravity, boolean normal_size, int x, int y) {
-        
+        if (normal_size) {
+            if (normal_gravity) {
+
+            } else {
+
+            }
+        } else {
+            if (normal_gravity) {
+
+            } else {
+                
+            }
+        }
     }
 
     // ORBS
-    public void yellowOrb(boolean normal_gravity, boolean normal_size, int x, int y) {
+    public void yellowOrb(byte gamemode, boolean normal_gravity, boolean normal_size, int x, int y) {
 
     }
 
-    public void pinkOrb(boolean normal_gravity, boolean normal_size, int x, int y) {
+    public void pinkOrb(byte gamemode, boolean normal_gravity, boolean normal_size, int x, int y) {
         
     }
 
-    public void redOrb(boolean normal_gravity, boolean normal_size, int x, int y) {
+    public void redOrb(byte gamemode, boolean normal_gravity, boolean normal_size, int x, int y) {
         
     }
 
-    public void blueOrb(boolean normal_gravity, boolean normal_size, int x, int y) {
+    public void blueOrb(byte gamemode, boolean normal_gravity, boolean normal_size, int x, int y) {
         
     }
 
-    public void greenOrb(boolean normal_gravity, boolean normal_size, int x, int y) {
+    public void greenOrb(byte gamemode, boolean normal_gravity, boolean normal_size, int x, int y) {
         
     }
 
-    public void blackOrb(boolean normal_gravity, boolean normal_size, int x, int y) {
+    public void blackOrb(byte gamemode, boolean normal_gravity, boolean normal_size, int x, int y) {
         
     }
 
-    public void spiderOrb(boolean normal_gravity, boolean normal_size, int x, int y) {
+    public void spiderOrb(byte gamemode, boolean normal_gravity, boolean normal_size, int x, int y) {
         
     }
 
     // PADS
-    public void yellowPad(boolean normal_gravity, boolean normal_size, int x, int y) {
+    public void yellowPad(byte gamemode, boolean normal_gravity, boolean normal_size, int x, int y) {
 
     }
 
-    public void redPad(boolean normal_gravity, boolean normal_size, int x, int y) {
+    public void redPad(byte gamemode, boolean normal_gravity, boolean normal_size, int x, int y) {
 
     }
 
-    public void pinkPad(boolean normal_gravity, boolean normal_size, int x, int y) {
+    public void pinkPad(byte gamemode, boolean normal_gravity, boolean normal_size, int x, int y) {
 
     }
 
-    public void bluePad(boolean normal_gravity, boolean normal_size, int x, int y) {
+    public void bluePad(byte gamemode, boolean normal_gravity, boolean normal_size, int x, int y) {
 
     }
 
-    public void spiderPad(boolean normal_gravity, boolean normal_size, int x, int y) {
+    public void spiderPad(byte gamemode, boolean normal_gravity, boolean normal_size, int x, int y) {
 
     }
 
@@ -904,9 +989,13 @@ public class NewGameEngine extends GameCanvas implements Runnable {
         
     }
 
+    // TEST CHAMBER
+    // THIS IS ONLY FOR TESTING, OTHER THAN THAT THE COMPONENTS INSIDE THIS JAVA FILE WILL BE USED INSIDE PLAY SCREEN
     public void run() {
+        /*
         while (isRunning) {
             
         }
+        */
     }
 }
