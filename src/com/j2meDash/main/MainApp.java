@@ -1,6 +1,7 @@
 package com.j2meDash.main;
 
 import com.j2meDash.game.*;
+import com.j2meDash.game.mode.cube;
 import com.j2meDash.menu.*;
 import com.j2meDash.pars.*;
 import com.j2meDash.temp.*;
@@ -388,9 +389,8 @@ public class MainApp extends MIDlet implements CommandListener {
 	
 	// START APP
 	public void startApp() {
-		splashScreen = new SplashScreen(this);
-		show(splashScreen);
-		splashScreen.threading();
+		newGameEngine = new NewGameEngine(this);
+		show(newGameEngine);
 	}
 	
 	// PAUSE APP

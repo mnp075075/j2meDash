@@ -1,6 +1,8 @@
 package com.j2meDash.game;
 
+import com.j2meDash.game.mode.cube;
 import com.j2meDash.main.MainApp;
+import com.j2meDash.game.tools.inputHandler;
 import com.j2meDash.pars.LevelBinaryParser;
 import java.io.*;
 
@@ -12,6 +14,7 @@ public class NewGameEngine extends GameCanvas implements Runnable {
     private MainApp mainApp;
     private LevelBinaryParser levelBinaryParser;
     private Thread t;
+    private inputHandler inputHandler;
     
     private volatile boolean isRunning;
     private int[][] widthAndHeight = { 	{0,0,0,0}, {21,21,21,21}, {21,21,21,21}, {21,21,21,21}, // 0,1,2,3
@@ -66,8 +69,8 @@ public class NewGameEngine extends GameCanvas implements Runnable {
     private int reductionB = 0;
 
     // gameplay variables
-    public int playerX = 0; // 0 <= x <= 240 (w)
-    public int playerY = 0; // 0 <= y <= 400 (h)
+    public int playerX = 100; // 0 <= x <= 240 (w)
+    public int playerY = 80; // 0 <= y <= 400 (h)
     public boolean playerNormalSize = true; // normal = true; mini = false
     public boolean playerNormalGravity = true; // normal = true; flipped = false;
     public byte gamemode = 0x01;
@@ -149,6 +152,7 @@ public class NewGameEngine extends GameCanvas implements Runnable {
         g.setColor(0xffffff);
         g.drawString("FPS: " + displayFPS, 0, 0, Graphics.LEFT | Graphics.TOP);
         flushGraphics();
+        // System.out.println("FPS = " + displayFPS);
         frameCount++;
     }
 
@@ -615,15 +619,6 @@ public class NewGameEngine extends GameCanvas implements Runnable {
         }
     }
 
-    // POINTERS
-    protected void pointerPressed(int x, int y) {
-        
-    }
-
-    protected void pointerReleased(int x, int y) {
-
-    }
-
     // GAMEMODES (are put into while loop)
     public void cubeMode(boolean normal_gravity, boolean normal_size, int x, int y) {
         if (normal_size) {
@@ -992,10 +987,23 @@ public class NewGameEngine extends GameCanvas implements Runnable {
     // TEST CHAMBER
     // THIS IS ONLY FOR TESTING, OTHER THAN THAT THE COMPONENTS INSIDE THIS JAVA FILE WILL BE USED INSIDE PLAY SCREEN
     public void run() {
-        /*
+        cube cubeGM = new cube(mainApp);
+        inputHandler = cubeGM;
+        Graphics g = getGraphics();
         while (isRunning) {
-            
+            limitFPS(60);
+            // printFPS();
+            // drawBackground();
+            cubeGM.update(g, true, true);
         }
-        */
+    }
+
+    // POINTERS
+    public void pointerPressed(int x, int y) {
+        inputHandler.pointerPressed(x, y);
+    }
+
+    public void pointerReleased(int x, int y) {
+        inputHandler.pointerReleased(x, y);
     }
 }

@@ -3,9 +3,10 @@ package com.j2meDash.game.mode;
 import com.j2meDash.game.NewGameEngine;
 import com.j2meDash.main.MainApp;
 
-import java.io.IOException;
+import java.io.*;
 
 import javax.microedition.lcdui.game.*;
+import javax.microedition.lcdui.*;
 
 public class wave extends GameCanvas {
     private MainApp mainApp;
@@ -17,8 +18,8 @@ public class wave extends GameCanvas {
         this.mainApp = mainApp;
         try {
 
-        } catch (IOException io) {
-            io.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
     
