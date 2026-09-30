@@ -22,7 +22,7 @@ public class cube extends GameCanvas implements inputHandler {
         super(true);
         this.mainApp = mainApp;
         try {
-            debug = Image.createImage("rsc/temp/debug.png");
+            debug = Image.createImage("/rsc/temp/debug.png");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -40,8 +40,7 @@ public class cube extends GameCanvas implements inputHandler {
         } else {
             g.drawImage(debug, ge.playerX, ge.playerY, g.BOTTOM | g.RIGHT);
         }
-        System.out.println("isJumping = " + isJumping + " - isTouching = " + isTouching);
-        flushGraphics();
+        System.out.println("[CUBE] isJumping = " + isJumping + " - isTouching = " + isTouching);
     }
     
     public void pointerPressed(int x, int y) {

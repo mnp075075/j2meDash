@@ -1,6 +1,6 @@
 package com.j2meDash.game;
 
-import com.j2meDash.game.mode.cube;
+import com.j2meDash.game.mode.*;
 import com.j2meDash.main.MainApp;
 import com.j2meDash.game.tools.inputHandler;
 import com.j2meDash.pars.LevelBinaryParser;
@@ -67,6 +67,15 @@ public class NewGameEngine extends GameCanvas implements Runnable {
     private boolean drawn = false;
     private int reductionA = 0;
     private int reductionB = 0;
+
+    private cube cubeGM;
+    private ship shipGM;
+    private ball ballGM;
+    private ufo ufoGM;
+    private wave waveGM;
+    private robot robotGM;
+    private spider spiderGM;
+    private swing swingGM;
 
     // gameplay variables
     public int playerX = 100; // 0 <= x <= 240 (w)
@@ -580,11 +589,64 @@ public class NewGameEngine extends GameCanvas implements Runnable {
         }
     }
 
-    public void startPos(int x, int y, byte gm) {
-        playerX = x;
-        playerY = y;
-        if (gamemode <= 0x08 && gamemode != 0x00) gamemode = gm;
-        else System.out.println("Invalid gamemode");
+    /*
+    public void changeGamemode(byte gamemode) {
+        // manually update the gamemode with [gamemode].update(g, size, gravity);
+        switch (gamemode) {
+            case 0x01:
+                if (cubeGM == null) cubeGM = new cube(mainApp);
+                inputHandler = cubeGM;
+                System.out.println("[INFO] Changed gamemode to [CUBE] with byte number: " + gamemode);
+                break;
+            case 0x02:
+                if (shipGM == null) shipGM = new cube(mainApp);
+                inputHandler = shipGM;
+                System.out.println("[INFO] Changed gamemode to [SHIP] with byte number: " + gamemode);
+                break;
+            case 0x03:
+                if (ballGM == null) ballGM = new cube(mainApp);
+                inputHandler = ballGM;
+                System.out.println("[INFO] Changed gamemode to [BALL] with byte number: " + gamemode);
+                break;
+            case 0x04:
+                if (ufoGM == null) ufoGM = new cube(mainApp);
+                inputHandler = ufoGM;
+                System.out.println("[INFO] Changed gamemode to [UFO] with byte number: " + gamemode);
+                break;
+            case 0x05:
+                if (waveGM == null) waveGM = new cube(mainApp);
+                inputHandler = waveGM;
+                System.out.println("[INFO] Changed gamemode to [WAVE] with byte number: " + gamemode);
+                break;
+            case 0x06:
+                if (robotGM == null) robotGM = new cube(mainApp);
+                inputHandler = robotGM;
+                System.out.println("[INFO] Changed gamemode to [ROBOT] with byte number: " + gamemode);
+                break;
+            case 0x07:
+                if (spiderGM == null) spiderGM = new cube(mainApp);
+                inputHandler = spiderGM;
+                System.out.println("[INFO] Changed gamemode to [SPIDER] with byte number: " + gamemode);
+                break;
+            case 0x08:
+                if (swingGM == null) swingGM = new cube(mainApp);
+                inputHandler = swingGM;
+                System.out.println("[INFO] Changed gamemode to [SWING] with byte number: " + gamemode);
+                break;
+            default: 
+                System.out.println("[ERROR] Invalid gamemode, no gamemode with byte number: " + gamemode);
+                break;
+        }
+    }
+    */
+
+    public void startPosition(int x, int y) {
+        if (x < 0) System.out.println("[ERROR] Invalid arguments for method: startPosition(int x, int y), expected (x > 0)");
+        else {
+            playerX = x;
+            playerY = y;
+            System.out.println("[INFO] Start position at x = " + x + " - y = " + y);
+        }
     }
 
     public void drawBackground() {
@@ -988,13 +1050,16 @@ public class NewGameEngine extends GameCanvas implements Runnable {
     // THIS IS ONLY FOR TESTING, OTHER THAN THAT THE COMPONENTS INSIDE THIS JAVA FILE WILL BE USED INSIDE PLAY SCREEN
     public void run() {
         cube cubeGM = new cube(mainApp);
-        inputHandler = cubeGM;
+        wave waveGM = new wave(mainApp);
+        ship shipGM = new ship(mainApp);
+        inputHandler = waveGM;
         Graphics g = getGraphics();
         while (isRunning) {
             limitFPS(60);
-            // printFPS();
-            // drawBackground();
-            cubeGM.update(g, true, true);
+            g.setColor(0x000000);
+            g.fillRect(0,0,240,400);
+            waveGM.update(g, true, true);
+            flushGraphics();
         }
     }
 
