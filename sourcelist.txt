@@ -41,6 +41,7 @@
 /home/mnp075/code/github/j2meDash/expansion/src/com/j2meDash/game/PauseScreen.java
 /home/mnp075/code/github/j2meDash/expansion/src/com/j2meDash/game/PlayScreen.java
 /home/mnp075/code/github/j2meDash/expansion/src/com/j2meDash/game/tools/fpsController.java
+/home/mnp075/code/github/j2meDash/expansion/src/com/j2meDash/game/tools/gameMechanics.java
 /home/mnp075/code/github/j2meDash/expansion/src/com/j2meDash/game/tools/inputHandler.java
 /home/mnp075/code/github/j2meDash/expansion/src/com/j2meDash/game/tools/printer.java
 /home/mnp075/code/github/j2meDash/expansion/src/com/j2meDash/game/Utilities.java

@@ -14,7 +14,7 @@ public class NewGameEngine extends GameCanvas implements Runnable {
     private MainApp mainApp;
     private LevelBinaryParser levelBinaryParser;
     private Thread t;
-    private inputHandler inputHandler;
+    public inputHandler inputHandler;
     
     private volatile boolean isRunning;
     private int[][] widthAndHeight = { 	{0,0,0,0}, {21,21,21,21}, {21,21,21,21}, {21,21,21,21}, // 0,1,2,3
@@ -68,21 +68,21 @@ public class NewGameEngine extends GameCanvas implements Runnable {
     private int reductionA = 0;
     private int reductionB = 0;
 
-    private cube cubeGM;
-    private ship shipGM;
-    private ball ballGM;
-    private ufo ufoGM;
-    private wave waveGM;
-    private robot robotGM;
-    private spider spiderGM;
-    private swing swingGM;
+    public cube cubeGM;
+    public ship shipGM;
+    public ball ballGM;
+    public ufo ufoGM;
+    public wave waveGM;
+    public robot robotGM;
+    public spider spiderGM;
+    public swing swingGM;
 
     // gameplay variables
     public int playerX = 100; // 0 <= x <= 240 (w)
     public int playerY = 80; // 0 <= y <= 400 (h)
     public boolean playerNormalSize = true; // normal = true; mini = false
     public boolean playerNormalGravity = true; // normal = true; flipped = false;
-    public byte gamemode = 0x01;
+    public byte playerGamemode = 0x01;
     /*
     cube = 0x01
     ship = 0x02
