@@ -28,6 +28,7 @@ public class GameEngine extends GameCanvas implements Runnable {
 	private MainApp mainApp;
 	private LevelBinaryParser levelBinaryParser;
 	private PlayScreen playScreen;
+	private GameOverScreen gameOverScreen;
 	
 	Image sheet;
 	private Thread gameTest;
@@ -501,7 +502,8 @@ public class GameEngine extends GameCanvas implements Runnable {
 		
 		if (valueHazard == true && hazardID != -1) {
 			System.out.println("died");
-			mainApp.showGameOverScreen();
+			gameOverScreen = new GameOverScreen(mainApp);
+			mainApp.show(gameOverScreen);
 		} else if (valueBody == true && safeID != -1) {
 			System.out.println("survived");
 			
@@ -509,7 +511,8 @@ public class GameEngine extends GameCanvas implements Runnable {
 				if (gamemode == 2) {
 					System.out.println("died");
 					hideNotify();
-					mainApp.showGameOverScreen();
+					gameOverScreen = new GameOverScreen(mainApp);
+					mainApp.show(gameOverScreen);
 				}
 				
 				if (gamemode == 4) {
@@ -529,7 +532,8 @@ public class GameEngine extends GameCanvas implements Runnable {
 				if (overlapY > tolerance) {
 					System.out.println("died");
 					hideNotify();
-					mainApp.showGameOverScreen();
+					gameOverScreen = new GameOverScreen(mainApp);
+					mainApp.show(gameOverScreen);
 					return;
 				} else {
 					y = By - AhHazard;

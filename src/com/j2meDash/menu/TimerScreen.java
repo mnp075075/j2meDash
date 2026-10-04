@@ -15,13 +15,13 @@ import javax.microedition.lcdui.game.*;
 
 */
 
-public class NewTimerScreen extends GameCanvas implements Runnable {
+public class TimerScreen extends GameCanvas implements Runnable {
 	
 	private MainApp mainApp;
 	private MainMenu mainMenu;
 	Image background1;
 	
-	public NewTimerScreen(MainApp mainApp) {
+	public TimerScreen(MainApp mainApp) {
 		super(true);
 		
 		this.mainApp = mainApp;
@@ -32,9 +32,10 @@ public class NewTimerScreen extends GameCanvas implements Runnable {
 		}
 	}
 	
-	private int secondCount = 0;
-	private int minuteCount = 0;
-	private int hourCount = 0;
+	private long counter = 0;
+	private double secondCount = 0;
+	private double minuteCount = 0;
+	private double hourCount = 0;
 	private volatile boolean isRunning;
 	private Thread t;
 	
@@ -62,7 +63,7 @@ public class NewTimerScreen extends GameCanvas implements Runnable {
 			g.setColor(255,255,255);
 			g.fillRect(0,0,240,160);
 			g.setColor(0,0,0);
-			g.drawString("Time spent in newTimerScreen:", 0, 0, Graphics.LEFT | Graphics.TOP);
+			g.drawString("Time spent in here:", 0, 0, Graphics.LEFT | Graphics.TOP);
 			g.drawString(secondCount + " second (s)", 0, 10, Graphics.LEFT | Graphics.TOP);
 			g.drawString(minuteCount + " minute (s)", 0, 20, Graphics.LEFT | Graphics.TOP);
 			g.drawString(hourCount + " hour (s)", 0, 30, Graphics.LEFT | Graphics.TOP);
@@ -77,16 +78,11 @@ public class NewTimerScreen extends GameCanvas implements Runnable {
 			if (!isRunning) {
 				break;
 			}
-			secondCount++;
+			counter++;
 			
-			if (secondCount % 60 == 0) {
-				secondCount = 0;
-				minuteCount++;
-				if (minuteCount % 60 == 0) {
-					minuteCount = 0;
-					hourCount++;
-				}
-			}
+			secondCount = counter % 60;
+			minuteCount = Math.floor(counter / 60) % 60;
+			hourCount = Math.floor(counter / 3600);
 		}
 	}		
 	

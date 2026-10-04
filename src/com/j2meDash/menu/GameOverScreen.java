@@ -18,9 +18,9 @@ import javax.microedition.lcdui.game.*;
 public class GameOverScreen extends GameCanvas {
 	
 	private MainApp mainApp;
-	// private PlayScreen playScreen;
+	private MainMenu mainMenu;
 	
-	Image background;
+	private Image background;
 	
 	public GameOverScreen(MainApp mainApp) {
 		
@@ -38,10 +38,7 @@ public class GameOverScreen extends GameCanvas {
 	
 	public void paint(Graphics g) {
 		g.drawImage(background, 0, 0, Graphics.LEFT | Graphics.TOP);
-		// g.setColor(0,0,0);
-		// g.fillRect(0,0,240,400);
 		g.drawString("GAME OVER", 120, 200, Graphics.HCENTER | Graphics.BASELINE);
-		g.drawString("Returning to mainMenu in 5 seconds", 120, 215, Graphics.HCENTER | Graphics.BASELINE);
 		g.drawString("Returning to mainMenu in 5 seconds", 120, 215, Graphics.HCENTER | Graphics.BASELINE);
 		
 		serviceRepaints();
@@ -49,10 +46,11 @@ public class GameOverScreen extends GameCanvas {
 		try {
 			Thread.sleep(5000);
 		} catch (Exception e) {
-			// nothing
+			e.printStackTrace();
 		}
 		
-		mainApp.showMainMenu();
+		mainMenu = new MainMenu(mainApp);
+		mainApp.show(mainMenu);
 		
 	}
 	

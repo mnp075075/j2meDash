@@ -17,11 +17,6 @@ import javax.microedition.lcdui.game.*;
 
 public class ExitMenu extends GameCanvas {
 	
-/*
- * the exitMenu just do what it said
- * confirms the user if they want to exit the game
- */
-	
 	private MainApp mainApp;
 	private MainMenu mainMenu;
 	

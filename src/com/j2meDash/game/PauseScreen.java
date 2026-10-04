@@ -21,9 +21,10 @@ import javax.microedition.lcdui.game.*;
 public class PauseScreen extends GameCanvas {
 	
 	private MainApp mainApp;
+	private MainMenu mainMenu;
 	private PlayScreen playScreen;
 	
-	Image background;
+	private Image background;
 	
 	public PauseScreen(MainApp mainApp) {
 		
@@ -64,16 +65,19 @@ public class PauseScreen extends GameCanvas {
 	protected void pointerPressed(int x, int y) {
 		if (x >= 100 && y >= 100 && x <= 140 && y <= 130) {
 			
-			mainApp.showMainMenu();
+			mainMenu = new MainMenu(mainApp);
+			mainApp.show(mainMenu);
 			
 		} else if (x >= 100 && y >= 200 && x <= 140 && y <= 230) {
 			
-			mainApp.showPlayScreen();
+			playScreen = new PlayScreen(mainApp);
+			mainApp.show(playScreen);
 			
 		} else if (x >= 100 && y >= 300 && x <= 140 && y <= 330) {
 			
 			restartPlayScreen(true);
-			mainApp.showPlayScreen();
+			playScreen = new PlayScreen(mainApp);
+			mainApp.show(playScreen);
 			
 		}
 	}

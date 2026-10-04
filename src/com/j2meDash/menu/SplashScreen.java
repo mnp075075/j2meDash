@@ -15,10 +15,13 @@ import javax.microedition.lcdui.game.*;
 
 */
 
-public class SplashScreen extends GameCanvas {
+public class SplashScreen extends GameCanvas implements Runnable {
 	
 	private MainApp mainApp;
-	Image java_logo; // jumpscare element
+	private WarningScreen warningScreen;
+	private Thread t;
+	private boolean isRunning = false;
+	private Image java_logo;
 	
 	// constructor
 	public SplashScreen(MainApp mainApp) {
@@ -29,34 +32,33 @@ public class SplashScreen extends GameCanvas {
 		try {
 			java_logo = Image.createImage("/rsc/img/javalogo.png");
 		} catch (Exception e) {
-			System.err.println("java_logo: " + java_logo);
+			e.printStackTrace();
 		}
 		
 	}	
 	
-	// thread
-	public void threading() {
-		System.out.println("running thread");
+	public void showNotify() {
+        isRunning = true;
+        t = new Thread(this);
+        t.start();
+    }
 
-		new Thread(new Runnable() {
-			public void run() {
-				int w = getWidth();
-				int h = getHeight();
-				Graphics g = getGraphics();
-				g.setColor(0x000000); // black background
-				g.fillRect(0, 0, w, h);
-				flushGraphics();
-
-				mainApp.sleepFor(2000);
-
-				g.drawImage(java_logo, w/2, h/2, Graphics.HCENTER | Graphics.VCENTER);
-				flushGraphics();
-
-				mainApp.sleepFor(4000);
-
-				mainApp.showWarningScreen();
-			}
-		}).start();
+    public void hideNotify() {
+        isRunning = false;
+        t = null;
+    }
+	
+	public void run() {
+		int h = getHeight();
+		int w = getWidth();
+		Graphics g = getGraphics();
+		g.drawImage(java_logo, (int)w/2, (int)h/2, g.VCENTER | g.HCENTER);
+		try {
+			Thread.sleep(3000);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		warningScreen = new WarningScreen(mainApp);
+		mainApp.show(warningScreen);
 	}
-		
 }

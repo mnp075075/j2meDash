@@ -22,18 +22,10 @@ import java.io.*;
 */
 
 public class PlayScreen extends GameCanvas implements Runnable, CommandListener {
-
-/* this is the main playScreen where you can play levels
- * it's still quite barebones so you may consider improving this
- * i'm trying to make it better
- * but for now it's just a loop of a cube and spikes
- * HELP ME FOR THE LOVE OF GOD THIS FILE IS SO FRICKING MESSY HELP
- */
 	
 	private MainApp mainApp;
 	private GameOverScreen gameOverScreen;
-	// Display display = Display.getDisplay(mainApp);
-	// private MainMenu mainMenu = new MainMenu(mainApp);
+	private PauseScreen pauseScreen;
 	public int jumpFrame = 0;
 	public int jumpHeight = 0;
 	
@@ -486,7 +478,8 @@ public class PlayScreen extends GameCanvas implements Runnable, CommandListener 
 				// System.out.print("\033[H\033[2J");
 				// System.out.flush();
 				
-				mainApp.showGameOverScreen();
+				gameOverScreen = new GameOverScreen(mainApp);
+				mainApp.show(gameOverScreen);
 				
 			}
 			
@@ -1005,8 +998,7 @@ public class PlayScreen extends GameCanvas implements Runnable, CommandListener 
 			
 		} else if (c == Exit) {
 			
-			mainApp.showPlayScreen();
-			showNotify(); // just to make sure
+			mainApp.show(this);
 		
 		} else if (c == Save) {
 			
@@ -1140,7 +1132,8 @@ public class PlayScreen extends GameCanvas implements Runnable, CommandListener 
 		
 		if (keyCode == KEY_NUM2) {
 			System.out.println("pressed 2");
-			mainApp.showPauseScreen();
+			pauseScreen = new PauseScreen(mainApp);
+			mainApp.show(pauseScreen);
 		}
 		
 	}

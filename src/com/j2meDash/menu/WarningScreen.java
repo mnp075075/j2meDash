@@ -63,9 +63,7 @@ public class WarningScreen extends GameCanvas implements Runnable {
 		
 		g.setColor(255,255,255);
 		g.drawString("Warning: This game is", (int)w/2, (int)h/2, Graphics.HCENTER | Graphics.BASELINE);
-		g.drawString("bad on purpose but who cares", (int)w/2, (int)h/2+20, Graphics.HCENTER | Graphics.BASELINE);
-		g.drawString("you have been warned", (int)w/2, (int)h/2+40, Graphics.HCENTER | Graphics.BASELINE);
-		
+		g.drawString("not made by RobTop Games", (int)w/2, (int)h/2+20, Graphics.HCENTER | Graphics.BASELINE);
 		
 		while (seconds > 0) {
 			g.setColor(0,0,0);
@@ -77,7 +75,7 @@ public class WarningScreen extends GameCanvas implements Runnable {
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
-				System.out.println("nah");
+				e.printStackTrace();
 			}
 			this.seconds--;
 		}

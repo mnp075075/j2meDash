@@ -17,13 +17,13 @@ import javax.microedition.lcdui.game.*;
 */
 
 public class MainMenu extends GameCanvas /* implements Runnable */ {
-	Image background;
-	Image gdlogo;
+	private Image background;
+	private Image gdlogo;
 
 	private MainApp mainApp;
 	private ExitMenu exitMenu;
 	private SoundMenu soundMenu;
-	private NewTimerScreen newTimerScreen;
+	private TimerScreen timerScreen;
 	private AboutMenu aboutMenu;
 	private SpeedForm speedForm;
 	private PlayScreen playScreen;
@@ -101,8 +101,8 @@ public class MainMenu extends GameCanvas /* implements Runnable */ {
 			soundMenu = new SoundMenu(mainApp);
 			mainApp.show(soundMenu);
 		} else if (x >= 100 && x <= 140 && y >= 50 && y <= 80) {
-			newTimerScreen = new NewTimerScreen(mainApp);
-			mainApp.show(newTimerScreen);
+			timerScreen = new TimerScreen(mainApp);
+			mainApp.show(timerScreen);
 		} else if (x >= 100 && x <= 140 && y >= 260 && y <= 290) {
 			playScreen = new PlayScreen(mainApp);
 			mainApp.show(playScreen);
@@ -114,7 +114,6 @@ public class MainMenu extends GameCanvas /* implements Runnable */ {
 	}
 	
 	protected void keyPressed(int keyCode) { 
-	// this is also to detect input from key presses, not suitable for touchscreen ones
 		if (keyCode == KEY_NUM1) {
 			speedForm = new SpeedForm(null);
 			mainApp.show(speedForm);

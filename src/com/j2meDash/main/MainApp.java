@@ -35,9 +35,7 @@ public class MainApp extends MIDlet implements CommandListener {
 	private CommandListener cl;
 	
 	SpeedForm speedForm;
-	SoundForm soundForm;
 	ExitMenu exitMenu;
-	DebugMenu debugMenu;
 	SplashScreen splashScreen;
 	DataRegistry dataRegistry;
 	LevelBinaryParser levelBinaryParser;
@@ -45,15 +43,12 @@ public class MainApp extends MIDlet implements CommandListener {
 	AboutMenu aboutMenu;
 	SoundMenu soundMenu;
 	MainMenu mainMenu;
-	ExitForm exitForm;
-	NewTimerScreen newTimerScreen;
-	TimerScreen timerScreen;
+	TimerScreen TimerScreen;
 	PlayScreen playScreen;
 	NewPlayScreen newPlayScreen;
 	PauseScreen pauseScreen;
 	GameOverScreen gameOverScreen;
 	GameOverScreenSpecificallyForRestarting gameOverScreenSpecificallyForRestarting;
-	TransitionScreen transitionScreen;
 	GameEngine gameEngine;
 	TestingFPS testFPS;
 	Utilities utilities;
@@ -63,11 +58,6 @@ public class MainApp extends MIDlet implements CommandListener {
 	public static boolean SoundEnabled; // deprecated, used to control sound
 	public static int time = 0; // used for the new timer screen class to count time
 	public static int speedCount = 0; // the speed count, mandatory for controlling speed
-
-
-	// below are variables for the parser
-	// do not touch
-	// these are very important for loading and parsing
 
 	// csv parser arrays
 	public String[] details = new String[40]; // details of an object
@@ -87,7 +77,7 @@ public class MainApp extends MIDlet implements CommandListener {
 	
 	public byte[] data = new byte[1048576];
 	
-	// -----------------------------------
+	// ----------------------------------- //
 	
 	public static volatile boolean running = true; // required
 	private Display display = Display.getDisplay(this); // to control the display
@@ -103,56 +93,6 @@ public class MainApp extends MIDlet implements CommandListener {
 	// the music players (deprecated due to being hard to control)
 	public Player bgMusic;
 	public Player normalMusic;
-	
-	// ids for screens
-	public static final byte STATE_null = 0x0000;
-	public static final byte STATE_SpeedForm = 0x0001;
-	public static final byte STATE_SoundForm = 0x0002;
-	public static final byte STATE_ExitMenu = 0x0003;
-	public static final byte STATE_DebugMenu = 0x0004;
-	public static final byte STATE_SplashScreen = 0x0005;
-	public static final byte STATE_WarningScreen = 0x0006;
-	public static final byte STATE_AboutMenu = 0x0007;
-	public static final byte STATE_SoundMenu = 0x0008;
-	public static final byte STATE_MainMenu = 0x0009;
-	public static final byte STATE_ExitForm = 0x000a;
-	public static final byte STATE_NewTimerScreen = 0x000b;
-	public static final byte STATE_PlayScreen = 0x000c;
-	public static final byte STATE_PauseScreen = 0x000d;
-	public static final byte STATE_GameOverScreen = 0x000e;
-	public static final byte STATE_GameOverScreenSpecificallyForRestarting = 0x000f;
-	public static final byte STATE_Utilities = 0x0010;
-	
-	// state ids
-	public static byte targetSTATE;
-	
-	public void changeScreen() {
-		
-		Displayable d = null;
-		
-		switch (this.targetSTATE) {
-			case STATE_SpeedForm: d = speedForm; break;
-			case STATE_SoundForm: d = soundForm; break;
-			case STATE_ExitMenu: d = exitMenu; break;
-			case STATE_DebugMenu: d = debugMenu; break;
-			case STATE_SplashScreen: d = splashScreen; break;
-			case STATE_WarningScreen: d = warningScreen; break;
-			case STATE_AboutMenu: d = aboutMenu; break;
-			case STATE_SoundMenu: d = soundMenu; break;
-			case STATE_MainMenu: d = mainMenu; break;
-			case STATE_ExitForm: d = exitForm; break;
-			case STATE_NewTimerScreen: d = newTimerScreen; break;
-			case STATE_PlayScreen: d = playScreen; break;
-			case STATE_PauseScreen: d = pauseScreen; break;
-			case STATE_GameOverScreen: d = gameOverScreen; break;
-			case STATE_GameOverScreenSpecificallyForRestarting: d = gameOverScreenSpecificallyForRestarting; break;
-			case STATE_Utilities: d = utilities; break;
-			default: d = null; System.out.println("invalid state"); exitApp();
-		}
-		
-		Display.getDisplay(this).setCurrent(d);
-		
-	}
 
 	public void show(Displayable d) {
 		if (d == null) {
@@ -177,225 +117,18 @@ public class MainApp extends MIDlet implements CommandListener {
 	
 	// CONSTRUCTOR
 	public MainApp() {
-		
-		try {
-			
-    		bgMusic = Manager.createPlayer(getClass().getResourceAsStream(null), "audio/x-wav");
-    		bgMusic.realize();
-    		bgMusic.prefetch();
-			
-			normalMusic = Manager.createPlayer(getClass().getResourceAsStream(null), "audio/x-wav");
-			normalMusic.realize();
-			normalMusic.prefetch();
-			
-			VolumeControl vc1 = (VolumeControl) bgMusic.getControl("VolumeControl");
-			VolumeControl vc2 = (VolumeControl) normalMusic.getControl("VolumeControl");
-			
-			if (vc1 != null) {
-				vc1.setLevel(100);
-			} else {
-				System.err.println("yeah audio sucks");
-			}
-			
-			if (vc2 != null) {
-				vc2.setLevel(100);
-			} else {
-				System.err.println("yeah this one sucks too");
-			}
-			
-		} catch (Exception e) {
-		
-    		// e.printStackTrace();
-			// System.out.println("nah");
-
-		}
-		
-	}
-
-	public void showTransitionScreen() {
-		if (transitionScreen == null) {
-			transitionScreen = new TransitionScreen(this);
-		}
-		
-		Display.getDisplay(this).setCurrent(transitionScreen);
-	}
-	
-	public void showExitMenu() {
-		if (exitMenu == null) {
-			exitMenu = new ExitMenu(this);
-		}
-		
-		this.targetSTATE = STATE_ExitMenu;
-	}
-	
-	public void showMainMenu() {
-		
-		if (mainMenu == null) {
-			mainMenu = new MainMenu(this);
-		}
-		
-		this.targetSTATE = STATE_MainMenu;
-	}
-	
-	public void showSpeedForm() {
-		
-		if (speedForm == null) {
-			speedForm = new SpeedForm(this);
-		}
-		
-		this.targetSTATE = STATE_SpeedForm;
-	}
-	
-	public void showDebugMenu() {
-		
-		if (debugMenu == null) {
-			debugMenu = new DebugMenu(this);
-		}
-		
-		this.targetSTATE = STATE_DebugMenu;
-	}
-	
-	public void showSplashScreen() {
-		if (splashScreen == null) {
-			splashScreen = new SplashScreen(this);
-		}
-		
-		Display.getDisplay(this).setCurrent(splashScreen);
-		splashScreen.threading();
-	}
-	
-	public void showWarningScreen() {
-		if (warningScreen == null) {
-			warningScreen = new WarningScreen(this);
-		}
-		
-		Display.getDisplay(this).setCurrent(warningScreen);
-		// System.out.println("shown");
-	}
-	
-	public void showAboutMenu() {
-		
-		if (aboutMenu == null) {
-			aboutMenu = new AboutMenu(this);
-		}
-		
-		this.targetSTATE = STATE_AboutMenu;
-	}
-	
-	public void showSoundMenu() {	
-		
-		if (soundMenu == null) {
-			soundMenu = new SoundMenu(this);
-		}
-		
-		this.targetSTATE = STATE_SoundMenu;
-	}
-	
-	public void showSoundForm() {
-		
-		if (soundForm == null) {
-			soundForm = new SoundForm(cl, this);
-		}
-		
-		this.targetSTATE = STATE_SoundForm;
-	}
-	
-	public void showNewTimerScreen() {
-		
-		if (newTimerScreen == null) {
-			newTimerScreen = new NewTimerScreen(this);
-		}
-		
-		this.targetSTATE = STATE_NewTimerScreen;
-	}
-	
-	public void showExitForm() {
-		
-		if (exitForm == null) {
-			exitForm = new ExitForm(cl, this);
-		}
-		
-		this.targetSTATE = STATE_ExitForm;
-	}
-	
-	public void showPlayScreen() {
-		if (playScreen == null) {
-			playScreen = new PlayScreen(this);
-		}
-		
-		this.targetSTATE = STATE_PlayScreen;
-	}
-	
-	public void showNewPlayScreen() {
-		// intentionally left blank because of unused class
-	}
-	
-	public void showTimerScreen() {
-		// intentionally left blank because of unused class
-	}
-	
-	public void showPauseScreen() {
-		
-		if (pauseScreen == null) {
-			pauseScreen = new PauseScreen(this);
-		}
-		
-		this.targetSTATE = STATE_PauseScreen;
-	}
-	
-	public void showGameOverScreen() {
-		
-		if (gameOverScreen == null) {
-			gameOverScreen = new GameOverScreen(this);
-		}
-		
-		this.targetSTATE = STATE_GameOverScreen;
-	}
-	
-	public void showGameOverScreenSpecificallyForRestarting() {
-		
-		if (gameOverScreenSpecificallyForRestarting == null) {
-			gameOverScreenSpecificallyForRestarting = new GameOverScreenSpecificallyForRestarting(this);
-		}
-		
-		this.targetSTATE = STATE_GameOverScreenSpecificallyForRestarting;
-	}
-	
-	public void showGameEngine() {
-		// for testing only
-		if (gameEngine == null) {
-			gameEngine = new GameEngine(this);
-		}
-		
-		Display.getDisplay(this).setCurrent(gameEngine);
-	}
-
-	public void showTestFPS() {
-		// for testing only
-		if (testFPS == null) {
-			testFPS = new TestingFPS(this);
-		}
-		
-		Display.getDisplay(this).setCurrent(testFPS);
-	}
-
-	public void showUtilities() {
-		if (utilities == null) {
-			utilities = new Utilities(this);
-		}
-
-		Display.getDisplay(this).setCurrent(utilities);
 	}
 	
 	// START APP
 	public void startApp() {
-		newGameEngine = new NewGameEngine(this);
-		show(newGameEngine);
+		splashScreen = new SplashScreen(this);
+		show(splashScreen);
 	}
 	
 	// PAUSE APP
 	public void pauseApp() {
-		showExitMenu();
+		exitMenu = new ExitMenu(this);
+		show(exitMenu);
 	}
 
 	// DESTROY APP
@@ -417,17 +150,12 @@ public class MainApp extends MIDlet implements CommandListener {
 		} else if (c == four_times_speed) {
 			speedCount = 4;
 		} else if (c == exit) {
-			showMainMenu();
+			mainMenu = new MainMenu(this);
+			show(mainMenu);
 		}
 		if (d != mainMenu) {
 			running = false;
-		} else {
-			// nothing
 		}
-		
 	}
 
 }
-
-// the end of the source file
-// this code is not optimized btw

@@ -18,16 +18,7 @@ import javax.microedition.lcdui.game.*;
 public class AboutMenu extends GameCanvas {
 
 private MainApp mainApp;
-Display display = Display.getDisplay(mainApp);
-
-private MainMenu mainMenu = new MainMenu(mainApp);
-/* 
- * the aboutMenu
- * aboutMenu itself just tells the information about the game and its original creator
- * shoutout to RobTop Games, better known as Robert Topala for originally making:
- * GEOMETRY DASH (for PC and Mobile)
- * also J2ME helped me make this project possible
- */
+private MainMenu mainMenu;
 	
 	public AboutMenu(MainApp mainApp) {
 		super(true); // REQUIRED
@@ -62,14 +53,9 @@ private MainMenu mainMenu = new MainMenu(mainApp);
 	
 	// BUTTONS FOR ABOUT MENU
 	protected void pointerPressed(int x, int y) {
-		
 		if (x >= 100 && x <= 140 && y >= 250 && y <= 280) {
-			
-			display.setCurrent(mainMenu);
-			mainMenu.repaint();
-			
+			mainMenu = new MainMenu(mainApp);
+			mainApp.show(mainMenu);
 		}
-		
 	}
-	
 }
