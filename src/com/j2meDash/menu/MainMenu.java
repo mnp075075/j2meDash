@@ -30,8 +30,6 @@ public class MainMenu extends GameCanvas /* implements Runnable */ {
 	
 	private int w = getWidth();
 	private int h = getHeight();
-
-	private volatile boolean isRunning = true;
 	
 	public MainMenu(MainApp mainApp) { // the constructor
 		super(true); // REQUIRED

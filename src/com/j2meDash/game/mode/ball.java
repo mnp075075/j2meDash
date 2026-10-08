@@ -4,8 +4,6 @@ import com.j2meDash.game.NewGameEngine;
 import com.j2meDash.main.MainApp;
 import com.j2meDash.game.tools.inputHandler;
 
-import java.io.*;
-
 import javax.microedition.lcdui.*;
 import javax.microedition.lcdui.game.*;
 

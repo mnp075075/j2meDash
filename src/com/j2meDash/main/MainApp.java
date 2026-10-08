@@ -1,17 +1,12 @@
 package com.j2meDash.main;
 
 import com.j2meDash.game.*;
-import com.j2meDash.game.mode.cube;
 import com.j2meDash.menu.*;
 import com.j2meDash.pars.*;
-import com.j2meDash.temp.*;
 
 import javax.microedition.midlet.*; // the midlet, required to compile a j2me application
 import javax.microedition.lcdui.*; // basically the ui, things like Forms, Alert, List, and also Canvas
-import javax.microedition.lcdui.game.*; // a gaming version of Canvas that is GameCanvas
 import javax.microedition.media.*; // the way to play sound
-import javax.microedition.media.control.*; // the way to control sound effectively
-import java.io.*; // basically input and output, self-explanatory
 
 /*
 
@@ -30,9 +25,6 @@ import java.io.*; // basically input and output, self-explanatory
 */
 
 public class MainApp extends MIDlet implements CommandListener { 
-
-	private MainApp mainApp;
-	private CommandListener cl;
 	
 	SpeedForm speedForm;
 	ExitMenu exitMenu;
@@ -45,19 +37,17 @@ public class MainApp extends MIDlet implements CommandListener {
 	MainMenu mainMenu;
 	TimerScreen TimerScreen;
 	PlayScreen playScreen;
-	NewPlayScreen newPlayScreen;
 	PauseScreen pauseScreen;
 	GameOverScreen gameOverScreen;
 	GameOverScreenSpecificallyForRestarting gameOverScreenSpecificallyForRestarting;
 	GameEngine gameEngine;
-	TestingFPS testFPS;
 	Utilities utilities;
 	NewGameEngine newGameEngine;
 	
 	// DEFINING EVERYTHING
-	public static boolean SoundEnabled; // deprecated, used to control sound
-	public static int time = 0; // used for the new timer screen class to count time
-	public static int speedCount = 0; // the speed count, mandatory for controlling speed
+	public boolean SoundEnabled; // deprecated, used to control sound
+	public int time = 0; // used for the new timer screen class to count time
+	public int speedCount = 0; // the speed count, mandatory for controlling speed
 
 	// csv parser arrays
 	public String[] details = new String[40]; // details of an object
@@ -80,7 +70,6 @@ public class MainApp extends MIDlet implements CommandListener {
 	// ----------------------------------- //
 	
 	public static volatile boolean running = true; // required
-	private Display display = Display.getDisplay(this); // to control the display
 	
 	// speedForm commands
 	public Command half_times_speed = new Command("0.5x speed", Command.OK, 1);

@@ -1,7 +1,6 @@
 package com.j2meDash.menu;
-import com.j2meDash.main.*;
-import javax.microedition.lcdui.*;
-import javax.microedition.lcdui.game.*;
+
+import javax.microedition.lcdui.*;
 
 /*
 
@@ -15,8 +14,6 @@ import javax.microedition.lcdui.game.*;
 */
 
 public class SpeedForm extends Form {
-	
-	private MainApp mainApp;
 	
 	public Command half_times_speed = new Command("0.5x speed", Command.OK, 1);
 	public Command one_time_speed = new Command("1x speed", Command.OK, 1);

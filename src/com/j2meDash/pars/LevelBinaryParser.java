@@ -3,8 +3,6 @@ import com.j2meDash.main.*;
 
 
 import java.io.*;
-import java.io.InputStream.*;
-import java.io.ByteArrayInputStream.*;
 
 /*
 
@@ -25,8 +23,6 @@ public class LevelBinaryParser {
 	// this one is important since playScreen will load level from it (at least not now)
 	// i don't know if it's optimized yet or not but whatever
 	// you can help improve this one if you want
-
-	private volatile boolean isRunning = true;
 	public static String name;
 	
 	// binary level parser value (useless on its own, they're used for the loops)

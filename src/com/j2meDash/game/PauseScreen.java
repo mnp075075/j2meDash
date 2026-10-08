@@ -1,8 +1,6 @@
 package com.j2meDash.game;
 import com.j2meDash.main.*;
 import com.j2meDash.menu.*;
-import com.j2meDash.pars.*;
-import com.j2meDash.temp.*;
 
 import javax.microedition.lcdui.*;
 import javax.microedition.lcdui.game.*;

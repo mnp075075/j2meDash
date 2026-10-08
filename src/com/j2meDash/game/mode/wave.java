@@ -4,8 +4,6 @@ import com.j2meDash.game.NewGameEngine;
 import com.j2meDash.game.tools.inputHandler;
 import com.j2meDash.main.MainApp;
 
-import java.io.*;
-
 import javax.microedition.lcdui.game.*;
 import javax.microedition.lcdui.*;
 
@@ -29,10 +27,10 @@ public class wave extends GameCanvas implements inputHandler {
         int ge_wave_size = (normal_size) ? 1 : 2;
         if (isHolding) {
             ge.playerY += (normal_gravity) ? -1*ge_wave_size : ge_wave_size;
-            g.drawImage(debug, ge.playerX, ge.playerY, g.BOTTOM | g.RIGHT);
+            g.drawImage(debug, ge.playerX, ge.playerY, Graphics.BOTTOM | Graphics.RIGHT);
         } else {
             ge.playerY += (normal_gravity) ? ge_wave_size : -1*ge_wave_size;
-            g.drawImage(debug, ge.playerX, ge.playerY, g.BOTTOM | g.RIGHT);
+            g.drawImage(debug, ge.playerX, ge.playerY, Graphics.BOTTOM | Graphics.RIGHT);
         }
         System.out.println("[WAVE] isHolding = " + isHolding);
     }

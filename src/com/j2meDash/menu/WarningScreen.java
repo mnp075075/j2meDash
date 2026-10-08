@@ -19,10 +19,9 @@ public class WarningScreen extends GameCanvas implements Runnable {
 	
 	private MainApp mainApp;
 	private SoundMenu soundMenu;
-	Image warning;
-	Graphics g = getGraphics();
-	
-	public static boolean haventOpened; // for the splash screen class, no idea for its name
+	private Image warning;
+	private Graphics g = getGraphics();
+
 	public static int fadeforward; // also for the splash screen class
 	public static int seconds = 5; // once again also for the splash screen class
 	private Thread t;
@@ -41,9 +40,6 @@ public class WarningScreen extends GameCanvas implements Runnable {
 		super(true);
 		
 		this.mainApp = mainApp;
-		// System.out.println("created mainApp");
-		// System.out.println("mainApp: " + mainApp);
-		
 		try {
 			warning = Image.createImage("/rsc/img/warning.png");
 		} catch (Exception e) {
@@ -69,25 +65,19 @@ public class WarningScreen extends GameCanvas implements Runnable {
 			g.setColor(0,0,0);
 			g.fillRect(0,235,240,250);
 			g.setColor(255,255,255);
-			g.drawString("this warning will close in: " + this.seconds, (int)w/2, (int)h/2+60, Graphics.HCENTER | Graphics.BASELINE);
+			g.drawString("This screen will close in: " + seconds, (int)w/2, (int)h/2+60, Graphics.HCENTER | Graphics.BASELINE);
 			flushGraphics();
-			this.haventOpened = true;
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			this.seconds--;
+			seconds--;
 		}
 		
-		if (this.seconds == 0) {
-			if (this.haventOpened == true) {
-				soundMenu = new SoundMenu(mainApp);
-				mainApp.show(soundMenu);
-				this.haventOpened = false;
-			} else {
-				// nothing
-			}
+		if (seconds == 0) {
+			soundMenu = new SoundMenu(mainApp);
+			mainApp.show(soundMenu);
 		}
 		
 	}

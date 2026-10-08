@@ -2,14 +2,11 @@ package com.j2meDash.game.tools;
 
 import javax.microedition.lcdui.*;
 import javax.microedition.lcdui.game.*;
-import com.j2meDash.main.MainApp;
 
 public class fpsController extends GameCanvas {
-    private MainApp mainApp;
 
-    public fpsController(MainApp mainApp) {
+    public fpsController() {
         super(true);
-        this.mainApp = mainApp;
     }
 
     private int frameCount = 0;

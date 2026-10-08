@@ -2,7 +2,6 @@ package com.j2meDash.game;
 
 import javax.microedition.lcdui.*;
 import javax.microedition.lcdui.game.*;
-import java.io.*;
 
 import com.j2meDash.main.MainApp;
 import com.j2meDash.pars.LevelBinaryParser;

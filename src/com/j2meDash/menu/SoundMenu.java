@@ -22,9 +22,7 @@ public class SoundMenu extends GameCanvas {
 
 	private int w = getWidth();
 	private int h = getHeight();
-	// Display display = Display.getDisplay(mainApp);
 	
-	// private MainMenu mainMenu = new MainMenu(mainApp);
 	public SoundMenu(MainApp mainApp) {
 		super(true); // REQUIRED
 		
