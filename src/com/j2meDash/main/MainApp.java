@@ -104,26 +104,17 @@ public class MainApp extends MIDlet implements CommandListener {
 		}
 	}
 	
-	// CONSTRUCTOR
-	public MainApp() {
-	}
-	
-	// START APP
 	public void startApp() {
 		splashScreen = new SplashScreen(this);
 		show(splashScreen);
 	}
 	
-	// PAUSE APP
 	public void pauseApp() {
 		exitMenu = new ExitMenu(this);
 		show(exitMenu);
 	}
 
-	// DESTROY APP
-	public void destroyApp(boolean unconditional) {
-
-	}
+	public void destroyApp(boolean unconditional) {}
 
 	// commands
 	public void commandAction(Command c, Displayable d) {

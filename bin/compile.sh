@@ -10,30 +10,17 @@ if [[ "$choice" == "1" ]]; then
     PACKAGE="proguard"
     if ! command -v "$PACKAGE" &> /dev/null
     then
-        echo "Error: $PACKAGE is not installed. Installing it now..."
-        # Check for package manager (e.g. apt, yum, dnf,...) and install ProGuard
-        if command -v apt &> /dev/null; then
-            sudo apt update && sudo apt install -y proguard
-        elif command -v yum &> /dev/null; then
-            sudo yum install -y proguard
-        elif command -v dnf &> /dev/null; then
-            sudo dnf install -y proguard
-        else
-            echo "Error: No supported package manager found. Please install ProGuard manually."
-            exit 1
-        fi
-        echo "$PACKAGE installed successfully."
+        echo "Error: $PACKAGE is not installed."
     fi
     set -e
-    find ~ -name "j2sdk1.4*" -type d | head -n 1 2>/dev/null
-    if [ $? -eq 0 ]; then
-        jdk_path=$(find ~ -name "j2sdk1.4*" -type d | head -n 1 2>/dev/null)
-        echo "Found JDK 1.4 installation at: $jdk_path"
+    jdk_path_4=$(find ~ -name "j2sdk1.4*" -type d | head -n 1 2>/dev/null)
+    if [ -n "$jdk_path_4" ]; then
+        echo "Found JDK 1.4 installation at: $jdk_path_4"
     else
         echo "JDK 1.4 installation not found in the home directory."
         echo "Enter the path to the JDK 1.4 installation (e.g. /home/user/j2sdk1.4.2_19):"
-        read jdk_path
-        if [ ! -d "$jdk_path" ]; then
+        read jdk_path_4
+        if [ ! -d "$jdk_path_4" ]; then
             echo "Error: The specified path does not exist or is not a directory."
             exit 1
         fi
@@ -52,7 +39,7 @@ if [[ "$choice" == "1" ]]; then
     cd ..
     find "$(pwd)/src" -name "*.java" | sort > sourcelist.txt
 
-    "$jdk_path/bin/javac" \
+    "$jdk_path_4/bin/javac" \
         -encoding UTF-8 \
         -source 1.3 \
         -target 1.3 \
@@ -66,15 +53,13 @@ if [[ "$choice" == "1" ]]; then
             -outjars tmp/classes_tmp \
             -libraryjars lib \
             -microedition \
-            -dontoptimize \
-            -dontobfuscate \
             -dontnote \
             -keep 'public class * extends javax.microedition.midlet.MIDlet' \
     && rm -rf tmp/classes \
     && mv tmp/classes_tmp tmp/classes
 
     echo "Packaging jar"
-    "$jdk_path/bin/jar" cvfm j2meDash4.jar src/META-INF/MANIFEST.MF icon.png rsc -C tmp/classes .
+    "$jdk_path_4/bin/jar" cvfm j2meDash4.jar src/META-INF/MANIFEST.MF icon.png rsc -C tmp/classes .
 
     if [ -f "j2meDash4.jar" ];
     then
@@ -86,13 +71,13 @@ elif [[ "$choice" == "2" ]]; then
     set -e
     find ~ -name "jdk1.8*" -type d | head -n 1
     if [ $? -eq 0 ]; then
-        jdk_path=$(find ~ -name "jdk1.8*" -type d | head -n 1)
-        echo "Found JDK 1.8 installation at: $jdk_path"
+        jdk_path_8=$(find ~ -name "jdk1.8*" -type d | head -n 1)
+        echo "Found JDK 1.8 installation at: $jdk_path_8"
     else
         echo "JDK 1.8 installation not found in the home directory."
         echo "Enter the path to the JDK 1.8 installation (e.g. /home/user/jdk1.8.0_281):"
-        read jdk_path
-        if [ ! -d "$jdk_path" ]; then
+        read jdk_path_8
+        if [ ! -d "$jdk_path_8" ]; then
             echo "Error: The specified path does not exist or is not a directory."
             exit 1
         fi
@@ -111,7 +96,7 @@ elif [[ "$choice" == "2" ]]; then
     cd ..
     find "$(pwd)/src" -name "*.java" | sort > sourcelist.txt
 
-    "$jdk_path/bin/javac" \
+    "$jdk_path_8/bin/javac" \
         -encoding UTF-8 \
         -source 1.8 \
         -target 1.8 \
@@ -121,7 +106,7 @@ elif [[ "$choice" == "2" ]]; then
         @sourcelist.txt
 
     echo "Packaging jar"
-    "$jdk_path/bin/jar" cvfm j2meDash8.jar src/META-INF/MANIFEST.MF icon.png rsc -C tmp/classes .
+    "$jdk_path_8/bin/jar" cvfm j2meDash8.jar src/META-INF/MANIFEST.MF icon.png rsc -C tmp/classes .
 
     if [ -f "j2meDash8.jar" ];
     then

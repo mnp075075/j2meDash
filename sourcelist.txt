@@ -29,6 +29,8 @@
 /home/mnp075/code/github/j2meDash/expansion/src/com/j2meDash/game/elements/portals/speed/_4xSpeedPortal.java
 /home/mnp075/code/github/j2meDash/expansion/src/com/j2meDash/game/elements/portals/speed/halfSpeedPortal.java
 /home/mnp075/code/github/j2meDash/expansion/src/com/j2meDash/game/GameEngine.java
+/home/mnp075/code/github/j2meDash/expansion/src/com/j2meDash/game/IconKit.java
+/home/mnp075/code/github/j2meDash/expansion/src/com/j2meDash/game/IconMenu.java
 /home/mnp075/code/github/j2meDash/expansion/src/com/j2meDash/game/mode/ball.java
 /home/mnp075/code/github/j2meDash/expansion/src/com/j2meDash/game/mode/cube.java
 /home/mnp075/code/github/j2meDash/expansion/src/com/j2meDash/game/mode/robot.java
@@ -58,5 +60,3 @@
 /home/mnp075/code/github/j2meDash/expansion/src/com/j2meDash/menu/WarningScreen.java
 /home/mnp075/code/github/j2meDash/expansion/src/com/j2meDash/pars/DataRegistry.java
 /home/mnp075/code/github/j2meDash/expansion/src/com/j2meDash/pars/LevelBinaryParser.java
-/home/mnp075/code/github/j2meDash/expansion/src/com/j2meDash/temp/NewPlayScreen.java
-/home/mnp075/code/github/j2meDash/expansion/src/com/j2meDash/temp/TestingFPS.java
