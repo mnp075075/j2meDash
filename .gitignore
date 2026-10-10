@@ -1,0 +1,4 @@
+tmp/classes/
+bin/*.jar
+bin/*.jad
+sourcelist.txt
