@@ -1,20 +1,32 @@
 #!/bin/bash
 
-# Find the parent folder (j2meDash) regardless of which worktree triggers the push
-PROJECT_ROOT=$(dirname "$(git rev-parse --show-toplevel)")
-TARGET_DIR="$PROJECT_ROOT/extracted_commits"
+# Find the parent folder (j2meDash)
+TARGET_DIR="~/Downloads/j2meDash_archive/post-github_archive/"
 
-# Loop through all unique commits across all branches
-for hash in $(git log --all --reverse --format="%H" | uniq); do
-    # Find the branch name for this commit
-    branch=$(git branch --all --contains "$hash" | head -n 1 | sed 's/*//g' | sed 's/remotes\/origin\///g' | xargs)
-    branch_clean=$(echo "$branch" | tr '/' '-')
-    folder_name="commit-${branch_clean}-${hash:0:7}"
+# Git passes: <local ref> <local sha1> <remote ref> <remote sha1> via stdin
+while read -r local_ref local_sha remote_ref remote_sha; do
     
-    # Only export if this specific commit folder doesn't exist yet
-    if [ ! -d "$TARGET_DIR/$folder_name" ]; then
-        echo "[Auto-Export] Extracting new commit: $folder_name"
-        mkdir -p "$TARGET_DIR/$folder_name"
-        git archive "$hash" | tar -x -C "$TARGET_DIR/$folder_name"
+    # If remote_sha is all zeros, it's a brand new branch. 
+    # We fetch the last 5 commits of this new branch just to be safe.
+    if [ "$remote_sha" = "0000000000000000000000000000000000000000" ]; then
+        commit_range="-n 5 $local_sha"
+    else
+        # Only process commits between what's on the server and what you're pushing
+        commit_range="$remote_sha..$local_sha"
     fi
+
+    # Extract the clean branch name from the ref (refs/heads/feature -> feature)
+    branch_clean=$(basename "$local_ref" | tr '/' '-')
+
+    # Loop ONLY through the incoming commits (virtually instantaneous)
+    for hash in $(git log --reverse --format="%H" "$commit_range" 2>/dev/null); do
+        folder_name="commit-${branch_clean}-${hash:0:7}"
+        
+        if [ ! -d "$TARGET_DIR/$folder_name" ]; then
+            echo "[Auto-Export] Extracting incoming commit: $folder_name"
+            mkdir -p "$TARGET_DIR/$folder_name"
+            git archive "$hash" | tar -x -C "$TARGET_DIR/$folder_name"
+        fi
+    done
 done
+
