@@ -3,7 +3,7 @@ if [ "$USER" != "mnp075" ]; then
     echo "Skipping archive generation for user $USER"
     exit 0
 fi
-TARGET_DIR="$HOME/Downloads/j2meDash_archive/post-github_archive/"
+TARGET_DIR="$HOME/j2meDash_archive/post-github_archive/"
 while read -r local_ref local_sha remote_ref remote_sha; do
     if [ "$remote_sha" = "0000000000000000000000000000000000000000" ]; then
         commit_range="-n 5 $local_sha"
