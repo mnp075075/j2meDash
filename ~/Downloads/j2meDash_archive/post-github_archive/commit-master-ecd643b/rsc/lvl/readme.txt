@@ -1,1 +1,0 @@
-in the future, it will use .gdj (Geometry Dash Java) file format for its level data instead of .bin (Binary)
