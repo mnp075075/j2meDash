@@ -1,0 +1,2 @@
+tmp/pre-github_archive.zip filter=lfs diff=lfs merge=lfs -text
+pre-github_archive.zip filter=lfs diff=lfs merge=lfs -text
