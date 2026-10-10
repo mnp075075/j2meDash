@@ -63,16 +63,16 @@ public class WarningScreen extends GameCanvas implements Runnable {
 		
 		while (seconds > 0) {
 			g.setColor(0,0,0);
-			g.fillRect(0,235,240,250);
+			g.fillRect(0,h/2+50,w,h/2+70);
 			g.setColor(255,255,255);
 			g.drawString("This screen will close in: " + seconds, (int)w/2, (int)h/2+60, Graphics.HCENTER | Graphics.BASELINE);
 			flushGraphics();
+			seconds--;
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			seconds--;
 		}
 		
 		if (seconds == 0) {
