@@ -46,23 +46,19 @@ public class SoundMenu extends GameCanvas {
 		Font f1 = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_LARGE);
 		Font f2 = Font.getFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL);
 		g.setFont(f1);
-		g.setColor(0x000000);
+		g.setColor(0x0080ff);
 		g.fillRect(0, 0, w, h);
 		g.setColor(0xffffff);
 		g.drawString("Do you want sound?", (int)Math.round(w/2), (int)Math.round(h/2), Graphics.BASELINE | Graphics.HCENTER);
 		g.setFont(f2);
-		g.setColor(0x808080);
 		g.drawString("Do you want sound? (double-check)", (int)Math.round(w/2), (int)Math.round(h/2)+15, Graphics.BASELINE | Graphics.HCENTER);
 
-		g.setColor(0xffffff);
+		g.setColor(0x005ebb);
 		g.fillRect((int)Math.round(w*0.2), (int)Math.round(h*0.8)-10, 40, 20);
 		g.fillRect((int)Math.round(w*0.8)-40, (int)Math.round(h*0.8)-10, 40, 20);
-		g.setColor(0x000000);
+		g.setColor(0xffffff);
 		g.drawString("Yes", (int)Math.round(w*0.2)+20, (int)Math.round(h*0.8)+fontOffset, Graphics.BASELINE | Graphics.HCENTER);
 		g.drawString("No", (int)Math.round(w*0.8)-20, (int)Math.round(h*0.8)+fontOffset, Graphics.BASELINE | Graphics.HCENTER);
-		
-		g.setColor(0x303030);
-		g.drawString("This is a string", w/2, h, Graphics.HCENTER | Graphics.BOTTOM);
 	}
 
 	// BUTTONS FOR SOUND MENU

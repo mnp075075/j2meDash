@@ -13,7 +13,7 @@ if [[ "$choice" == "1" ]]; then
         echo "Error: $PACKAGE is not installed."
     fi
     set -e
-    jdk_path_4=$(find ~ -name "j2sdk1.4*" -type d | head -n 1 2>/dev/null)
+    jdk_path_4=$(find ~ -name "j2sdk1.4*" -type d 2>/dev/null | head -n 1)
     if [ -n "$jdk_path_4" ]; then
         echo "Found JDK 1.4 installation at: $jdk_path_4"
     else
@@ -53,6 +53,8 @@ if [[ "$choice" == "1" ]]; then
             -outjars tmp/classes_tmp \
             -libraryjars lib \
             -microedition \
+            -dontobfuscate \
+            -dontoptimize \
             -dontnote \
             -keep 'public class * extends javax.microedition.midlet.MIDlet' \
     && rm -rf tmp/classes \
@@ -69,9 +71,8 @@ if [[ "$choice" == "1" ]]; then
     echo "Done"
 elif [[ "$choice" == "2" ]]; then
     set -e
-    find ~ -name "jdk1.8*" -type d | head -n 1
+    jdk_path_8=$(find ~ -name "jdk1.8*" -type d 2>/dev/null | head -n 1)
     if [ $? -eq 0 ]; then
-        jdk_path_8=$(find ~ -name "jdk1.8*" -type d | head -n 1)
         echo "Found JDK 1.8 installation at: $jdk_path_8"
     else
         echo "JDK 1.8 installation not found in the home directory."

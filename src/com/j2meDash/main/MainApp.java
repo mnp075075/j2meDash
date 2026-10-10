@@ -1,6 +1,7 @@
 package com.j2meDash.main;
 
 import com.j2meDash.game.*;
+import com.j2meDash.game.mode.ship;
 import com.j2meDash.menu.*;
 import com.j2meDash.pars.*;
 
@@ -110,7 +111,7 @@ public class MainApp extends MIDlet implements CommandListener {
 	}
 	
 	public void pauseApp() {
-		exitMenu = new ExitMenu(this);
+		if (exitMenu == null) exitMenu = new ExitMenu(this);
 		show(exitMenu);
 	}
 
