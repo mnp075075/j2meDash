@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Find the parent folder (j2meDash) regardless of which worktree triggers the push
+PROJECT_ROOT=$(dirname "$(git rev-parse --show-toplevel)")
+TARGET_DIR="$PROJECT_ROOT/extracted_commits"
+
+# Loop through all unique commits across all branches
+for hash in $(git log --all --reverse --format="%H" | uniq); do
+    # Find the branch name for this commit
+    branch=$(git branch --all --contains "$hash" | head -n 1 | sed 's/*//g' | sed 's/remotes\/origin\///g' | xargs)
+    branch_clean=$(echo "$branch" | tr '/' '-')
+    folder_name="commit-${branch_clean}-${hash:0:7}"
+    
+    # Only export if this specific commit folder doesn't exist yet
+    if [ ! -d "$TARGET_DIR/$folder_name" ]; then
+        echo "[Auto-Export] Extracting new commit: $folder_name"
+        mkdir -p "$TARGET_DIR/$folder_name"
+        git archive "$hash" | tar -x -C "$TARGET_DIR/$folder_name"
+    fi
+done
