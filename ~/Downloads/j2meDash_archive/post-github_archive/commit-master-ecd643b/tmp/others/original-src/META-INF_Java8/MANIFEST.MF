@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Main-Class: 
+MIDlet-Name: GDOnJavaForJava8
+MIDlet-Version: 0.13
+MIDlet-Vendor: RobTop Games
+MIDlet-1: Geometry Dash (Java 8), /icon.png, GDOnJavaForJava8
+MicroEdition-Configuration: CLDC-1.1
+MicroEdition-Profiles: MIDP-2.0

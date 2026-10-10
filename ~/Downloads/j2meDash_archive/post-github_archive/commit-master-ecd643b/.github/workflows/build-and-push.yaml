@@ -1,0 +1,92 @@
+name: Build-Push (for expansion branch)
+on: workflow_dispatch
+run-name: "Built by ${{ github.actor }} from commit `${{ github.sha }}`"
+
+permissions:
+  contents: write
+
+jobs:
+  compile-and-release:
+    runs-on: ubuntu-24.04
+    
+    steps:
+      - name: Install prerequisites
+        shell: bash
+        run: |
+          mkdir -p "$HOME/j2sdk1.4.2_19"
+          cd "$HOME/j2sdk1.4.2_19"
+          wget https://raw.githubusercontent.com/mnp075075/j2meDash/refs/heads/expansion/lib/j2sdk-1_4_2_19-linux-i586.bin > /dev/null 2>&1
+          chmod +x j2sdk-1_4_2_19-linux-i586.bin
+          printf "y\n" | ./j2sdk-1_4_2_19-linux-i586.bin > /dev/null 2>&1 || true
+          if [ $? -ne 0 ]; then
+            echo "Java 4 installation failed. Please check the logs for details."
+            exit 1
+          fi
+          ls -la
+          echo "Finished installing Java 4 and proguard."
+          
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.ref || github.ref }}
+
+      - name: Compile code
+        shell: bash
+        run: |
+          ls -la
+          cd bin
+          chmod +x compile.sh
+          echo "1" | ./compile.sh
+
+      - name: Generate JAD File
+        shell: bash
+        run: |
+          cd bin
+          JAR4_FILE="j2meDash4.jar"
+          JAD4_FILE="j2meDash4.jad"
+          JAR4_SIZE=$(wc -c < "$JAR4_FILE" | tr -d ' ')
+
+          touch "$JAD4_FILE"
+
+          echo "MIDlet-1: j2meDash, /icon.png, com.j2meDash.main.MainApp" >> "$JAD4_FILE"
+          echo "MIDlet-Jar-Size: $JAR4_SIZE" >> "$JAD4_FILE"
+          echo "MIDlet-Jar-URL: j2meDash4.jar" >> "$JAD4_FILE"
+          echo "MIDlet-Name: j2meDash" >> "$JAD4_FILE"
+          echo "MIDlet-Vendor: LarpTop" >> "$JAD4_FILE"
+          echo "MIDlet-Version: 1.0.0" >> "$JAD4_FILE"
+          echo "MicroEdition-Configuration: CLDC-1.1" >> "$JAD4_FILE"
+          echo "MicroEdition-Profile: MIDP-2.0" >> "$JAD4_FILE"
+          echo "MIDlet-Icon: /icon.png" >> "$JAD4_FILE"
+          echo "MIDlet-Description: Geometry Dash J2ME" >> "$JAD4_FILE"
+          echo "MIDlet-Permissions: javax.microedition.midlet, javax.microedition.lcdui, javax.microedition.lcdui.game, javax.microedition.media, javax.microedition.media.control, java.io" >> "$JAD4_FILE"
+
+      - name: Generate SHA-256 Checksum
+        shell: bash
+        run: |
+          cd bin
+          sha256sum j2meDash4.jar > checksums.txt
+          echo "Computed SHA-256:"
+          cat checksums.txt
+
+      - name: Verify Checksum
+        shell: bash
+        run: |
+          cd bin
+          sha256sum -c checksums.txt
+
+      - name: Create GitHub Release
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd bin
+          SHORT_SHA=${GITHUB_SHA:0:7}
+          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          COMMIT_TITLE=$(git log -1 --format="%s")
+          gh release create "dev-$SHORT_SHA" \
+            checksums.txt \
+            j2meDash4.jar \
+            j2meDash4.jad \
+            --prerelease \
+            --title "Development Release - $SHORT_SHA" \
+            --notes $'Nightly version for branch ${{ github.ref_name }} from commit '"$SHORT_SHA: **$COMMIT_TITLE**"$'\n\n[Automatically created by GitHub Actions]('"$RUN_URL"$')'
