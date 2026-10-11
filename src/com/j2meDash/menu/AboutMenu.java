@@ -24,7 +24,7 @@ public class AboutMenu extends GameCanvas implements Runnable {
 	private Thread t;
 	private Image background;
 	private Image foreground;
-	private boolean running = false;
+	private volatile boolean running = false;
 
 	private int w = getWidth();
 	private int h = getHeight();
