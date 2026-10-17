@@ -3,7 +3,9 @@ package com.j2meDash.game;
 import com.j2meDash.game.*;
 import com.j2meDash.game.mode.*;
 import com.j2meDash.main.MainApp;
+import com.j2meDash.game.tools.fpsController;
 import com.j2meDash.game.tools.inputHandler;
+import com.j2meDash.game.tools.printer;
 import com.j2meDash.pars.LevelBinaryParser;
 import javax.microedition.lcdui.*;
 import javax.microedition.lcdui.game.*;
@@ -106,7 +108,18 @@ public class NewGameEngine extends GameCanvas implements Runnable {
     // TEST CHAMBER
     // THIS IS ONLY FOR TESTING, OTHER THAN THAT THE COMPONENTS INSIDE THIS JAVA FILE WILL BE USED INSIDE PLAY SCREEN
     public void run() {
-        // put some code here
+        fpsController fps = new fpsController();
+        cubeGM = new cube(mainApp);
+        inputHandler = cubeGM;
+        Graphics g = getGraphics();
+        g.setColor(0x000000);
+        while (isRunning) {
+            fps.limitFPS(60);
+            g.fillRect(0,0,240,400);
+            cubeGM.update(g, true, true);
+            // System.out.println("[DEBUG]/[PLAYER] playerX=" + playerX + " playerY=" + playerY);
+            flushGraphics();
+        }
     }
 
     // POINTERS
