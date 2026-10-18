@@ -110,13 +110,14 @@ public class NewGameEngine extends GameCanvas implements Runnable {
     public void run() {
         fpsController fps = new fpsController();
         cubeGM = new cube(mainApp);
-        inputHandler = cubeGM;
+        shipGM = new ship(mainApp);
+        inputHandler = shipGM;
         Graphics g = getGraphics();
         g.setColor(0x000000);
         while (isRunning) {
             fps.limitFPS(60);
             g.fillRect(0,0,240,400);
-            cubeGM.update(g, true, true);
+            shipGM.update(g, true, true);
             // System.out.println("[DEBUG]/[PLAYER] playerX=" + playerX + " playerY=" + playerY);
             flushGraphics();
         }

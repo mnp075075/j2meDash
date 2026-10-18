@@ -12,7 +12,7 @@ public class IconKit {
             template = Image.createImage(path);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("[ERROR] Cannot find the path specified");
+            System.out.println("[ERROR/changeIcon()] Cannot find the path specified");
             return null;
         }
         int w = template.getWidth();
@@ -27,10 +27,10 @@ public class IconKit {
                 case 0xFF808080: data[i] = 0xFF000000 | glowColor; break;
                 case 0xFF404040: data[i] = 0xFF000000 | primaryColor; break;
                 case 0xFFD0D0D0: data[i] = 0xFF000000 | secondaryColor; break;
-                default: System.out.println("[ERROR] Detected invalid color layout in file: " + path); return null;
+                default: System.out.println("[ERROR/changeIcon()] Detected invalid color layout in: " + path); return null;
             }
         }
-        System.out.println("[INFO] Changed player icon to template: " + path + " - primaryColor = " + primaryColor + " - secondaryColor = " + secondaryColor + " - glowColor = " + glowColor);
+        System.out.println("[INFO/changeIcon()] Changed player icon to path=" + path + " primaryColor=" + primaryColor + " secondaryColor=" + secondaryColor + " glowColor=" + glowColor);
         return Image.createRGBImage(data, w, h, true);
     }
     public void exportBMPIcon(Image image, int size, String output) {
@@ -88,6 +88,6 @@ public class IconKit {
                 }
             }
         }
-        System.out.println("[INFO] Exported player icon to: " + output);
+        System.out.println("[INFO/exportBMPIcon()] Exported player icon to: " + output);
     }
 }

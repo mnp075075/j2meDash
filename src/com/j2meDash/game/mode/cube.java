@@ -15,15 +15,15 @@ public class cube extends GameCanvas implements inputHandler {
     private boolean isJumping = false;
     private int frameCount = 0;
     private int[] graph_value = {6,5,5,5,4,4,3,3,3,2,2,1,1,1,0};
-    private Image debug;
-    private Image origImage;
+    private Image cubeIcon;
+    private Image origIcon;
 
     public cube(MainApp mainApp) {
         super(true);
         this.mainApp = mainApp;
         try {
-            debug = Image.createImage("/rsc/temp/debug.png");
-            origImage = Image.createImage("/rsc/temp/debug.png");
+            cubeIcon = Image.createImage("/rsc/temp/cube1.bmp");
+            origIcon = Image.createImage("/rsc/temp/cube1.bmp");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -40,11 +40,9 @@ public class cube extends GameCanvas implements inputHandler {
                 isJumping = false;
             }
             degrees += 6.0;
-            debug = gm.rotateSprite(origImage, degrees);   
+            cubeIcon = gm.rotateSprite(origIcon, degrees);   
         }
-        g.drawImage(debug, ge.playerX, ge.playerY, Graphics.BOTTOM | Graphics.RIGHT);
-        // System.out.println("[DEBUG]/[PLAYER] degrees=" + degrees);
-        // System.out.println("[DEBUG]/[CUBE] isJumping=" + isJumping + " isTouching=" + isTouching);
+        g.drawImage(cubeIcon, ge.playerX, ge.playerY, Graphics.BOTTOM | Graphics.RIGHT);
     }
     
     public void pointerPressed(int x, int y) {
