@@ -26,13 +26,13 @@ public class wave extends GameCanvas implements inputHandler {
     public void update(Graphics g, boolean normal_size, boolean normal_gravity) {
         int ge_wave_size = (normal_size) ? 1 : 2;
         if (isHolding) {
-            ge.playerY += (normal_gravity) ? -1*ge_wave_size : ge_wave_size;
+            ge.playerY += (normal_gravity) ? -ge_wave_size : ge_wave_size;
             g.drawImage(debug, ge.playerX, ge.playerY, Graphics.BOTTOM | Graphics.RIGHT);
         } else {
-            ge.playerY += (normal_gravity) ? ge_wave_size : -1*ge_wave_size;
+            ge.playerY += (normal_gravity) ? ge_wave_size : -ge_wave_size;
             g.drawImage(debug, ge.playerX, ge.playerY, Graphics.BOTTOM | Graphics.RIGHT);
         }
-        System.out.println("[WAVE] isHolding = " + isHolding);
+        // System.out.println("[WAVE] isHolding = " + isHolding);
     }
     
     public void pointerPressed(int x, int y) {

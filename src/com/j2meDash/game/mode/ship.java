@@ -19,7 +19,7 @@ public class ship extends GameCanvas implements inputHandler {
     private boolean isHolding = false;
     private boolean buoyancy = false;
     private boolean antibuoyancy = true;
-    private int frameCount = 0;
+    private long frameCount = 0;
     private int[] graph_value = {1,2,3,4};
     private Image shipIcon;
     private Image origIcon;

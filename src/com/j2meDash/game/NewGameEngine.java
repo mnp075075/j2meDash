@@ -28,7 +28,7 @@ public class NewGameEngine extends GameCanvas implements Runnable {
 								{21,3,21,3}, {21,5,21,5}, {21,5,21,5}, {21,21,21,21},			// 36,37,38,39
 								{21,21,21,21}	};												// 40
 								
-	// private int[][] gamemodeWidthAndHeight = {{21,21,10,10},{21,21,10,10},{16,16,8,8},{21,21,10,10},{21,21,10,10},{21,21,10,10}}; // add the mini gamemode w and h here
+	public int[][] gmWidthAndHeight = {{},{},{},{},{},{},{},{}};
 
     // private int[][] placeholder1;
     // private int[][] placeholder2;
@@ -74,11 +74,13 @@ public class NewGameEngine extends GameCanvas implements Runnable {
     public swing swingGM;
 
     // gameplay variables
+    public byte playerGamemode = 0x01;
     public int playerX = 100; // 0 <= x <= 240 (w)
     public int playerY = 80; // 0 <= y <= 400 (h)
+    public int playerW = 
+    public int playerH =
     public boolean playerNormalSize = true; // normal = true; mini = false
     public boolean playerNormalGravity = true; // normal = true; flipped = false;
-    public byte playerGamemode = 0x01;
     /*
     cube = 0x01
     ship = 0x02
