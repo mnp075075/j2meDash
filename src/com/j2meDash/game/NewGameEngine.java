@@ -74,11 +74,13 @@ public class NewGameEngine extends GameCanvas implements Runnable {
     public swing swingGM;
 
     // gameplay variables
-    public byte playerGamemode = 0x01;
-    public int playerX = 100; // 0 <= x <= 240 (w)
-    public int playerY = 80; // 0 <= y <= 400 (h)
-    public int playerW = 
-    public int playerH =
+    public static byte playerGamemode = 0x01;
+    public static int playerX = 100; // 0 <= x <= 240 (w)
+    public static int playerY = 80; // 0 <= y <= 400 (h)
+    public static int playerWHazard = 0; 
+    public static int playerHHazard = 0;
+    public static int playerWBody = 0;
+    public static int playerHBody = 0;
     public boolean playerNormalSize = true; // normal = true; mini = false
     public boolean playerNormalGravity = true; // normal = true; flipped = false;
     /*

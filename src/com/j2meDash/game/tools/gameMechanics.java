@@ -170,19 +170,15 @@ public class gameMechanics {
         }
     }
 
-    public void checkCollision(int playerX, int playerY, int playerWBody, int playerHBody, int playerWHazard, int playerHHazard, int objectX, int objectH, int objectW, int objectH, int objectID) {
-        boolean valueBody = ((playerX < objectX + objectW) && (playerX + playerWBody > objectX) && (plyerY < objectY + objectH) && (playerY + playerHBody > oplayerHBodybjectY));
-        boolean valueHazard = ((playerX < objectX + objectW) && (playerX + playerWHazard > objectX) && (plyerY < objectY + objectH) && (playerY + playerHHazard > objectY));
+    public void checkCollision(int playerX, int playerY, int playerWBody, int playerHBody, int playerWHazard, int playerHHazard, int objectX, int objectY, int objectW, int objectH, int objectID) {
+        boolean valueBody = ((playerX < objectX + objectW) && (playerX + playerWBody > objectX) && (playerY < objectY + objectH) && (playerY + playerHBody > objectY));
+        boolean valueHazard = ((playerX < objectX + objectW) && (playerX + playerWHazard > objectX) && (playerY < objectY + objectH) && (playerY + playerHHazard > objectY));
 
         if (objectID == 0x01 && valueBody) {
             System.out.println("[INFO] Player is dead (Body Objects)");
-            gameOverScreen = new GameOverScreen(mainApp);
-            mainApp.show(gameOverScreen);
             // TODO: add more objectIDs and check for horizontal or vertical crashes for gamemodes like ship and swing and ball...
         } else if (objectID == 0x02 && valueHazard) {
             System.out.println("[INFO] Player is dead (Hazardous Objects)");
-            gameOverScreen = new GameOverScreen(mainApp);
-            mainApp.show(gameOverScreen);
             // TODO: ditto
         }
     }
