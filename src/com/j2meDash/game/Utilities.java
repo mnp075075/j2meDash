@@ -4,11 +4,11 @@ import javax.microedition.lcdui.*;
 import javax.microedition.lcdui.game.*;
 
 import com.j2meDash.main.MainApp;
-import com.j2meDash.pars.LevelBinaryParser;
+import com.j2meDash.pars.LevelParser;
 
 public class Utilities extends GameCanvas implements CommandListener {
     private MainApp mainApp;
-    private LevelBinaryParser levelBinaryParser;
+    private LevelParser LevelParser;
 
     private TextBox dirLoader = new TextBox("Load the level data", "file:///", 1024, TextField.URL | TextField.NON_PREDICTIVE);
     private Command ok = new Command("OK", Command.OK, 1);
@@ -62,7 +62,7 @@ public class Utilities extends GameCanvas implements CommandListener {
         dirLoader.addCommand(ok);
         dirLoader.addCommand(exit);
         dirLoader.setCommandListener(this);
-        levelBinaryParser = new LevelBinaryParser(mainApp);
+        LevelParser = new LevelParser();
         Display.getDisplay(mainApp).setCurrent(dirLoader);
     }
 	
@@ -108,7 +108,7 @@ public class Utilities extends GameCanvas implements CommandListener {
             System.out.println("pressed ok");
             try {
                 System.out.println(dirLoader.getString());
-                levelBinaryParser.parseByte(dirLoader.getString());
+                LevelParser.parseByte(dirLoader.getString());
             } catch (Exception e) {
                 System.out.println("invalid path or parser error");
             }

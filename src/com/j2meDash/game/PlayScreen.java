@@ -7,7 +7,6 @@ import javax.microedition.lcdui.*;
 import javax.microedition.lcdui.game.*;
 import javax.microedition.io.file.*;
 import javax.microedition.io.Connector;
-import java.io.*;
 
 /*
 
@@ -29,7 +28,7 @@ public class PlayScreen extends GameCanvas implements Runnable, CommandListener 
 	public int jumpHeight = 0;
 	
 	private DataRegistry dataRegistry = new DataRegistry(mainApp);
-	private LevelBinaryParser levelBinaryParser = new LevelBinaryParser(mainApp);
+	private LevelParser LevelParser = new LevelParser();
 	
 	public byte gravityAndSizeFlags;
 	public byte modeFlags;
@@ -1101,7 +1100,7 @@ public class PlayScreen extends GameCanvas implements Runnable, CommandListener 
 				fconn = (FileConnection) Connector.open(path, Connector.READ);
 				
 				if (fconn.exists() == true) {
-					levelBinaryParser.parseByte(dirLoader.getString());
+					LevelParser.parseByte(dirLoader.getString());
 					Display.getDisplay(mainApp).setCurrent(successfully, dirLoader);
 				} else {
 					Display.getDisplay(mainApp).setCurrent(failed, dirLoader);

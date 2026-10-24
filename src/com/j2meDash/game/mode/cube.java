@@ -34,7 +34,8 @@ public class cube extends GameCanvas implements inputHandler {
         degrees = degrees % 360;
         if (isJumping) {
             int dy = graph_value[frameCount % 15];
-            ge.playerY += (normal_gravity) ? ((frameCount < 15) ? -dy : dy) : ((frameCount < 15) ? dy : -dy);
+            NewGameEngine.playerPrintingY += (normal_gravity) ? ((frameCount < 15) ? -dy : dy) : ((frameCount < 15) ? dy : -dy);
+            NewGameEngine.playerY += (normal_gravity) ? ((frameCount < 15) ? -dy : dy) : ((frameCount < 15) ? dy : -dy);
             if (++frameCount >= 30) {
                 frameCount = 0;
                 isJumping = false;
@@ -42,7 +43,7 @@ public class cube extends GameCanvas implements inputHandler {
             degrees += 6.0;
             cubeIcon = gm.rotateSprite(origIcon, degrees);   
         }
-        g.drawImage(cubeIcon, ge.playerX, ge.playerY, Graphics.BOTTOM | Graphics.RIGHT);
+        g.drawImage(cubeIcon, NewGameEngine.playerPrintingX, NewGameEngine.playerPrintingY, Graphics.BOTTOM | Graphics.RIGHT);
     }
     
     public void pointerPressed(int x, int y) {

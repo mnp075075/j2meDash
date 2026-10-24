@@ -1,6 +1,9 @@
 package com.j2meDash.game.tools;
 
 import com.j2meDash.main.MainApp;
+import com.j2meDash.menu.GameOverScreen;
+import com.j2meDash.pars.LevelParser;
+import com.oracle.util.logging.Level;
 
 import javax.microedition.lcdui.Image;
 
@@ -10,6 +13,8 @@ import com.j2meDash.game.mode.*;
 public class gameMechanics {
     private MainApp mainApp;
     private NewGameEngine ge;
+    private LevelParser lbp = new LevelParser();
+    private GameOverScreen gameOver = new GameOverScreen(mainApp);
 
     public static final int VERTICAL = 0x01;
     public static final int HORIZONTAL = 0x02;
@@ -69,8 +74,8 @@ public class gameMechanics {
     public void startPosition(int x, int y) {
         if (x < 0) System.out.println("[ERROR/startPosition()] Argument x=" + x + " is smaller than 0");
         else {
-            ge.playerX = x;
-            ge.playerY = y;
+            NewGameEngine.playerX = x;
+            NewGameEngine.playerY = y;
             System.out.println("[INFO/startPosition()] Start position placed at x=" + x + " y=" + y);
         }
     }
@@ -170,16 +175,41 @@ public class gameMechanics {
         }
     }
 
-    public void checkCollision(int playerX, int playerY, int playerWBody, int playerHBody, int playerWHazard, int playerHHazard, int objectX, int objectY, int objectW, int objectH, int objectID) {
-        boolean valueBody = ((playerX < objectX + objectW) && (playerX + playerWBody > objectX) && (playerY < objectY + objectH) && (playerY + playerHBody > objectY));
-        boolean valueHazard = ((playerX < objectX + objectW) && (playerX + playerWHazard > objectX) && (playerY < objectY + objectH) && (playerY + playerHHazard > objectY));
+    public void checkCollision(int objectX, int objectY, int objectW, int objectH, int objectID) {
+        int pHazardLeft = NewGameEngine.playerX-NewGameEngine.playerWHazard;
+        int pHazardRight = NewGameEngine.playerX;
+        int pHazardTop = NewGameEngine.playerY-NewGameEngine.playerHHazard;
+        int pHazardBottom = NewGameEngine.playerY;
 
-        if (objectID == 0x01 && valueBody) {
-            System.out.println("[INFO] Player is dead (Body Objects)");
-            // TODO: add more objectIDs and check for horizontal or vertical crashes for gamemodes like ship and swing and ball...
-        } else if (objectID == 0x02 && valueHazard) {
-            System.out.println("[INFO] Player is dead (Hazardous Objects)");
-            // TODO: ditto
+        int pBodyLeft = NewGameEngine.playerX-(NewGameEngine.playerWHazard-NewGameEngine.playerWBody)/2;
+        int pBodyRight = NewGameEngine.playerX-(NewGameEngine.playerWHazard+NewGameEngine.playerWBody)/2;
+        int pBodyTop = NewGameEngine.playerY-(NewGameEngine.playerHHazard+NewGameEngine.playerHBody)/2;
+        int pBodyBottom = NewGameEngine.playerY-(NewGameEngine.playerHHazard-NewGameEngine.playerHBody)/2;
+
+        int objectLeft = objectX-objectW;
+        int objectRight = objectX;
+        int objectTop = objectY-objectH;
+        int objectBottom = objectY;
+
+        boolean valueBody = pBodyLeft <= objectRight && pBodyRight >= objectLeft && pBodyTop <= objectBottom && pBodyBottom >= objectTop;
+        boolean valueHazard = pHazardLeft <= objectRight && pHazardRight >= objectLeft && pHazardTop <= objectBottom && pHazardBottom >= objectTop;
+
+        if (objectID == 0x02) {
+            if (valueHazard) {
+                System.out.println("[INFO/player] Player has died (Hazard hitbox)");
+                mainApp.show(gameOver);
+            }
+        } else if (objectID == 0x01) {
+            if (valueBody) {
+                System.out.println("[INFO/player] Player has died (Body hitbox)");
+                mainApp.show(gameOver);
+            } else if (NewGameEngine.playerGamemode == 0x02 && pBodyTop > objectBottom) {
+                if (objectBottom > pHazardTop) NewGameEngine.playerY += (NewGameEngine.playerInbound) ? (objectBottom - pHazardTop) : 0;
+                else NewGameEngine.playerInbound = NewGameEngine.playerInbound ? pHazardLeft < objectRight : true;
+            } else if (NewGameEngine.playerGamemode == 0x02 && pBodyBottom < objectTop) {
+                if (objectTop < pHazardBottom) NewGameEngine.playerY -= (NewGameEngine.playerInbound) ? (pHazardBottom - objectTop) : 0;
+                else NewGameEngine.playerInbound = NewGameEngine.playerInbound ? pHazardLeft < objectRight : true;
+            }
         }
     }
 }

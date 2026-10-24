@@ -1,37 +1,38 @@
 package com.j2meDash.game;
 
+import com.j2meDash.main.MainApp;
 import com.j2meDash.game.*;
 import com.j2meDash.game.mode.*;
-import com.j2meDash.main.MainApp;
-import com.j2meDash.game.tools.fpsController;
-import com.j2meDash.game.tools.inputHandler;
-import com.j2meDash.game.tools.printer;
-import com.j2meDash.pars.LevelBinaryParser;
+import com.j2meDash.game.tools.*;
+import com.j2meDash.pars.LevelParser;
+
 import javax.microedition.lcdui.*;
 import javax.microedition.lcdui.game.*;
 
 public class NewGameEngine extends GameCanvas implements Runnable {
     private MainApp mainApp;
+    private fpsController fps = new fpsController();
+    private printer printer = new printer(mainApp);
+    private LevelParser lbp = new LevelParser();
+    private gameMechanics gm = new gameMechanics(mainApp);
     private Thread t;
     public inputHandler inputHandler;
     
     private volatile boolean isRunning;
-    private int[][] widthAndHeight = { 	{0,0,0,0}, {21,21,21,21}, {21,21,21,21}, {21,21,21,21}, // 0,1,2,3
-								{21,21,21,21}, {21,21,3,7}, {21,21,7,3}, {21,21,3,7},			// 4,5,6,7
-								{21,21,7,3}, {21,21,3,2}, {21,21,2,3}, {21,21,3,2},				// 8,9,10,11
-								{21,21,2,3}, {34,60,34,60}, {40,50,40,50}, {54,60,54,60},		// 12,13,14,15
-								{69,60,69,60}, {73,60,73,60}, {32,60,32,60}, {32,60,32,60},		// 16,17,18,19
-								{32,60,32,60}, {32,60,32,60}, {32,60,32,60}, {32,60,32,60},		// 20,21,22,23
-								{32,60,32,60}, {30,60,30,60}, {30,60,30,60}, {32,60,32,60},		// 24,25,26,27
-								{32,60,32,60}, {21,21,21,21}, {21,21,21,21}, {21,21,21,21},		// 28,29,30,31
-								{21,21,21,21}, {21,21,21,21}, {21,21,21,21}, {21,4,21,4},		// 32,33,34,35
-								{21,3,21,3}, {21,5,21,5}, {21,5,21,5}, {21,21,21,21},			// 36,37,38,39
-								{21,21,21,21}	};												// 40
+    private int[][] objWidthAndHeight = { 	{0,0,0,0}, {21,21,21,21}, {21,21,21,21}, {21,21,21,21}, // 0,1,2,3
+								{21,21,21,21}, {21,21,3,7}, {21,21,7,3}, {21,21,3,7},			    // 4,5,6,7
+								{21,21,7,3}, {21,21,3,2}, {21,21,2,3}, {21,21,3,2},				    // 8,9,10,11
+								{21,21,2,3}, {34,60,34,60}, {40,50,40,50}, {54,60,54,60},		    // 12,13,14,15
+								{69,60,69,60}, {73,60,73,60}, {32,60,32,60}, {32,60,32,60},		    // 16,17,18,19
+								{32,60,32,60}, {32,60,32,60}, {32,60,32,60}, {32,60,32,60},		    // 20,21,22,23
+								{32,60,32,60}, {30,60,30,60}, {30,60,30,60}, {32,60,32,60},		    // 24,25,26,27
+								{32,60,32,60}, {21,21,21,21}, {21,21,21,21}, {21,21,21,21},		    // 28,29,30,31
+								{21,21,21,21}, {21,21,21,21}, {21,21,21,21}, {21,4,21,4},		    // 32,33,34,35
+								{21,3,21,3}, {21,5,21,5}, {21,5,21,5}, {21,21,21,21},			    // 36,37,38,39
+								{21,21,21,21}	};												    // 40
 								
-	public int[][] gmWidthAndHeight = {{},{},{},{},{},{},{},{}};
+	private int[][] gmWidthAndHeight = {{},{},{},{},{},{},{},{}};
 
-    // private int[][] placeholder1;
-    // private int[][] placeholder2;
     private int[] srcID = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40};
 	private int[] srcX_objects = {0,93}; // non-gameplay elements
 	private int[] srcY_objects = {0,207}; // non-gameplay elements
@@ -39,18 +40,6 @@ public class NewGameEngine extends GameCanvas implements Runnable {
 	private Image[] sheets; // for objects (non-gameplay elements) and gamemodes
     private Image background; // for bg
     private Image foreground; // for fg
-
-    // gamemodes (width-height + width-height for hitbox + srcX_objects-srcY_objects from spreadsheet)
-    /*
-    private int[][] cube_mode;
-    private int[][] ship_mode;
-    private int[][] ball_mode;
-    private int[][] ufo_mode;
-    private int[][] wave_mode;
-    private int[][] robot_mode;
-    private int[][] spider_mode;
-    private int[][] swing_mode;
-    */
 
     // gameplay elements (individual images)
     private Image[] orbs;
@@ -75,14 +64,17 @@ public class NewGameEngine extends GameCanvas implements Runnable {
 
     // gameplay variables
     public static byte playerGamemode = 0x01;
-    public static int playerX = 100; // 0 <= x <= 240 (w)
-    public static int playerY = 80; // 0 <= y <= 400 (h)
+    public static int playerX = 80; // 0 <= x <= 240 (w)
+    public static int playerY = 360; // 0 <= y <= 400 (h)
+    public static int playerPrintingX = 100;
+    public static int playerPrintingY = 80;
     public static int playerWHazard = 0; 
     public static int playerHHazard = 0;
     public static int playerWBody = 0;
     public static int playerHBody = 0;
-    public boolean playerNormalSize = true; // normal = true; mini = false
-    public boolean playerNormalGravity = true; // normal = true; flipped = false;
+    public static boolean playerNormalSize = true; // normal = true; mini = false
+    public static boolean playerNormalGravity = true; // normal = true; flipped = false;
+    public static boolean playerInbound = false; // default value when start
     /*
     cube = 0x01
     ship = 0x02
@@ -112,17 +104,27 @@ public class NewGameEngine extends GameCanvas implements Runnable {
     // TEST CHAMBER
     // THIS IS ONLY FOR TESTING, OTHER THAN THAT THE COMPONENTS INSIDE THIS JAVA FILE WILL BE USED INSIDE PLAY SCREEN
     public void run() {
-        fpsController fps = new fpsController();
+        int placement = 0;
+        Graphics g = getGraphics();
+        g.setColor(0xabcdef);
+        g.fillRect(0,0,240,400);
+
+        lbp.parseByte("/rsc/lvl/example.bin");
+        printer.printObject_fixed();
+
         cubeGM = new cube(mainApp);
         shipGM = new ship(mainApp);
         inputHandler = shipGM;
-        Graphics g = getGraphics();
-        g.setColor(0x000000);
         while (isRunning) {
             fps.limitFPS(60);
             g.fillRect(0,0,240,400);
-            shipGM.update(g, true, true);
-            // System.out.println("[DEBUG]/[PLAYER] playerX=" + playerX + " playerY=" + playerY);
+            shipGM.update(g, playerNormalSize, playerNormalGravity);
+            printer.printObject_moving(3);
+            if (placement-1 >= 0) gm.checkCollision(MainApp.xArray[placement-1], MainApp.yArray[placement-1], objWidthAndHeight[MainApp.idArray[placement-1]][0], objWidthAndHeight[MainApp.idArray[placement-1]][1], MainApp.idArray[placement-1]);
+            gm.checkCollision(MainApp.xArray[placement], MainApp.yArray[placement], objWidthAndHeight[MainApp.idArray[placement]][0], objWidthAndHeight[MainApp.idArray[placement]][1], MainApp.idArray[placement]);
+            if (MainApp.idArray[placement+1] != 0) gm.checkCollision(MainApp.xArray[placement+1], MainApp.yArray[placement+1], objWidthAndHeight[MainApp.idArray[placement+1]][0], objWidthAndHeight[MainApp.idArray[placement+1]][1], MainApp.idArray[placement+1]);
+            System.out.println("[DEBUG]/[PLAYER] playerX=" + playerX + " playerY=" + playerY + " placement=" + placement);
+            if ((playerX += 3) >= MainApp.xArray[placement]) placement++;
             flushGraphics();
         }
     }

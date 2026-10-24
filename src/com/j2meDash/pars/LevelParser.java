@@ -15,31 +15,11 @@ import java.io.*;
 
 */
 
-public class LevelBinaryParser {
+public class LevelParser {
 	
-	private MainApp mainApp;
-	
-	// this is another parser for levels and its binary format
-	// this one is important since playScreen will load level from it (at least not now)
-	// i don't know if it's optimized yet or not but whatever
-	// you can help improve this one if you want
-	public static String name;
-	
-	// binary level parser value (useless on its own, they're used for the loops)
-	public static int id;
-	public static int x1;
-	public static int x2;
-	public static int x3;
-	public static int y1;
-	public static int y2;
-	public static int y3;
-	public static int par;
-	
-	public static int[] idArray = new int[262144];
-	public static int[] xArray = new int[262144];
-	public static int[] yArray = new int[262144];
-	public static int[] parArray = new int[262144];
-	
+	private static String name;
+	private byte id, x1, x2, x3, y1, y2, y3, par;
+
 	public static int[] safeObjectID = {1,2,3,4,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40};
 	public static int[] dangerousObjectID = {5,6,7,8,9,10,11,12};
 	
@@ -47,21 +27,15 @@ public class LevelBinaryParser {
 	
 	private int startingInt = 0;
 	
-	public LevelBinaryParser(MainApp mainApp) {
-		
-		this.mainApp = mainApp;
-		
-	}
-	
 	public void parseByte(String name) {;
 		
 		InputStream input = null;
 		
 		try {
 			input = getClass().getResourceAsStream(name);
-			System.out.println("Directory/filename does exist: " + name);
+			System.out.println("[ERROR/LevelParser.parseByte()] Loaded file: " + name);
 		} catch (Exception e) {
-			System.err.println("Directory/filename does NOT exist: " + name);
+			System.err.println("[ERROR/LevelParser.parseByte()] Cannot find the file specified: " + name);
 		}
 		
 		try {
@@ -73,70 +47,64 @@ public class LevelBinaryParser {
 			int b;
 
 			while ((b = input.read()) != -1) {
-				mainApp.data[counter] = (byte) b;
+				MainApp.data[counter] = (byte) b;
 				counter++;
 			}
 
 			input.close();
 
 			for (int i = 0; i < 16; i++) {
-				if (mainApp.data[i] != header[i]) {
+				if (MainApp.data[i] != header[i]) {
 					isValid = false;
 					break;
 				}
 			}
 			
 			if (isValid == false) {
-				System.out.println("Invalid File");
-				System.out.println("Reason: Incorrect file header");
+				System.out.println("[ERROR/LevelParser.parseByte()] Invalid File");
 				
 				for (int i = 0; i < 16; i++) {
-					if (mainApp.data[i] != header[i]) {
-						System.out.println("At 0x" + Integer.toHexString(i) + ", byte: 0x" + Integer.toHexString(mainApp.data[i] & 0xFF) + " is wrong.");
-						System.out.println("The **valid** header is: 0x47 0x44 0x4F 0x6E 0x4A 0x61 0x76 0x61 0x12 0x6C 0x65 0x76 0x44 0x61 0x74 0x61");
+					if (MainApp.data[i] != header[i]) {
+						System.out.println("[ERROR/LevelParser.parseByte()] At 0x" + Integer.toHexString(i) + ", byte: 0x" + Integer.toHexString(MainApp.data[i] & 0xFF) + " is wrong.");
+						System.out.println("[ERROR/LevelParser.parseByte()] The **valid** header is: 0x47 0x44 0x4F 0x6E 0x4A 0x61 0x76 0x61 0x12 0x6C 0x65 0x76 0x44 0x61 0x74 0x61");
 						break;
 					}
 				}
 
 				return;
 			} else {
-				System.out.println("Valid File");
-				// System.out.println("byte read: " + total);
+				System.out.println("[INFO/LevelParser.parseByte()] Valid File");
 				for (int i = 32; i < counter; i += 8) {
 
-					// String hexBytes = Integer.toHexString(bytes);
-
-					id = mainApp.data[i] & 0xFF;
-					x1 = mainApp.data[i+1] & 0xFF;
-					x2 = mainApp.data[i+2] & 0xFF;
-					x3 = mainApp.data[i+3] & 0xFF;
-					y1 = mainApp.data[i+4] & 0xFF;
-					y2 = mainApp.data[i+5] & 0xFF;
-					y3 = mainApp.data[i+6] & 0xFF;
-					par = mainApp.data[i+7] & 0xFF;
+					id = (byte) (MainApp.data[i] & 0xFF);
+					x1 = (byte) (MainApp.data[i+1] & 0xFF);
+					x2 = (byte) (MainApp.data[i+2] & 0xFF);
+					x3 = (byte) (MainApp.data[i+3] & 0xFF);
+					y1 = (byte) (MainApp.data[i+4] & 0xFF);
+					y2 = (byte) (MainApp.data[i+5] & 0xFF);
+					y3 = (byte) (MainApp.data[i+6] & 0xFF);
+					par = (byte) (MainApp.data[i+7] & 0xFF);
 					
-					idArray[startingInt] = id;
-					xArray[startingInt] = (00 << 24) | (x1 << 16) | (x2 << 8) | x3;
-					yArray[startingInt] = (00 << 24) | (y1 << 16) | (y2 << 8) | y3;
-					parArray[startingInt] = par;
-				
-					// System.out.println(hexBytes + " ");
+					MainApp.idArray[startingInt] = id;
+					MainApp.xArray[startingInt] = (00 << 24) | (x1 << 16) | (x2 << 8) | x3;
+					MainApp.yArray[startingInt] = (00 << 24) | (y1 << 16) | (y2 << 8) | y3;
+					MainApp.parArray[startingInt] = par;
 				
 					if (id != 0 || x1 != 0 || x2 != 0 || x3 != 0 || y1 != 0 || y2 != 0 || y3 != 0 || par != 0) {
-						System.out.println("obj: " + ((i/8)-4) + 
-										   " id: " + Integer.toHexString(id) + 
-										   " x1: " + Integer.toHexString(x1) + 
-										   " x2: " + Integer.toHexString(x2) + 
-										   " x3: " + Integer.toHexString(x3) + 
-										   " y1: " + Integer.toHexString(y1) + 
-										   " y2: " + Integer.toHexString(y2) + 
-										   " y3: " + Integer.toHexString(y3) + 
-										   " par: " + Integer.toHexString(par) +
-										   "\n" + "xArray: " + xArray[startingInt] + " yArray: " + yArray[startingInt]);
+						System.out.println("[INFO/LevelParser.parseByte()] obj=" + ((i/8)-4) + 
+										   " id=" + Integer.toHexString(id) + 
+										   " x1=" + Integer.toHexString(x1) + 
+										   " x2=" + Integer.toHexString(x2) + 
+										   " x3=" + Integer.toHexString(x3) + 
+										   " y1=" + Integer.toHexString(y1) + 
+										   " y2=" + Integer.toHexString(y2) + 
+										   " y3=" + Integer.toHexString(y3) + 
+										   " par=" + Integer.toHexString(par) +
+										   "\n" + "xArray=" + MainApp.xArray[startingInt] + " yArray=" + MainApp.yArray[startingInt]);
 						
 						objectNumber = (i/8)-3;
-					} else if (id == 0 && x1 == 0 && x2 == 0 && x3 == 0 && y1 == 0 && y2 == 0 && y3 == 0 && par == 0) {
-						System.out.println("EOF: " + name);
+					} else if ((id | x1 | x2 | x3 | y1 | y2 | y3 | par) == 0) {
+						System.out.println("[INFO/LevelParser.parseByte()] EOF=" + name);
 						break;
 					}
 					

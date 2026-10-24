@@ -29,7 +29,7 @@ public class ball extends GameCanvas implements inputHandler {
     public void update(Graphics g, boolean normal_size, boolean normal_gravity) {
         int dy = graph_value[(frameCount < 10) ? 0 : (frameCount < 20) ? 1 : (frameCount < 30) ? 2 : 3];
         if (isBalling) {
-            ge.playerY += (normal_gravity) ? -dy : dy;
+            NewGameEngine.playerY += (normal_gravity) ? -dy : dy;
             frameCount++;
             // TODO: add collision checking here
         } else {

@@ -27,23 +27,23 @@ import javax.microedition.media.*; // the way to play sound
 
 public class MainApp extends MIDlet implements CommandListener { 
 	
-	SpeedForm speedForm;
-	ExitMenu exitMenu;
-	SplashScreen splashScreen;
-	DataRegistry dataRegistry;
-	LevelBinaryParser levelBinaryParser;
-	WarningScreen warningScreen;
-	AboutMenu aboutMenu;
-	SoundMenu soundMenu;
-	MainMenu mainMenu;
-	TimerScreen TimerScreen;
-	PlayScreen playScreen;
-	PauseScreen pauseScreen;
-	GameOverScreen gameOverScreen;
-	GameOverScreenSpecificallyForRestarting gameOverScreenSpecificallyForRestarting;
-	GameEngine gameEngine;
-	Utilities utilities;
-	NewGameEngine newGameEngine;
+	private SpeedForm speedForm;
+	private ExitMenu exitMenu;
+	private SplashScreen splashScreen;
+	private DataRegistry dataRegistry;
+	private LevelParser LevelParser;
+	private WarningScreen warningScreen;
+	private AboutMenu aboutMenu;
+	private SoundMenu soundMenu;
+	private MainMenu mainMenu;
+	private TimerScreen TimerScreen;
+	private PlayScreen playScreen;
+	private PauseScreen pauseScreen;
+	private GameOverScreen gameOverScreen;
+	private GameOverScreenSpecificallyForRestarting gameOverScreenSpecificallyForRestarting;
+	private GameEngine gameEngine;
+	private Utilities utilities;
+	private NewGameEngine newGameEngine;
 	
 	// DEFINING EVERYTHING
 	public boolean SoundEnabled; // deprecated, used to control sound
@@ -60,15 +60,12 @@ public class MainApp extends MIDlet implements CommandListener {
 	public String[] hitboxY = new String[40]; // the object's hitbox's y coordinate in sheet.png && the object itself (separated by a period ".")
 	public String[] hitboxW = new String[40]; // the object's hitbox's width
 	public String[] hitboxH = new String[40]; // the object's hitbox's height
-
-	// binary level parser arrays
-	// you can change the value of the amount of bytes if you want
-	// probably between: 8192 - 2097152 (2^13 >= x >= 2^21) bytes
-	// i choose 1048576 (1mb or 1024kb - technically kibibytes and mebibytes) because you can store up to >130000 objects
 	
-	public byte[] data = new byte[1048576];
-	
-	// ----------------------------------- //
+	public static byte[] data = new byte[1048576];
+	public static int[] idArray = new int[data.length/4];
+	public static int[] xArray = new int[data.length/4];
+	public static int[] yArray = new int[data.length/4];
+	public static int[] parArray = new int[data.length/4];
 	
 	public static volatile boolean running = true; // required
 	

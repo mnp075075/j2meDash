@@ -41,33 +41,37 @@ public class ship extends GameCanvas implements inputHandler {
         int dy = graph_value[(frameCount < 10) ? 0 : (frameCount < 20) ? 1 : (frameCount < 30) ? 2 : 3];
         if (isHolding) {
             if (antibuoyancy) {
-                ge.playerY += (normal_gravity) ? dy : -dy;
+                NewGameEngine.playerPrintingY += (normal_gravity) ? dy : -dy;
+                NewGameEngine.playerY += (normal_gravity) ? dy : -dy;
                 degrees = (normal_gravity) ? ((frameCount < 5) ? 0.0 : (frameCount < 10) ? 15.0 : (frameCount < 20) ? 30.0 : (frameCount < 30) ? 45.0 : 60.0) : (frameCount < 5) ? 180.0 : (frameCount < 10) ? 195.0 : (frameCount < 20) ? 210.0 : (frameCount < 30) ? 225.0 : 240.0;
                 if ((frameCount-=((frameCount < 60) ? 3 : 2)) <= 0) antibuoyancy = false;
             } else {
-                ge.playerY += (normal_gravity) ? -dy : dy;
+                NewGameEngine.playerPrintingY += (normal_gravity) ? -dy : dy;
+                NewGameEngine.playerY += (normal_gravity) ? -dy : dy;
                 degrees = (normal_gravity) ? ((frameCount < 5) ? 0.0 : (frameCount < 10) ? 345.0 : (frameCount < 20) ? 330.0 : (frameCount < 30) ? 315.0 : 300.0) : (frameCount < 5) ? 180.0 : (frameCount < 10) ? 165.0 : (frameCount < 20) ? 150.0 : (frameCount < 30) ? 135.0 : 120.0;
                 frameCount++;
             }
         } else {
             if (buoyancy) {
-                ge.playerY += (normal_gravity) ? -dy : dy;
+                NewGameEngine.playerPrintingY += (normal_gravity) ? -dy : dy;
+                NewGameEngine.playerY += (normal_gravity) ? -dy : dy;
                 degrees = (normal_gravity) ? ((frameCount < 5) ? 0.0 : (frameCount < 10) ? 345.0 : (frameCount < 20) ? 330.0 : (frameCount < 30) ? 315.0 : 300.0) : (frameCount < 5) ? 180.0 : (frameCount < 10) ? 165.0 : (frameCount < 20) ? 150.0 : (frameCount < 30) ? 135.0 : 120.0;
                 if ((frameCount-=((frameCount < 60) ? 3 : 2)) <= 0) buoyancy = false;
             } else {
-                ge.playerY += (normal_gravity) ? dy : -dy;
+                NewGameEngine.playerPrintingY += (normal_gravity) ? dy : -dy;
+                NewGameEngine.playerY += (normal_gravity) ? dy : -dy;
                 degrees = (normal_gravity) ? ((frameCount < 5) ? 0.0 : (frameCount < 10) ? 15.0 : (frameCount < 20) ? 30.0 : (frameCount < 30) ? 45.0 : 60.0) : (frameCount < 5) ? 180.0 : (frameCount < 10) ? 195.0 : (frameCount < 20) ? 210.0 : (frameCount < 30) ? 225.0 : 240.0;
                 frameCount++;
             }
         }
         /*
-        if (ge.playerY >= 360) {
-            ge.playerY = 360;
+        if (NewGameEngine.playerY >= 360) {
+            NewGameEngine.playerY = 360;
             buoyancy = (normal_gravity) ? false : true;
             antibuoyancy = (normal_gravity) ? true : false;
             degrees = (normal_gravity) ? 0.0 : 180.0;
-        } else if (ge.playerY <= 40) {
-            ge.playerY = 40;
+        } else if (NewGameEngine.playerY <= 40) {
+            NewGameEngine.playerY = 40;
             buoyancy = (normal_gravity) ? true : false;
             antibuoyancy = (normal_gravity) ? false : true;
             degrees = (normal_gravity) ? 0.0 : 180.0;
@@ -75,7 +79,7 @@ public class ship extends GameCanvas implements inputHandler {
         */
         shipIcon = gm.rotateSprite(origIcon, degrees);
         if (!normal_gravity) shipIcon = gm.mirrorSprite(shipIcon, gameMechanics.HORIZONTAL);
-        g.drawImage(shipIcon, ge.playerX, ge.playerY, Graphics.BOTTOM | Graphics.RIGHT);
+        g.drawImage(shipIcon, NewGameEngine.playerPrintingX, NewGameEngine.playerPrintingY, Graphics.BOTTOM | Graphics.RIGHT);
     }
 
     public void pointerPressed(int x, int y) {
