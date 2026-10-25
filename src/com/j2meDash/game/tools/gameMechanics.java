@@ -26,47 +26,79 @@ public class gameMechanics {
     public void changeGamemode(byte gamemode) {
         switch (gamemode) {
             case 0x01:
-                if (ge.cubeGM == null) ge.cubeGM = new cube(mainApp);
-                ge.inputHandler = ge.cubeGM;
+                if (NewGameEngine.cubeGM == null) NewGameEngine.cubeGM = new cube(mainApp);
+                NewGameEngine.inputHandler = NewGameEngine.cubeGM;
                 System.out.println("[INFO/changeGamemode()] Changed gamemode to [CUBE] with byte number: " + gamemode);
                 break;
             case 0x02:
-                if (ge.shipGM == null) ge.shipGM = new ship(mainApp);
-                ge.inputHandler = ge.shipGM;
+                if (NewGameEngine.shipGM == null) NewGameEngine.shipGM = new ship(mainApp);
+                NewGameEngine.inputHandler = NewGameEngine.shipGM;
                 System.out.println("[INFO/changeGamemode()] Changed gamemode to [SHIP] with byte number: " + gamemode);
                 break;
             case 0x03:
-                if (ge.ballGM == null) ge.ballGM = new ball(mainApp);
-                ge.inputHandler = ge.ballGM;
+                if (NewGameEngine.ballGM == null) NewGameEngine.ballGM = new ball(mainApp);
+                NewGameEngine.inputHandler = NewGameEngine.ballGM;
                 System.out.println("[INFO/changeGamemode()] Changed gamemode to [BALL] with byte number: " + gamemode);
                 break;
             case 0x04:
-                if (ge.ufoGM == null) ge.ufoGM = new ufo(mainApp);
-                ge.inputHandler = ge.ufoGM;
+                if (NewGameEngine.ufoGM == null) NewGameEngine.ufoGM = new ufo(mainApp);
+                NewGameEngine.inputHandler = NewGameEngine.ufoGM;
                 System.out.println("[INFO/changeGamemode()] Changed gamemode to [UFO] with byte number: " + gamemode);
                 break;
             case 0x05:
-                if (ge.waveGM == null) ge.waveGM = new wave(mainApp);
-                ge.inputHandler = ge.waveGM;
+                if (NewGameEngine.waveGM == null) NewGameEngine.waveGM = new wave(mainApp);
+                NewGameEngine.inputHandler = NewGameEngine.waveGM;
                 System.out.println("[INFO/changeGamemode()] Changed gamemode to [WAVE] with byte number: " + gamemode);
                 break;
             case 0x06:
-                if (ge.robotGM == null) ge.robotGM = new robot(mainApp);
-                ge.inputHandler = ge.robotGM;
+                if (NewGameEngine.robotGM == null) NewGameEngine.robotGM = new robot(mainApp);
+                NewGameEngine.inputHandler = NewGameEngine.robotGM;
                 System.out.println("[INFO/changeGamemode()] Changed gamemode to [ROBOT] with byte number: " + gamemode);
                 break;
             case 0x07:
-                if (ge.spiderGM == null) ge.spiderGM = new spider(mainApp);
-                ge.inputHandler = ge.spiderGM;
+                if (NewGameEngine.spiderGM == null) NewGameEngine.spiderGM = new spider(mainApp);
+                NewGameEngine.inputHandler = NewGameEngine.spiderGM;
                 System.out.println("[INFO/changeGamemode()] Changed gamemode to [SPIDER] with byte number: " + gamemode);
                 break;
             case 0x08:
-                if (ge.swingGM == null) ge.swingGM = new swing(mainApp);
-                ge.inputHandler = ge.swingGM;
+                if (NewGameEngine.swingGM == null) NewGameEngine.swingGM = new swing(mainApp);
+                NewGameEngine.inputHandler = NewGameEngine.swingGM;
                 System.out.println("[INFO/changeGamemode()] Changed gamemode to [SWING] with byte number: " + gamemode);
                 break;
             default: 
                 System.out.println("[ERROR/changeGamemode()] Invalid gamemode: " + gamemode);
+                break;
+        }
+    }
+
+    public void updateGamemode(byte gamemode) {
+        switch (gamemode) {
+            case 0x01:
+                
+                break;
+            case 0x02:
+                
+                break;
+            case 0x03:
+                
+                break;
+            case 0x04:
+                
+                break;
+            case 0x05:
+                
+                break;
+            case 0x06:
+                
+                break;
+            case 0x07:
+                
+                break;
+            case 0x08:
+                
+                break;
+            default: 
+                System.out.println("[ERROR/updateGamemode()] Invalid gamemode: " + gamemode);
                 break;
         }
     }
@@ -181,8 +213,8 @@ public class gameMechanics {
         int pHazardTop = NewGameEngine.playerY-NewGameEngine.playerHHazard;
         int pHazardBottom = NewGameEngine.playerY;
 
-        int pBodyLeft = NewGameEngine.playerX-(NewGameEngine.playerWHazard-NewGameEngine.playerWBody)/2;
-        int pBodyRight = NewGameEngine.playerX-(NewGameEngine.playerWHazard+NewGameEngine.playerWBody)/2;
+        int pBodyLeft = NewGameEngine.playerX-(NewGameEngine.playerWHazard+NewGameEngine.playerWBody)/2;
+        int pBodyRight = NewGameEngine.playerX-(NewGameEngine.playerWHazard-NewGameEngine.playerWBody)/2;
         int pBodyTop = NewGameEngine.playerY-(NewGameEngine.playerHHazard+NewGameEngine.playerHBody)/2;
         int pBodyBottom = NewGameEngine.playerY-(NewGameEngine.playerHHazard-NewGameEngine.playerHBody)/2;
 
@@ -202,13 +234,28 @@ public class gameMechanics {
         } else if (objectID == 0x01) {
             if (valueBody) {
                 System.out.println("[INFO/player] Player has died (Body hitbox)");
+                if (gameOver == null) gameOver = new GameOverScreen(mainApp);
                 mainApp.show(gameOver);
             } else if (NewGameEngine.playerGamemode == 0x02 && pBodyTop > objectBottom) {
-                if (objectBottom > pHazardTop) NewGameEngine.playerY += (NewGameEngine.playerInbound) ? (objectBottom - pHazardTop) : 0;
-                else NewGameEngine.playerInbound = NewGameEngine.playerInbound ? pHazardLeft < objectRight : true;
+                if (objectBottom > pHazardTop) {
+                    NewGameEngine.playerY += (NewGameEngine.playerInbound) ? (objectBottom - pHazardTop) : 0;
+                    NewGameEngine.playerPrintingY += (NewGameEngine.playerInbound) ? (objectBottom - pHazardTop) : 0;
+                    NewGameEngine.playerCeiled = NewGameEngine.playerInbound;
+                } else {
+                    if (!NewGameEngine.playerInbound) NewGameEngine.playerInbound = true;
+                    if (pHazardLeft > objectRight) NewGameEngine.playerInbound = false;
+                    NewGameEngine.playerGrounded = NewGameEngine.playerInbound && objectBottom == pHazardTop && pHazardLeft <= objectRight && pHazardRight >= objectLeft;
+                }
             } else if (NewGameEngine.playerGamemode == 0x02 && pBodyBottom < objectTop) {
-                if (objectTop < pHazardBottom) NewGameEngine.playerY -= (NewGameEngine.playerInbound) ? (pHazardBottom - objectTop) : 0;
-                else NewGameEngine.playerInbound = NewGameEngine.playerInbound ? pHazardLeft < objectRight : true;
+                if (objectTop < pHazardBottom) {
+                    NewGameEngine.playerY -= (NewGameEngine.playerInbound) ? (pHazardBottom - objectTop) : 0;
+                    NewGameEngine.playerPrintingY -= (NewGameEngine.playerInbound) ? (pHazardBottom - objectTop) : 0;
+                    NewGameEngine.playerGrounded = NewGameEngine.playerInbound;
+                } else {
+                    if (!NewGameEngine.playerInbound) NewGameEngine.playerInbound = true;
+                    if (pHazardLeft > objectRight) NewGameEngine.playerInbound = false;
+                    NewGameEngine.playerGrounded = NewGameEngine.playerInbound && objectTop == pHazardBottom && pHazardLeft <= objectRight && pHazardRight >= objectLeft;
+                }
             }
         }
     }

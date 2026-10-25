@@ -29,7 +29,7 @@ public class GameOverScreen extends GameCanvas {
 		this.mainApp = mainApp;
 		
 		try {
-			background = Image.createImage("/rsc/img/background.png");
+			background = Image.createImage("/rsc/img/bg/bg.png");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

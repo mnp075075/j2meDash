@@ -14,7 +14,7 @@ public class printer extends GameCanvas {
     private Image[] orbs;
     private Image[] pads;
     private Image[] portals;
-    private boolean drawn = false;
+    private int counter = 0;
     private int reductionA = 0;
     private int reductionB = 0;
 
@@ -44,15 +44,15 @@ public class printer extends GameCanvas {
             object_sheet = Image.createImage("/rsc/img/sheets/object.png");
 
             // background and foreground
-            background = Image.createImage("/rsc/img/bg/bg.gif");
-            foreground = Image.createImage("/rsc/img/bg/fg.gif");
+            background = Image.createImage("/rsc/img/bg/bg.png");
+            foreground = Image.createImage("/rsc/img/bg/fg.png");
             
             // fonts
             fonts = new Image[] {
-                Image.createImage("/rsc/font/font1.png"),
-                Image.createImage("/rsc/font/font2.png"),
-                Image.createImage("/rsc/font/font3.png"),
-                Image.createImage("/rsc/font/font4.png")
+                Image.createImage("/rsc/img/font/font1.png"),
+                Image.createImage("/rsc/img/font/font2.png"),
+                Image.createImage("/rsc/img/font/font3.png"),
+                Image.createImage("/rsc/img/font/font4.png")
             };
 
             // orbs
@@ -104,9 +104,7 @@ public class printer extends GameCanvas {
         }
     }
 
-    public void printObject_fixed() {
-		Graphics g = getGraphics();
-
+    public void printObject_fixed(Graphics g) {
         for (int i = 0; i < LevelParser.objectNumber; i++) {
             int id = MainApp.idArray[i];
             if (id >= 0 && id <= 40) {
@@ -133,66 +131,58 @@ public class printer extends GameCanvas {
         flushGraphics();
 	}
 	
-	public void printObject_moving(int offset) {
-		Graphics g = getGraphics();
-
+	public void printObject_moving(Graphics g, int offset) {
         for (int i = 0; i < LevelParser.objectNumber; i++) {
             int id = MainApp.idArray[i];
-            int drawX = MainApp.xArray[i];
+            if (MainApp.xArray[i]-(offset*counter) <= -600) continue;
+            int drawX = MainApp.xArray[i]-(offset*counter);
             if (id >= 0 && id <= 40) {
                 switch (MainApp.parArray[i] & 0x03) {
                     case 0x00: {
-                        g.drawRegion(object_sheet, srcX_objects[id], srcY_objects[id], objWidthAndHeight[id][0], objWidthAndHeight[id][1], Sprite.TRANS_NONE, drawX, MainApp.yArray[i], Graphics.BOTTOM | Graphics.RIGHT);
+                        g.drawRegion(object_sheet, srcX_objects[id], srcY_objects[id], objWidthAndHeight[id][0], objWidthAndHeight[id][1], Sprite.TRANS_NONE, drawX-offset, MainApp.yArray[i], Graphics.BOTTOM | Graphics.RIGHT);
                         break;
                     }
                     case 0x01: {
-                        g.drawImage(orbs[MainApp.idArray[i]-20], drawX, MainApp.yArray[i], Graphics.BOTTOM | Graphics.RIGHT);
+                        g.drawImage(orbs[MainApp.idArray[i]-20], drawX-offset, MainApp.yArray[i], Graphics.BOTTOM | Graphics.RIGHT);
                         break;
                     }
                     case 0x02: {
-                        g.drawImage(pads[MainApp.idArray[i]-30], drawX, MainApp.yArray[i], Graphics.BOTTOM | Graphics.RIGHT);
+                        g.drawImage(pads[MainApp.idArray[i]-30], drawX-offset, MainApp.yArray[i], Graphics.BOTTOM | Graphics.RIGHT);
                         break;
                     }
                     case 0x03: {
-                        g.drawImage(portals[MainApp.idArray[i]-35], drawX, MainApp.yArray[i], Graphics.BOTTOM | Graphics.RIGHT);
+                        g.drawImage(portals[MainApp.idArray[i]-35], drawX-offset, MainApp.yArray[i], Graphics.BOTTOM | Graphics.RIGHT);
                         break;
                     }
                 }
-                if (drawX < -1000) MainApp.xArray[i] = -100;
             }
         }
         flushGraphics();
+        counter++;
 	}
 
-    public void drawBackground() {
-        Graphics g = getGraphics();
+    public void drawBackground(Graphics g) {
         int h = getHeight();
         g.drawImage(background, 0, 0, Graphics.TOP | Graphics.LEFT);
-        g.drawImage(foreground, 0, (h*9)/10, Graphics.TOP | Graphics.LEFT);
-        drawn = true;
+        g.drawImage(foreground, 0, (h+320)/2, Graphics.TOP | Graphics.LEFT);
+        g.drawImage(foreground, 0, (h-320)/2, Graphics.BOTTOM | Graphics.LEFT);
     }
 
-    public void drawBackgroundMoving() {
-        Graphics g = getGraphics();
+    public void drawBackgroundMoving(Graphics g) {
         int w = getWidth();
         int h = getHeight();
-        if (drawn) {
-            g.drawImage(background, 0, 0, Graphics.TOP | Graphics.LEFT);
-            g.drawImage(background, w-reductionA, 0, Graphics.TOP | Graphics.LEFT);
-            g.drawImage(foreground, 0, (int)(h*0.9), Graphics.TOP | Graphics.LEFT);
-            g.drawImage(foreground, w-reductionB, (int)(h*0.9), Graphics.TOP | Graphics.LEFT);
-            if (reductionA > 0) {
-                reductionA += 5;
-            } else if (reductionB > 0) {
-                reductionB += 10;
-            } else if (w-reductionA == 0) {
-                reductionA = 0;
-            } else if (w-reductionB == 0) {
-                reductionB = 0;
-            }
-        } else {
-            System.out.println("Error");
-        }
+
+        if (reductionA <= w*2) reductionA += 1;
+        else reductionA = 0;
+        if (reductionB <= w) reductionB += 3;
+        else reductionB = 0;
+
+        g.drawImage(background, 0-reductionA, 0, Graphics.LEFT | Graphics.TOP);
+        g.drawImage(background, w*2-reductionA, 0, Graphics.LEFT | Graphics.TOP);
+        g.drawImage(foreground, 0-reductionB, (h+320)/2, Graphics.LEFT | Graphics.TOP);
+        g.drawImage(foreground, w-reductionB, (h+320)/2, Graphics.LEFT | Graphics.TOP);
+        g.drawImage(foreground, 0-reductionB, (h-320)/2, Graphics.BOTTOM | Graphics.LEFT);
+        g.drawImage(foreground, w-reductionB, (h-320)/2, Graphics.BOTTOM | Graphics.LEFT);
     }
 
     public void drawingCharString(byte fontstrip, String s, int x, int y, int[][] metrics) {

@@ -18,7 +18,7 @@ import java.io.*;
 public class LevelParser {
 	
 	private static String name;
-	private byte id, x1, x2, x3, y1, y2, y3, par;
+	private int id, x1, x2, x3, y1, y2, y3, par;
 
 	public static int[] safeObjectID = {1,2,3,4,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40};
 	public static int[] dangerousObjectID = {5,6,7,8,9,10,11,12};
@@ -76,18 +76,18 @@ public class LevelParser {
 				System.out.println("[INFO/LevelParser.parseByte()] Valid File");
 				for (int i = 32; i < counter; i += 8) {
 
-					id = (byte) (MainApp.data[i] & 0xFF);
-					x1 = (byte) (MainApp.data[i+1] & 0xFF);
-					x2 = (byte) (MainApp.data[i+2] & 0xFF);
-					x3 = (byte) (MainApp.data[i+3] & 0xFF);
-					y1 = (byte) (MainApp.data[i+4] & 0xFF);
-					y2 = (byte) (MainApp.data[i+5] & 0xFF);
-					y3 = (byte) (MainApp.data[i+6] & 0xFF);
-					par = (byte) (MainApp.data[i+7] & 0xFF);
+					id = (MainApp.data[i] & 0xFF);
+					x1 = (MainApp.data[i+1] & 0xFF);
+					x2 = (MainApp.data[i+2] & 0xFF);
+					x3 = (MainApp.data[i+3] & 0xFF);
+					y1 = (MainApp.data[i+4] & 0xFF);
+					y2 = (MainApp.data[i+5] & 0xFF);
+					y3 = (MainApp.data[i+6] & 0xFF);
+					par = (MainApp.data[i+7] & 0xFF);
 					
 					MainApp.idArray[startingInt] = id;
-					MainApp.xArray[startingInt] = (00 << 24) | (x1 << 16) | (x2 << 8) | x3;
-					MainApp.yArray[startingInt] = (00 << 24) | (y1 << 16) | (y2 << 8) | y3;
+					MainApp.xArray[startingInt] = (x1 << 16) | (x2 << 8) | x3;
+					MainApp.yArray[startingInt] = (y1 << 16) | (y2 << 8) | y3;
 					MainApp.parArray[startingInt] = par;
 				
 					if (id != 0 || x1 != 0 || x2 != 0 || x3 != 0 || y1 != 0 || y2 != 0 || y3 != 0 || par != 0) {
@@ -122,16 +122,6 @@ public class LevelParser {
 			try {
 				if (input != null) input.close();
 			} catch (IOException ignored) {}
-			id = 0;
-			x1 = 0;
-			x2 = 0;
-			x3 = 0;
-			y1 = 0;
-			y2 = 0;
-			y3 = 0;
-			par = 0;
-			objectNumber = 0;
-			startingInt = 0;
 		}
 	}
 }

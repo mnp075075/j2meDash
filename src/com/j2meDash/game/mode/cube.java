@@ -18,6 +18,9 @@ public class cube extends GameCanvas implements inputHandler {
     private Image cubeIcon;
     private Image origIcon;
 
+    private int h = getHeight();
+    private int bottom = (h+320)/2;
+
     public cube(MainApp mainApp) {
         super(true);
         this.mainApp = mainApp;
@@ -30,19 +33,7 @@ public class cube extends GameCanvas implements inputHandler {
     }
     
     public void update(Graphics g, boolean normal_size, boolean normal_gravity) {
-        gameMechanics gm = new gameMechanics(mainApp);
-        degrees = degrees % 360;
-        if (isJumping) {
-            int dy = graph_value[frameCount % 15];
-            NewGameEngine.playerPrintingY += (normal_gravity) ? ((frameCount < 15) ? -dy : dy) : ((frameCount < 15) ? dy : -dy);
-            NewGameEngine.playerY += (normal_gravity) ? ((frameCount < 15) ? -dy : dy) : ((frameCount < 15) ? dy : -dy);
-            if (++frameCount >= 30) {
-                frameCount = 0;
-                isJumping = false;
-            }
-            degrees += 6.0;
-            cubeIcon = gm.rotateSprite(origIcon, degrees);   
-        }
+        // TODO: Remember to remake the new logic here
         g.drawImage(cubeIcon, NewGameEngine.playerPrintingX, NewGameEngine.playerPrintingY, Graphics.BOTTOM | Graphics.RIGHT);
     }
     
